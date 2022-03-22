@@ -3,10 +3,10 @@ name: Publish deal-ii package from AUR in Gitpod
 on:
   push:
     branches: [main]
-    paths:
-      - docker/deal-ii.Dockerfile
-  schedule:
-    - cron: "0 2 * * 5"
+  #   paths:
+  #     - docker/deal-ii.Dockerfile
+  # schedule:
+  #   - cron: "0 2 * * 5"
 
 jobs:
   push_image:
