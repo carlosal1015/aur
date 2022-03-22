@@ -17,7 +17,7 @@ jobs:
           REPO="https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
           git config --global user.email github-actions@github.com
           git config --global user.name github-actions
-          git clone -q --filter=blob:none --no-checkout --depth=1 --sparse $REPO && cd python-pyprecice-test-aur
+          git clone -q --filter=blob:none --no-checkout --depth=1 --sparse $REPO && cd aur
           git sparse-checkout set docker
           git checkout
 
@@ -43,10 +43,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./python-pyprecice-test-aur/docker/demo.Dockerfile
+          file: ./aur/docker/demo.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/python-pyprecice-test-aur/demo:latest
+          tags: ghcr.io/carlosal1015/aur/demo:latest
           cache-from: type=local,src=/tmp/.buildx-pyprecice-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
 
@@ -58,6 +58,6 @@ jobs:
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v1
         with:
-          image: ghcr.io/carlosal1015/python-pyprecice-test-aur/demo:latest
+          image: ghcr.io/carlosal1015/aur/demo:latest
           annotations: true
           dockerfile: ./docker/demo.Dockerfile

@@ -3,10 +3,10 @@ name: Publish openfoam-org package from AUR in Gitpod
 on:
   push:
     branches: [main]
-  #   paths:
-  #     - docker/openfoam-org.Dockerfile
-  # schedule:
-  #   - cron: "0 2 * * 5"
+    paths:
+      - docker/openfoam-org.Dockerfile
+  schedule:
+    - cron: "0 2 * * 5"
 
 
 jobs:

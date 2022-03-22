@@ -3,10 +3,10 @@ name: Publish halide-bin package from AUR in Gitpod
 on:
   push:
     branches: [main]
-  #   paths:
-  #     - docker/halide-bin.Dockerfile
-  # schedule:
-  #   - cron: "0 2 * * 5"
+    paths:
+      - docker/halide-bin.Dockerfile
+  schedule:
+    - cron: "0 2 * * 5"
 
 jobs:
   push_image:
