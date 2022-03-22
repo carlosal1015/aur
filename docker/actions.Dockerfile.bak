@@ -1,0 +1,3 @@
+FROM ghcr.io/carlosal1015/python-pyprecice-test-aur/demo:latest
+
+USER root

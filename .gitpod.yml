@@ -1,0 +1,10 @@
+image: ghcr.io/carlosal1015/aur/foo
+
+tasks:
+  - name: Say welcome
+    command: |
+      echo "Welcome $USER!"
+
+vscode:
+  extensions:
+    - twxs.cmake

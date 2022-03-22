@@ -1,0 +1,39 @@
+name: Publish package pkg.tar.zst from AUR
+
+on:
+  push:
+    branches: [main]
+    # paths:
+    #   - docker/deal-ii.Dockerfile
+  schedule:
+    - cron: "0 4 * * 5"
+
+jobs:
+  push_image:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          image: ghcr.io/carlosal1015/deal-ii-test-aur/deal-ii:latest
+          options: -v ${{github.workspace}}:/work
+          shell: bash
+          run: |
+            sudo chown -R 33333:33333 /work
+            mv /tmp/*.pkg.tar.zst /work
+            ls /work
+
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::$(date -u +"%Y-%m-%d" --date='5 hours ago')"
+
+      - name: 🛎️ Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: |
+            *.pkg.tar.zst
