@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     # paths:
-    #   - docker/**
+    #   - docker/demo.Dockerfile
 
 jobs:
   build_sphinx:
     runs-on: ubuntu-20.04
-    container: ghcr.io/carlosal1015/python-pyprecice-test-aur/actions:latest
+    container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       URL: "https://github.com/precice/python-bindings"
       TAG: "v2.3.0.1"
