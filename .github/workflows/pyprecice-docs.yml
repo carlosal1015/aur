@@ -3,8 +3,8 @@ name: pypreCICE docs
 on:
   push:
     branches: [main]
-    # paths:
-    #   - docker/demo.Dockerfile
+    paths:
+      - docker/actions.Dockerfile
 
 jobs:
   build_sphinx:

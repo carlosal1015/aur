@@ -1,8 +1,9 @@
-image: ghcr.io/carlosal1015/aur/foo
+image: ghcr.io/carlosal1015/aur/precice-arch
 
 tasks:
   - name: Say welcome
     command: |
+      zsh
       echo "Welcome $USER!"
 
 vscode:

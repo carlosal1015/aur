@@ -1,10 +1,10 @@
-name: Publish demo
+name: Publish precice-arch
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/demo.Dockerfile
+      - docker/precice-arch.Dockerfile
 
 jobs:
   push_image:
@@ -27,10 +27,10 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-pyprecice-cache
-          key: ${{ runner.os }}-buildx-pyprecice-${{ github.sha }}
+          path: /tmp/.buildx-precice-arch-cache
+          key: ${{ runner.os }}-buildx-precice-arch-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-pyprecice-
+            ${{ runner.os }}-buildx-precice-arch-
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -43,21 +43,21 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./aur/docker/demo.Dockerfile
+          file: ./aur/docker/precice-arch.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/demo:latest
-          cache-from: type=local,src=/tmp/.buildx-pyprecice-cache
+          tags: ghcr.io/carlosal1015/aur/precice-arch:latest
+          cache-from: type=local,src=/tmp/.buildx-precice-arch-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
 
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-pyprecice-cache
-          mv /tmp/.buildx-main-cache /tmp/.buildx-pyprecice-cache
+          rm -rf /tmp/.buildx-precice-arch-cache
+          mv /tmp/.buildx-main-cache /tmp/.buildx-precice-arch-cache
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v1
         with:
           image: ghcr.io/carlosal1015/aur/demo:latest
           annotations: true
-          dockerfile: ./docker/demo.Dockerfile
+          dockerfile: ./docker/precice-arch.Dockerfile
