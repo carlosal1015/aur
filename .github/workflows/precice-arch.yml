@@ -58,6 +58,6 @@ jobs:
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v1
         with:
-          image: ghcr.io/carlosal1015/aur/demo:latest
+          image: ghcr.io/carlosal1015/aur/precice-arch:latest
           annotations: true
           dockerfile: ./docker/precice-arch.Dockerfile
