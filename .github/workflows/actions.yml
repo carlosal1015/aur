@@ -1,0 +1,65 @@
+name: Publish actions package from AUR in Gitpod
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docker/actions.Dockerfile
+  schedule:
+    - cron: "0 2 * * 5"
+
+jobs:
+  push_image:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Partial Clone
+        shell: bash
+        run: |
+          REPO="https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
+          git config --global user.email github-actions@github.com
+          git config --global user.name github-actions
+          git clone -q --filter=blob:none --no-checkout --depth=1 --sparse $REPO && cd aur
+          git sparse-checkout set docker
+          git checkout
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-actions-cache
+          key: ${{ runner.os }}-buildx-actions-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-actions-
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GH_USERNAME }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./aur/docker/actions.Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/carlosal1015/aur/actions:latest
+          cache-from: type=local,src=/tmp/.buildx-actions-cache
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-actions-cache
+          mv /tmp/.buildx-main-cache /tmp/.buildx-actions-cache
+
+      - name: Scan for vulnerabilities
+        uses: crazy-max/ghaction-container-scan@v1
+        with:
+          image: ghcr.io/carlosal1015/aur/actions:latest
+          annotations: true
+          dockerfile: ./docker/actions.Dockerfile
