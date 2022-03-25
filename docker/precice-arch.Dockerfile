@@ -48,6 +48,7 @@ ARG PACKAGES="\
   zsh \
   python-sphinx-furo \
   cython \
+  tree \
   "
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
