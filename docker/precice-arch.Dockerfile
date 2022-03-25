@@ -49,6 +49,7 @@ ARG PACKAGES="\
   python-sphinx-furo \
   cython \
   tree \
+  imagemagick \
   "
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
