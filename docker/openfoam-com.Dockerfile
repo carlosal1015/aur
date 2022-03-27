@@ -6,8 +6,8 @@ ARG AUR_PACKAGES="\
   scotch \
   "
 
-RUN yay -Syyuq --noconfirm ${AUR_PACKAGES} && \
-  yay -G openfoam-com && \
+RUN yay -Syyuq --noconfirm ${AUR_PACKAGES}
+RUN yay -G openfoam-com && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
