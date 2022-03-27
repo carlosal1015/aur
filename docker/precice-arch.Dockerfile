@@ -50,6 +50,7 @@ ARG PACKAGES="\
   cython \
   tree \
   imagemagick \
+  julia \
   "
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
