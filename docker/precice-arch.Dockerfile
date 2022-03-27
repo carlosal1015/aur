@@ -50,6 +50,7 @@ ARG PACKAGES="\
   cython \
   tree \
   imagemagick \
+  openblas \
   julia \
   "
 
