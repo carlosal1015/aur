@@ -4,6 +4,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 ARG AUR_PACKAGES="\
   parmetis \
   scotch \
+  kahip \
   "
 
 RUN yay -Syyuq --noconfirm ${AUR_PACKAGES} && \
