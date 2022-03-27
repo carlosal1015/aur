@@ -6,14 +6,14 @@ ARG AUR_PACKAGES="\
   scotch \
   "
 
-RUN yay -Syyuq --noconfirm ${AUR_PACKAGES}
-RUN yay -G openfoam-com && \
+RUN yay -Syyuq --noconfirm ${AUR_PACKAGES} && \
+  yay -G openfoam-com && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/37368b27dbd6ef734fd18bbdfa16692953218b20/0001-C-14-for-CGAL-5-compatibility.patch && \
   git am --signoff < 0001-C-14-for-CGAL-5-compatibility.patch && \
-  makepkg -s && \
+  makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/openfoam-com && \
   mv *.pkg.tar.zst ~/.cache/yay/openfoam-com
 
