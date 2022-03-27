@@ -50,8 +50,6 @@ ARG PACKAGES="\
   cython \
   tree \
   imagemagick \
-  openblas \
-  julia \
   "
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
