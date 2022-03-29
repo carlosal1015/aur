@@ -24,7 +24,7 @@ An Open Source Finite Element Differential Equations Analysis Library
 
 The open source CFD toolbox (www.openfoam.org)
 
-### `openfoam-org`
+### `openfoam-com`
 
 <!-- [![GitHub release (latest by date)](https://img.shields.io/github/v/tag/OpenFOAM/OpenFOAM-9?style=flat-square)](https://github.com/OpenFOAM/OpenFOAM-9) -->
 <!-- https://develop.openfoam.com/Development/openfoam/-/commits/master -->
