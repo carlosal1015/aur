@@ -12,7 +12,7 @@ RUN yay -Syyuq --noconfirm ${AUR_PACKAGES} && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
-  curl -O https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/a6799ff5f60dfb44c94f47fea5eed548e605d1bf/0001-C-14-for-CGAL-5-compatibility.patch && \
+  curl -O https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/b13134b6ddf453454d97d93bd264db0c4871f209/0001-C-14-for-CGAL-5-compatibility.patch && \
   git am --signoff < 0001-C-14-for-CGAL-5-compatibility.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/openfoam-com && \
