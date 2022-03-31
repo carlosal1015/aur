@@ -12,6 +12,7 @@ jobs:
     container: archlinux:base-devel
     env:
       URL: "https://github.com/precice/julia-bindings.git"
+      PACKAGES: "precice julia"
     steps:
       - name: Add Third-Party repository
         run: |
@@ -22,7 +23,6 @@ jobs:
           sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
           sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
           echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
-          pacman -Syyuq --needed --noconfirm precice julia >/dev/null 2>&1
-          pacman -Qi precice
-          julia --version
-          julia -e 'import Pkg; Pkg.add(url="${URL}");'
+          pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
+          pacman -Qi ${PACKAGES}
+          julia -e 'import Pkg; Pkg.add(url=ENV["URL"]);'
