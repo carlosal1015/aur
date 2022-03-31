@@ -1,0 +1,21 @@
+name: Test julia bindings for preCICE
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 2 * * 5"
+
+jobs:
+  test_bindings:
+    runs-on: ubuntu-20.04
+    container: archlinux:base-devel
+    env:
+      URL: "https://github.com/precice/julia-bindings.git"
+    steps:
+      - name: Add Third-Party repository
+        run: |
+          echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+          pacman -Syyuq --needed --noconfirm precice julia >/dev/null 2>&1
+          pacman -Qi precice
+          julia --version
