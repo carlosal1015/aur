@@ -76,6 +76,9 @@ jobs:
           shell: bash
           run: |
             sudo chown -R 33333:33333 /work
+            mv /tmp/superlu_dist-*-x86_64.pkg.tar.zst /work
+            mv /tmp/hypre-*-x86_64.pkg.tar.zst /work
+            mv /tmp/triangle-*-x86_64.pkg.tar.zst /work
             mv /tmp/petsc-complex-*-x86_64.pkg.tar.zst /work
 
       - name: 🛎️ Create release
