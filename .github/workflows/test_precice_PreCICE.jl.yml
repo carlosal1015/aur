@@ -1,0 +1,28 @@
+name: Test Julia language bindings for preCICE
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 2 * * 5"
+
+jobs:
+  test_bindings:
+    runs-on: ubuntu-20.04
+    container: archlinux:base-devel
+    env:
+      URL: "https://github.com/precice/PreCICE.jl.git"
+      PACKAGES: "precice julia"
+    steps:
+      - name: Add Third-Party repository (preCICE stable)
+        run: |
+          ln -s /usr/share/zoneinfo/America/Lima /etc/localtime
+          sed -i 's/^#Color/Color/' /etc/pacman.conf
+          sed -i '/#CheckSpace/a ILoveCandy' /etc/pacman.conf
+          sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 30/' /etc/pacman.conf
+          sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
+          sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+          echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+          pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
+          pacman -Qi ${PACKAGES}
+          julia -e 'import Pkg; Pkg.add(url=ENV["URL"]);'
