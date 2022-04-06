@@ -1,4 +1,4 @@
-name: Test Julia language bindings for preCICE
+name: Test Julia language bindings for preCICE unstable
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       URL: "https://github.com/precice/PreCICE.jl.git"
       PACKAGES: "precice-git julia"
     steps:
-      - name: Add Third-Party repository (preCICE unstable)
+      - name: Add Third-Party repository
         run: |
           ln -s /usr/share/zoneinfo/America/Lima /etc/localtime
           sed -i 's/^#Color/Color/' /etc/pacman.conf
