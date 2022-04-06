@@ -1,4 +1,4 @@
-name: Test julia bindings for preCICE
+name: Test Julia language bindings for preCICE
 
 on:
   push:
@@ -7,12 +7,32 @@ on:
     - cron: "0 2 * * 5"
 
 jobs:
-  test_bindings:
+  test_bindings_stable:
     runs-on: ubuntu-20.04
     container: archlinux:base-devel
     env:
-      URL: "https://github.com/precice/julia-bindings.git"
+      URL: "https://github.com/precice/PreCICE.jl.git"
       PACKAGES: "precice julia"
+    steps:
+      - name: Add Third-Party repository
+        run: |
+          ln -s /usr/share/zoneinfo/America/Lima /etc/localtime
+          sed -i 's/^#Color/Color/' /etc/pacman.conf
+          sed -i '/#CheckSpace/a ILoveCandy' /etc/pacman.conf
+          sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 30/' /etc/pacman.conf
+          sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
+          sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+          echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+          pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
+          pacman -Qi ${PACKAGES}
+          julia -e 'import Pkg; Pkg.add(url=ENV["URL"]);'
+
+  test_bindings_unstable:
+    runs-on: ubuntu-20.04
+    container: archlinux:base-devel
+    env:
+      URL: "https://github.com/precice/PreCICE.jl.git"
+      PACKAGES: "precice-git julia"
     steps:
       - name: Add Third-Party repository
         run: |
