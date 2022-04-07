@@ -25,4 +25,4 @@ jobs:
           echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
           pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
           pacman -Qi ${PACKAGES}
-          julia -e 'import Pkg; Pkg.add(url=ENV["URL"]);'
+          julia -e 'import Pkg; Pkg.add(url=ENV["URL"]); using PreCICE;'
