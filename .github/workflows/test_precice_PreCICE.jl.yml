@@ -22,7 +22,7 @@ jobs:
           sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 30/' /etc/pacman.conf
           sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
           sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
-          echo -e '\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+          echo -e '\n[dune-archiso-repository-core]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/repository/dune-archiso-repository-core/$arch\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
           pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
           pacman -Qi ${PACKAGES}
           julia -e 'import Pkg; Pkg.add(url=ENV["URL"]); using PreCICE;'
