@@ -13,6 +13,7 @@ jobs:
     env:
       URL: "https://github.com/precice/PreCICE.jl.git"
       PACKAGES: "precice julia"
+      JULIA_NUM_THREADS: "$(nproc)"
     steps:
       - name: Add Third-Party repository
         run: |
