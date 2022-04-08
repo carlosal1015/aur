@@ -23,6 +23,18 @@ jobs:
           sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
           sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
           echo -e '\n[dune-archiso-repository-core]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/repository/dune-archiso-repository-core/$arch\n[precice-arch]\nSigLevel = Optional TrustAll\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+
+      - name: Install Julialang bindings for preCICE
+        run: |
           pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
           pacman -Qi ${PACKAGES}
           julia -e 'import Pkg; Pkg.add(url=ENV["URL"]); using PreCICE;'
+
+      - name: Run Julialang bindings's tests for preCICE
+        run: |
+          git clone --filter=blob:none --no-checkout --depth=1 --sparse ${URL}.git
+          pushd ${URL}
+          git sparse-checkout set solverdummy test
+          git checkout
+          ls -lR
+          popd
