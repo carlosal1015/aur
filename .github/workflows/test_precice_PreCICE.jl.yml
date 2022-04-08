@@ -33,6 +33,8 @@ jobs:
       - name: Run Julialang bindings's tests for preCICE
         run: |
           sudo pacman -Syyuq --needed --noconfirm git >/dev/null 2>&1
+          git config --global user.email github-actions@github.com
+          git config --global user.name github-actions
           git clone --filter=blob:none --no-checkout --depth=1 --sparse ${URL}.git
           pushd ${URL}
           git sparse-checkout set solverdummy test
