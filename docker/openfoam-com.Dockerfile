@@ -40,6 +40,7 @@ COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --noconfirm -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  sudo pacman -Scc <<< Y <<< Y
+  sudo pacman -Scc <<< Y <<< Y && \
+  sudo rm -r /var/lib/pacman/sync/*
 
 CMD ["/bin/bash"]
