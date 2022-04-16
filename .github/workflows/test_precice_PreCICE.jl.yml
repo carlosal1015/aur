@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Julialang bindings for preCICE
         run: |
-          pacman -Syyuq --needed --noconfirm ${PACKAGES} >/dev/null 2>&1
+          pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} >/dev/null 2>&1
           pacman -Qi ${PACKAGES}
           julia -e 'import Pkg; Pkg.add(url=ENV["URL"]); using PreCICE;'
 

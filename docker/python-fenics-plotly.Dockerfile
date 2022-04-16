@@ -3,7 +3,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 # https://aur.archlinux.org/packages/dolfin#comment-845953
 ARG AUR_PACKAGES="\
-  python-plotly \
+  python-fenics-plotly \
   "
 
 RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
@@ -31,7 +31,7 @@ USER gitpod
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-RUN sudo pacman --noconfirm -Syyuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \

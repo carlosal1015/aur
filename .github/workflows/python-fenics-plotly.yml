@@ -1,10 +1,10 @@
-name: Publish python-plotly package from AUR in Gitpod
+name: Publish python-fenics-plotly package from AUR in Gitpod
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/python-plotly.Dockerfile
+      - docker/python-fenics-plotly.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -29,10 +29,10 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-python-plotly-cache
-          key: ${{ runner.os }}-buildx-python-plotly-${{ github.sha }}
+          path: /tmp/.buildx-python-fenics-plotly-cache
+          key: ${{ runner.os }}-buildx-python-fenics-plotly-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-python-plotly-
+            ${{ runner.os }}-buildx-python-fenics-plotly-
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -45,21 +45,21 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./aur/docker/python-plotly.Dockerfile
+          file: ./aur/docker/python-fenics-plotly.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/python-plotly:latest
-          cache-from: type=local,src=/tmp/.buildx-python-plotly-cache
+          tags: ghcr.io/carlosal1015/aur/python-fenics-plotly:latest
+          cache-from: type=local,src=/tmp/.buildx-python-fenics-plotly-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
 
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-python-plotly-cache
-          mv /tmp/.buildx-main-cache /tmp/.buildx-python-plotly-cache
+          rm -rf /tmp/.buildx-python-fenics-plotly-cache
+          mv /tmp/.buildx-main-cache /tmp/.buildx-python-fenics-plotly-cache
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v1
         with:
-          image: ghcr.io/carlosal1015/aur/python-plotly:latest
+          image: ghcr.io/carlosal1015/aur/python-fenics-plotly:latest
           annotations: true
-          dockerfile: ./docker/python-plotly.Dockerfile
+          dockerfile: ./docker/python-fenics-plotly.Dockerfile

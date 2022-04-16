@@ -63,11 +63,13 @@ ARG ALIAS="https://raw.githubusercontent.com/precice/vm/main/provisioning/.alias
 
 ADD ${ALIAS} /home/gitpod/
 
+ARG GPG_KEY="8C43C00BA8F06ECA"
+
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
-  sudo pacman-key --recv-keys 8C43C00BA8F06ECA && \
-  sudo pacman-key --finger 8C43C00BA8F06ECA && \
-  sudo pacman-key --lsign-key 8C43C00BA8F06ECA && \
+  sudo pacman-key --recv-keys ${GPG_KEY} && \
+  sudo pacman-key --finger ${GPG_KEY} && \
+  sudo pacman-key --lsign-key ${GPG_KEY} && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
