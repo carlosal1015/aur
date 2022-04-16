@@ -63,7 +63,9 @@ ARG ALIAS="https://raw.githubusercontent.com/precice/vm/main/provisioning/.alias
 
 ADD ${ALIAS} /home/gitpod/
 
-RUN sudo pacman-key --recv-keys 8C43C00BA8F06ECA && \
+RUN sudo pacman-key --init && \
+  sudo pacman-key --populate archlinux && \
+  sudo pacman-key --recv-keys 8C43C00BA8F06ECA && \
   sudo pacman-key --finger 8C43C00BA8F06ECA && \
   sudo pacman-key --lsign-key 8C43C00BA8F06ECA && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} && \
