@@ -3,11 +3,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 # https://aur.archlinux.org/packages/dolfin#comment-845953
 ARG AUR_PACKAGES="\
-  cmake \
-  python-fenicsprecice \
-  precice-config-visualizer-git \
-  python-nutils \
-  calculix-precice \
+  python-plotly \
   "
 
 RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
@@ -33,48 +29,10 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-ARG PACKAGES="\
-  cmake \
-  gcc-fortran \
-  doxygen \
-  clang \
-  jq \
-  autopep8 \
-  mypy \
-  ipython \
-  python-matplotlib \
-  bat \
-  tldr \
-  git \
-  zsh \
-  python-sphinx-furo \
-  cython \
-  tree \
-  imagemagick \
-  "
-
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --noconfirm -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  rm /tmp/*.pkg.tar.zst
-
-ARG ALIAS="https://raw.githubusercontent.com/precice/vm/main/provisioning/.alias"
-
-ADD ${ALIAS} /home/gitpod/
-
-RUN sudo pacman-key --recv-keys 8C43C00BA8F06ECA && \
-  sudo pacman-key --finger 8C43C00BA8F06ECA && \
-  sudo pacman-key --lsign-key 8C43C00BA8F06ECA && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} && \
+  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
-  sudo rm -r /var/lib/pacman/sync/* && \
-  echo -e '\n[precice-arch]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | sudo tee -a /etc/pacman.conf && \
-  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended && \
-  sudo chown gitpod:gitpod ${HOME}/.alias && \
-  echo 'source ${HOME}/.alias' >> ~/.zshrc
-
-ENV OMPI_MCA_opal_warn_on_missing_libcuda=0
-
-ENTRYPOINT [ "/bin/zsh" ]
-CMD ["-l"]
+  sudo rm -r /var/lib/pacman/sync/*
