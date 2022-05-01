@@ -26,4 +26,4 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
 
 USER root
 
-ADD https://raw.githubusercontent.com/carlosal1015/test/main/run.sh /usr/bin
+ADD --chmod=644 https://raw.githubusercontent.com/carlosal1015/test/main/run.sh /usr/bin
