@@ -29,4 +29,4 @@ USER root
 # https://github.com/moby/moby/issues/34819
 ADD https://raw.githubusercontent.com/carlosal1015/test/main/run.sh /usr/bin
 
-RUN chmod +x run.sh
+RUN chmod +x /usr/bin/run.sh
