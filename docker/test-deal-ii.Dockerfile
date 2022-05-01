@@ -26,4 +26,7 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
 
 USER root
 
-ADD --chmod=644 https://raw.githubusercontent.com/carlosal1015/test/main/run.sh /usr/bin
+# https://github.com/moby/moby/issues/34819
+ADD https://raw.githubusercontent.com/carlosal1015/test/main/run.sh /usr/bin
+
+RUN chmod +x run.sh
