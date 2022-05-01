@@ -23,7 +23,8 @@ jobs:
 
       - name: Run 8130 tests
         run: |
+          git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-          /run.sh -p test
+          run.sh -p test
           pushd dealii
           popd
