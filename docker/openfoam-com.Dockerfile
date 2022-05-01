@@ -7,7 +7,7 @@ ARG AUR_PACKAGES="\
   kahip \
   "
 
-RUN yay -Syyuq --noconfirm ${AUR_PACKAGES} && \
+RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES} && \
   yay -G openfoam-com && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \

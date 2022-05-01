@@ -5,7 +5,7 @@ ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-RUN yay -Syyuq --noconfirm ${AUR_PACKAGES}
+RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
