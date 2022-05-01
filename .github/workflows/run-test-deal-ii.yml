@@ -1,0 +1,29 @@
+name: deal.II test over Arch
+
+on:
+  push:
+    branches: [main]
+    # paths:
+    #   - docker/test-deal-ii.Dockerfile
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    container: ghcr.io/carlosal1015/aur/test-deal-ii:latest
+    env:
+      URL: "https://github.com/dealii/dealii"
+      TAG: "v9.3.3"
+    steps:
+      # - name: Run 79 examples
+      #   run: |
+      #     git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+      #     run.sh -p example
+      #     pushd dealii
+      #     popd
+
+      - name: Run 8130 tests
+        run: |
+          git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+          /run.sh -p test
+          pushd dealii
+          popd
