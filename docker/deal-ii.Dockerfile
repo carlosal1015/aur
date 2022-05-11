@@ -11,7 +11,8 @@ ARG AUR_PACKAGES="\
 
 ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/10cf30695d28cd60628f18f77e3c25f8ea65808b/0001-Enable-options-for-work-with-preCICE.patch"
 
-RUN yay --noconfirm --noprogressbar -Syyuq ${OPT_PACKAGES} && \
+RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay -S --noconfirm ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd deal-ii && \
   git config --global user.email github-actions@github.com && \

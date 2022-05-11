@@ -10,7 +10,8 @@ ARG AUR_PACKAGES="\
 ARG PATCH="https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/b13134b6ddf453454d97d93bd264db0c4871f209/0001-C-14-for-CGAL-5-compatibility.patch"
 
 
-RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES} && \
+RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay -S --noconfirm ${AUR_PACKAGES} && \
   yay -G openfoam-com && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \
