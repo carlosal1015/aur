@@ -29,14 +29,14 @@ jobs:
           cmake --build build --target help
           ctest -N --test-dir build
 
-      # - name: Run 79 examples
-      #   run: |
-      #     git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-      #     curl -O $RUN
-      #     chmod +x run.sh
-      #     run.sh -p example
-      #     pushd dealii
-      #     popd
+      - name: Run 79 examples
+        run: |
+          git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+          curl -O $RUN
+          chmod +x run.sh
+          run.sh -p example
+          pushd dealii
+          popd
 
       # - name: Run 8130 tests
       #   run: |
