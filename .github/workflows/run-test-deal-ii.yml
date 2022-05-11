@@ -19,15 +19,15 @@ jobs:
         run: |
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           cmake -S dealii/tests -B tests_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          cmake --build build --target help
-          ctest -N --test-dir build
+          cmake --build tests_for_installed_dealii --target setup_tests
+          ctest -N --test-dir tests_for_installed_dealii
 
       - name: List the examples
         run: |
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           cmake -S dealii/examples -B examples_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          cmake --build build --target help
-          ctest -N --test-dir build
+          cmake --build examples_for_installed_dealii --target examples
+          ctest -N --test-dir examples_for_installed_dealii
 
       - name: Run 79 examples
         run: |
