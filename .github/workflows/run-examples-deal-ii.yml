@@ -1,0 +1,27 @@
+name: deal.II test over Arch
+
+on:
+  push:
+    branches: [main]
+    # paths:
+    #   - docker/test-deal-ii.Dockerfile
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    container: ghcr.io/carlosal1015/aur/test-deal-ii:latest
+    env:
+      URL: "https://github.com/dealii/dealii"
+      TAG: "v9.3.3"
+      RUN: "https://raw.githubusercontent.com/carlosal1015/test/main/run.sh"
+    steps:
+      - name: Copy the examples from latest stable deal.II code
+        run: |
+          mkdir -p dealii/examples
+          cp -R /usr/share/deal-ii/examples/* dealii/examples
+          curl -O $RUN
+          chmod +x run.sh
+
+      - name: Run 79 examples
+        run: |
+          run.sh -p example
