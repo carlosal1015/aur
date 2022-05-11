@@ -13,14 +13,11 @@ jobs:
     env:
       URL: "https://github.com/dealii/dealii"
       TAG: "v9.3.3"
-      RUN: "https://raw.githubusercontent.com/carlosal1015/test/main/run.sh"
     steps:
       - name: Copy the examples from latest stable deal.II code
         run: |
           mkdir -p dealii/examples
           cp -R /usr/share/deal-ii/examples/* dealii/examples
-          curl -O $RUN
-          chmod +x run.sh
 
       - name: Run 79 examples
         run: |

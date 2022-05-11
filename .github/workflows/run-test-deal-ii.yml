@@ -3,8 +3,8 @@ name: deal.II test over Arch
 on:
   push:
     branches: [main]
-    # paths:
-    #   - docker/test-deal-ii.Dockerfile
+    paths:
+      - docker/test-deal-ii.Dockerfile
 
 jobs:
   tests:
@@ -13,14 +13,11 @@ jobs:
     env:
       URL: "https://github.com/dealii/dealii"
       TAG: "v9.3.3"
-      RUN: "https://raw.githubusercontent.com/carlosal1015/test/main/run.sh"
     steps:
       - name: Clone latest stable deal.II code
         run: |
           git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-          curl -O $RUN
-          chmod +x run.sh
 
       - name: Build and list the tests
         run: |

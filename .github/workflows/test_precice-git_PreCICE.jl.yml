@@ -3,6 +3,8 @@ name: Test Julia language bindings for preCICE unstable
 on:
   push:
     branches: [main]
+    paths:
+      - docker/*.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
