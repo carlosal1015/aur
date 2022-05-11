@@ -17,35 +17,31 @@ jobs:
     steps:
       - name: Clone latest stable deal.II code
         run: |
+          git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+          curl -O $RUN
+          chmod +x run.sh
 
       - name: List the tests
         run: |
           cmake -S dealii/tests -B tests_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          # cmake --build tests_for_installed_dealii --target setup_tests
+          cmake --build tests_for_installed_dealii --target setup_tests
           ctest -N --test-dir tests_for_installed_dealii
 
       - name: List the examples
         run: |
           cmake -S dealii/examples -B examples_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          # cmake --build examples_for_installed_dealii --target examples
+          cmake --build examples_for_installed_dealii --target examples
           ctest -N --test-dir examples_for_installed_dealii
 
       - name: Run 79 examples
         run: |
-          git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-          curl -O $RUN
-          chmod +x run.sh
           run.sh -p example
           pushd dealii
           popd
 
-      # - name: Run 8130 tests
-      #   run: |
-      #     git config --global advice.detachedHead false
-      #     git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-      #     curl -O $RUN
-      #     chmod +x run.sh
-      #     run.sh -p test
-      #     pushd dealii
-      #     popd
+      - name: Run 8130 tests
+        run: |
+          run.sh -p test
+          pushd dealii
+          popd
