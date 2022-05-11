@@ -1,4 +1,4 @@
-# Copyleft (c) April, 2022, Oromion.
+# Copyleft (c) May, 2022, Oromion.
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG OPT_PACKAGES="\
@@ -9,7 +9,7 @@ ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/10cf30695d28cd60628f18f77e3c25f8ea65808b/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/4ad526d1c87f9af9b55ec987c7ecd85b70f8f1e6/0001-Enable-options-for-work-with-preCICE.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
