@@ -13,18 +13,23 @@ jobs:
     env:
       URL: "https://github.com/dealii/dealii"
       TAG: "v9.3.3"
+      RUN: "https://raw.githubusercontent.com/carlosal1015/test/main/run.sh"
     steps:
-      # - name: Run 79 examples
-      #   run: |
-      #     git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-      #     run.sh -p example
-      #     pushd dealii
-      #     popd
-
-      - name: Run 8130 tests
+      - name: Run 79 examples
         run: |
-          git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
-          run.sh -p test
+          curl -O $RUN
+          chmod +x run.sh
+          run.sh -p example
           pushd dealii
           popd
+
+      # - name: Run 8130 tests
+      #   run: |
+      #     git config --global advice.detachedHead false
+      #     git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+      #     curl -O $RUN
+      #     chmod +x run.sh
+      #     run.sh -p test
+      #     pushd dealii
+      #     popd

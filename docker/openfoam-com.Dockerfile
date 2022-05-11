@@ -7,12 +7,15 @@ ARG AUR_PACKAGES="\
   kahip \
   "
 
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/b13134b6ddf453454d97d93bd264db0c4871f209/0001-C-14-for-CGAL-5-compatibility.patch"
+
+
 RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES} && \
   yay -G openfoam-com && \
   cd openfoam-com && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
-  curl -O https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/b13134b6ddf453454d97d93bd264db0c4871f209/0001-C-14-for-CGAL-5-compatibility.patch && \
+  curl -O ${PATCH} && \
   git am --signoff < 0001-C-14-for-CGAL-5-compatibility.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/openfoam-com && \

@@ -1,11 +1,26 @@
 # Copyleft (c) April, 2022, Oromion.
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+ARG OPT_PACKAGES="\
+  suitesparse \
+  "
+
 ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/10cf30695d28cd60628f18f77e3c25f8ea65808b/0001-Enable-options-for-work-with-preCICE.patch"
+
+RUN yay --noconfirm --noprogressbar -Syyuq ${OPT_PACKAGES} && \
+  yay -G ${AUR_PACKAGES} && \
+  cd deal-ii && \
+  git config --global user.email github-actions@github.com && \
+  git config --global user.name github-actions && \
+  curl -O ${PATCH} && \
+  git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
+  makepkg -s --noconfirm && \
+  mkdir -p ~/.cache/yay/deal-ii && \
+  mv *.pkg.tar.zst ~/.cache/yay/deal-ii
 
 FROM archlinux:base-devel
 
