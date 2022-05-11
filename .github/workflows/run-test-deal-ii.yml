@@ -15,18 +15,20 @@ jobs:
       TAG: "v9.3.3"
       RUN: "https://raw.githubusercontent.com/carlosal1015/test/main/run.sh"
     steps:
-      - name: List the tests
+      - name: Clone latest stable deal.II code
         run: |
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+
+      - name: List the tests
+        run: |
           cmake -S dealii/tests -B tests_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          cmake --build tests_for_installed_dealii --target setup_tests
+          # cmake --build tests_for_installed_dealii --target setup_tests
           ctest -N --test-dir tests_for_installed_dealii
 
       - name: List the examples
         run: |
-          git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           cmake -S dealii/examples -B examples_for_installed_dealii -DDEAL_II_DIR=/usr -Wno-dev
-          cmake --build examples_for_installed_dealii --target examples
+          # cmake --build examples_for_installed_dealii --target examples
           ctest -N --test-dir examples_for_installed_dealii
 
       - name: Run 79 examples
