@@ -2,25 +2,11 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
-  parmetis \
-  scotch \
-  kahip \
+  openfoam-com \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/d56f9c2ad002defda281ed12b289185f/raw/b13134b6ddf453454d97d93bd264db0c4871f209/0001-C-14-for-CGAL-5-compatibility.patch"
-
-
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -S --noconfirm ${AUR_PACKAGES} && \
-  yay -G openfoam-com && \
-  cd openfoam-com && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-C-14-for-CGAL-5-compatibility.patch && \
-  makepkg -s --noconfirm && \
-  mkdir -p ~/.cache/yay/openfoam-com && \
-  mv *.pkg.tar.zst ~/.cache/yay/openfoam-com
+  yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 

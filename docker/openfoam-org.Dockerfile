@@ -5,7 +5,8 @@ ARG AUR_PACKAGES="\
   openfoam-org \
   "
 
-RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
+RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 

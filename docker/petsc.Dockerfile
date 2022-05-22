@@ -9,7 +9,8 @@ ARG AUR_PACKAGES="\
   petsc \
   "
 
-RUN yay --noconfirm --noprogressbar -Syyuq ${OPT_PACKAGES} ${AUR_PACKAGES}
+RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay --noconfirm -S ${OPT_PACKAGES} ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
