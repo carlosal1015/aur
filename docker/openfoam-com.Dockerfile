@@ -37,6 +37,9 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
