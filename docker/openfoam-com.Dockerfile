@@ -1,11 +1,22 @@
 # Copyleft (c) April, 2022, Oromion.
+
+FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
+FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+FROM ghcr.io/carlosal1015/aur/kahip AS kahip
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   openfoam-com \
   "
 
-RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
+
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
