@@ -1,11 +1,20 @@
 # Copyleft (c) April, 2022, Oromion.
+
+FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
+FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   openfoam-org \
   "
 
-RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
@@ -26,6 +35,8 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
