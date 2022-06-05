@@ -6,7 +6,7 @@ FROM ghcr.io/carlosal1015/aur/mumps AS mumps
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=parmetis /tmp/scalapack-*.pkg.tar.zst /tmp/
+COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 
@@ -37,7 +37,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=parmetis /tmp/scalapack-*.pkg.tar.zst /tmp/
+COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
