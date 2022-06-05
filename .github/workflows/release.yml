@@ -90,30 +90,6 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/petsc-complex-*-x86_64.pkg.tar.zst /work
 
-      # - uses: addnab/docker-run-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-      #     registry: ghcr.io
-      #     image: ghcr.io/carlosal1015/aur/petsc-mumps:latest
-      #     options: -v ${{github.workspace}}:/work
-      #     shell: bash
-      #     run: |
-      #       sudo chown -R 33333:33333 /work
-      #       mv /tmp/petsc-*-x86_64.pkg.tar.zst /work
-
-      # - uses: addnab/docker-run-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-      #     registry: ghcr.io
-      #     image: ghcr.io/carlosal1015/aur/petsc-suitesparse:latest
-      #     options: -v ${{github.workspace}}:/work
-      #     shell: bash
-      #     run: |
-      #       sudo chown -R 33333:33333 /work
-      #       mv /tmp/petsc-*-x86_64.pkg.tar.zst /work
-
       - uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -125,18 +101,6 @@ jobs:
           run: |
             sudo chown -R 33333:33333 /work
             mv /tmp/petsc-*-x86_64.pkg.tar.zst /work
-
-      - uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
-          image: ghcr.io/carlosal1015/aur/python-fenics-plotly:latest
-          options: -v ${{github.workspace}}:/work
-          shell: bash
-          run: |
-            sudo chown -R 33333:33333 /work
-            mv /tmp/python-fenics-plotly-*-x86_64.pkg.tar.zst /work
 
       - uses: addnab/docker-run-action@v3
         with:
