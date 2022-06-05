@@ -1,4 +1,4 @@
-# Copyleft (c) April, 2022, Oromion.
+# Copyleft (c) June, 2022, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
