@@ -3,6 +3,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 # https://aur.archlinux.org/packages/dolfin#comment-845953
 ARG AUR_PACKAGES="\
+  openssh \
   python-fenics-plotly \
   "
 
