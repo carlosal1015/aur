@@ -1,4 +1,4 @@
-# Copyleft (c) June, 2022, Oromion.
+# Copyleft (c) July, 2022, Oromion.
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG OPT_PACKAGES="\
@@ -10,8 +10,8 @@ ARG AUR_PACKAGES="\
   "
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${OPT_PACKAGES} ${AUR_PACKAGES}
-
+  yay --noconfirm -S ${AUR_PACKAGES}
+# ${OPT_PACKAGES}
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
