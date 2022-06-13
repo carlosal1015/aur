@@ -9,6 +9,7 @@ COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
+  openssh \
   mumps \
   "
 
