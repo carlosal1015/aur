@@ -3,8 +3,8 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
-  suitesparse \
   petsc \
+  suitesparse \
   "
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
