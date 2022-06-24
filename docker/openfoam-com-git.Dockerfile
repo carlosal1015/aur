@@ -6,24 +6,18 @@ FROM ghcr.io/carlosal1015/aur/kahip AS kahip
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a8ae10176bd7c9b5df740036679d0787/raw/27a6971646acf1cc8583b90f4cde2ddd839c2b3d/0001-GCC-12-compatibility.patch"
-
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 
+ARG AUR_PACKAGES="\
+  openfoam-com-git \
+  "
+
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -G openfoam-com-git && \
-  cd openfoam-com-git && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-GCC-12-compatibility.patch && \
-  makepkg -s --noconfirm && \
-  mkdir -p ~/.cache/yay/openfoam-com-git && \
-  mv *.pkg.tar.zst ~/.cache/yay/openfoam-com-git
+  yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
