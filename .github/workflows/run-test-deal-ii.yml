@@ -8,7 +8,7 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container: ghcr.io/carlosal1015/aur/test-deal-ii:latest
     env:
       URL: "https://github.com/dealii/dealii"

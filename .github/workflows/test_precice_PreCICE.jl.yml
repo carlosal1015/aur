@@ -10,7 +10,7 @@ on:
 
 jobs:
   test_bindings:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container: archlinux:base-devel
     env:
       URL: "https://github.com/precice/PreCICE.jl.git"
