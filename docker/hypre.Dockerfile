@@ -39,8 +39,7 @@ COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=build /home/builder/.cache/yay/hypre/*.pkg.tar.zst /tmp/
 
-RUN ls -l /tmp/ && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
