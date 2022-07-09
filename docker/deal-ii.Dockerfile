@@ -9,7 +9,7 @@ ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/4ad526d1c87f9af9b55ec987c7ecd85b70f8f1e6/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/c2bdfa12eac261c8def4aff5cdee27f1db806c3b/0001-Enable-options-for-work-with-preCICE.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
@@ -41,6 +41,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
