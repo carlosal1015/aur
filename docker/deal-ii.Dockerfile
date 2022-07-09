@@ -19,7 +19,7 @@ RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
   git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/deal-ii && \
   mv *.pkg.tar.zst ~/.cache/yay/deal-ii
 
