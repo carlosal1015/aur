@@ -1,15 +1,23 @@
 # Copyleft (c) August, 2022, Oromion.
+
+FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
+FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+FROM ghcr.io/carlosal1015/aur/openfoam-com AS openfoam-com
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+# TODO: python-dolfin is broken
+# https://aur.archlinux.org/packages/python-dolfin#comment-871892
+# TODO: dolfin is broken
 # https://aur.archlinux.org/packages/dolfin#comment-845953
+
 ARG AUR_PACKAGES="\
   cmake \
-  python-fenicsprecice \
   precice-config-visualizer-git \
   python-nutils \
   calculix-precice \
   "
-
+# python-fenicsprecice \
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
@@ -54,6 +62,9 @@ ARG PACKAGES="\
   imagemagick \
   "
 
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=openfoam-com /tmp/openfoam-com-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
