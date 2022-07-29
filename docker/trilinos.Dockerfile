@@ -2,9 +2,9 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
+  hdf5-openmpi \
   trilinos \
   "
-# hdf5-openmpi \
 # openssh \
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES}
