@@ -9,10 +9,9 @@ COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=pastix /tmp/pastix-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  openssh \
   petsc-complex \
   "
-
+# openssh \
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \

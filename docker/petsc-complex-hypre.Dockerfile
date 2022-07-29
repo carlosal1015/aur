@@ -11,10 +11,9 @@ COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  openssh \
   petsc-complex \
   "
-
+# openssh \
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \

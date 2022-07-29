@@ -7,11 +7,10 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  openssh \
   petsc-complex \
   hdf5-openmpi \
   "
-
+# openssh \
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \
