@@ -47,6 +47,7 @@ COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${OPT_PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
