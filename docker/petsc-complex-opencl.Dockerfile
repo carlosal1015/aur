@@ -3,7 +3,7 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG OPT_PACKAGES="\
-  hdf5-openmpi \
+  ocl-icd \
   "
 
 ARG AUR_PACKAGES="\

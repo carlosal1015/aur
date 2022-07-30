@@ -2,12 +2,16 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGES="\
-  petsc-complex \
+ARG OPT_PACKAGES="\
   suitesparse \
   "
 
+ARG AUR_PACKAGES="\
+  petsc-complex \
+  "
+
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay -S --noconfirm ${OPT_PACKAGES} && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel

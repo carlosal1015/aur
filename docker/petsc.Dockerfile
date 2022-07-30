@@ -1,10 +1,6 @@
 # Copyleft (c) August, 2022, Oromion.
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG OPT_PACKAGES="\
-  superlu \
-  "
-
 ARG AUR_PACKAGES="\
   openssh \
   petsc \
@@ -12,7 +8,7 @@ ARG AUR_PACKAGES="\
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
-# ${OPT_PACKAGES}
+
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
