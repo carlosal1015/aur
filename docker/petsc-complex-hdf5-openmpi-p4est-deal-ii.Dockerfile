@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   hdf5-openmpi \
   "
-# openssh \
+
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \

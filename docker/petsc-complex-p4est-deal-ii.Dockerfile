@@ -9,7 +9,7 @@ COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 ARG AUR_PACKAGES="\
   petsc-complex \
   "
-# openssh \
+
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \
