@@ -35,13 +35,15 @@ USER gitpod
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-ARG OPT_PACKAGES
+ARG PACKAGES="\
+  python-mpi4py \
+  "
 
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
-  sudo pacman --needed --noconfirm --noprogressbar -S ${OPT_PACKAGES} && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
