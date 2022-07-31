@@ -3,27 +3,16 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG OPT_PACKAGES="\
-  hdf5-openmpi \
+  valgrind \
   "
 
 ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/ba41b4d27cffbbcc9c3cdf8eb7d32bd4226c4c2a/0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch"
-
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
-  yay -G ${AUR_PACKAGES} && \
-  cd petsc-complex && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  mkdir -p ~/.cache/yay/petsc-complex && \
-  mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
-# yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -47,7 +36,7 @@ COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 ARG PACKAGES="\
-  hdf5-openmpi \
+  valgrind \
   "
 
 RUN sudo pacman-key --init && \
