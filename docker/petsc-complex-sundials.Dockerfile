@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/54b3e65710e6e4d38ebbe75ca68f03483cbdc120/0001-Add-support-for-OpenCL-YAML.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/8427b4a6578be5d3df040e581b1e467649008c7e/0001-Add-support-for-OpenCL.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
