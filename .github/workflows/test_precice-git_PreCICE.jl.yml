@@ -43,5 +43,5 @@ jobs:
         run: |
           pushd ~/.julia/packages/PreCICE/*/test
           if [ -z "$(ldconfig -p | grep libcuda.so.1)" ]; then export OMPI_MCA_opal_warn_on_missing_libcuda=0 ; fi
-          julia runtests.jl
+          make && julia runtests.jl
           popd
