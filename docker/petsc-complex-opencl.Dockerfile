@@ -1,4 +1,4 @@
-# Copyleft (c) August, 2022, Oromion.
+# Copyleft (c) September, 2022, Oromion.
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/ba41b4d27cffbbcc9c3cdf8eb7d32bd4226c4c2a/0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/54b3e65710e6e4d38ebbe75ca68f03483cbdc120/0001-Add-support-for-OpenCL-YAML.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
@@ -19,7 +19,7 @@ RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch && \
+  git am --signoff < 0001-Add-support-for-OpenCL-YAML.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/petsc-complex && \
   mv *.pkg.tar.zst ~/.cache/yay/petsc-complex

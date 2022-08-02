@@ -1,4 +1,4 @@
-# Copyleft (c) August, 2022, Oromion.
+# Copyleft (c) September, 2022, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/trilinos AS trilinos
 
@@ -10,21 +10,10 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/ba41b4d27cffbbcc9c3cdf8eb7d32bd4226c4c2a/0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch"
-
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -G ${AUR_PACKAGES} && \
-  cd petsc-complex && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-support-for-Zoltan-Valgrind-HDF5-openmpi-OpenCL.patch && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  mkdir -p ~/.cache/yay/petsc-complex && \
-  mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
-# yay --noconfirm -S ${AUR_PACKAGES}
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 

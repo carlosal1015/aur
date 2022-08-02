@@ -1,14 +1,29 @@
-# Copyleft (c) August, 2022, Oromion.
+# Copyleft (c) September, 2022, Oromion.
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGES="\
-  openssh \
-  p4est-deal-ii \
+ARG OPT_PACKAGES="\
+  libyaml \
   "
 
+ARG AUR_PACKAGES="\
+  petsc-complex \
+  "
+
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/54b3e65710e6e4d38ebbe75ca68f03483cbdc120/0001-Add-support-for-OpenCL-YAML.patch"
+
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay -S --noconfirm ${OPT_PACKAGES} && \
+  yay -G ${AUR_PACKAGES} && \
+  cd petsc-complex && \
+  git config --global user.email github-actions@github.com && \
+  git config --global user.name github-actions && \
+  curl -O ${PATCH} && \
+  git am --signoff < 0001-Add-support-for-OpenCL-YAML.patch && \
+  makepkg -s --noconfirm && \
+  mkdir -p ~/.cache/yay/petsc-complex && \
+  mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
+# yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -31,10 +46,15 @@ USER gitpod
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
+ARG PACKAGES="\
+  libyaml \
+  "
+
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
