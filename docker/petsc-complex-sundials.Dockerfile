@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/8427b4a6578be5d3df040e581b1e467649008c7e/0001-Add-support-for-OpenCL.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/d6ac6696fc22784826216c31d92d60d175c51d7d/0001-Add-support-for-OpenCL-and-sundials.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
@@ -19,7 +19,7 @@ RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-support-for-OpenCL-YAML.patch && \
+  git am --signoff < 0001-Add-support-for-OpenCL-and-sundials && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/petsc-complex && \
   mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
