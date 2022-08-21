@@ -19,7 +19,7 @@ RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-support-for-OpenCL-and-sundials && \
+  git am --signoff < 0001-Add-support-for-OpenCL-and-sundials.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/petsc-complex && \
   mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
