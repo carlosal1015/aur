@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/d6ac6696fc22784826216c31d92d60d175c51d7d/0001-Add-support-for-OpenCL-and-sundials.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/d293c56b3487b7db716548f58d20856069ee5f84/0001-Add-support-for-OpenCL-and-sundials.patch"
 
 RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
