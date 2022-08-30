@@ -1,4 +1,4 @@
-# Copyleft (c) August, 2022, Oromion.
+# Copyleft (c) September, 2022, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/precice-arch:latest
 
