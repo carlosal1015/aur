@@ -30,7 +30,7 @@ jobs:
           sed -i 's/alabaster/furo/' source/conf.py
           python setup.py build_ext --inplace
           sphinx-apidoc -o source .
-          make html
+          PYTHONPATH=build/lib.linux-x86_64-cpython-310:$PYTHONPATH make html
           popd
 
       # build_sphinx_5:
