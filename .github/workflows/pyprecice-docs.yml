@@ -17,11 +17,16 @@ jobs:
       - name: Build html
         run: |
           git config --global advice.detachedHead false
+          pacman --needed --noconfirm --noprogressbar -Syyuq
+          pacman -S --noconfirm python-pip
+          python -m venv --system-site-packages ~/sphinx-env
+          source ~/sphinx-env/bin/activate
+          pip install sphinx==4.5.0
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           pushd python-bindings
           printf "y\npypreCICE\npreCICE community\n$TAG\nen\n" | sphinx-quickstart
           sed -i '/import os/,+3 s/^# //' source/conf.py
-          sed -i 's/extensions = \[\]/extensions = \["sphinx.ext.autodoc"\]/' source/conf.py
+          sed -i '/extensions =/a \ \ "sphinx.ext.autodoc"' source/conf.py
           sed -i 's/alabaster/furo/' source/conf.py
           python setup.py build_ext --inplace
           sphinx-apidoc -o source .
