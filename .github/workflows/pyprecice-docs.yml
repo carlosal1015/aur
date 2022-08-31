@@ -12,7 +12,7 @@ jobs:
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       URL: "https://github.com/precice/python-bindings"
-      TAG: "v2.5.0.0"
+      TAG: "v2.5.0.1"
     steps:
       - name: Build html
         run: |
