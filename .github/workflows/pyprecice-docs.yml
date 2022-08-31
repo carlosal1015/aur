@@ -7,7 +7,7 @@ on:
       - docker/actions.Dockerfile
 
 jobs:
-  build_sphinx:
+  build_sphinx_4:
     runs-on: ubuntu-22.04
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
@@ -16,18 +16,40 @@ jobs:
     steps:
       - name: Build html
         run: |
+          git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           pushd python-bindings
           printf "y\npypreCICE\npreCICE community\n$TAG\nen\n" | sphinx-quickstart
-          sed -i '8 a import os' source/conf.py
-          sed -i '9 a import sys' source/conf.py
-          sed -i '10 a sys.path.insert(0, os.path.abspath('.'))' source/conf.py
+          sed -i '/import os/,+3 s/^# //' source/conf.py
           sed -i 's/extensions = \[\]/extensions = \["sphinx.ext.autodoc"\]/' source/conf.py
           sed -i 's/alabaster/furo/' source/conf.py
           python setup.py build_ext --inplace
           sphinx-apidoc -o source .
           make html
           popd
+
+      # build_sphinx_5:
+      #     runs-on: ubuntu-22.04
+      #     container: ghcr.io/carlosal1015/aur/actions:latest
+      #     env:
+      #       URL: "https://github.com/precice/python-bindings"
+      #       TAG: "v2.5.0.0"
+      #     steps:
+      #       - name: Build html
+      #         run: |
+      #           git config --global advice.detachedHead false
+      #           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+      #           pushd python-bindings
+      #           printf "y\npypreCICE\npreCICE community\n$TAG\nen\n" | sphinx-quickstart
+      #           sed -i '8 a import os' source/conf.py
+      #           sed -i '9 a import sys' source/conf.py
+      #           sed -i "10 a sys.path.insert(0, os.path.abspath('.'))" source/conf.py
+      #           sed -i 's/extensions = \[\]/extensions = \["sphinx.ext.autodoc"\]/' source/conf.py
+      #           sed -i 's/alabaster/furo/' source/conf.py
+      #           python setup.py build_ext --inplace
+      #           sphinx-apidoc -o source .
+      #           make html
+      #           popd
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
