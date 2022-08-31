@@ -18,7 +18,7 @@ jobs:
         run: |
           git config --global advice.detachedHead false
           pacman --needed --noconfirm --noprogressbar -Syyuq
-          pacman -S --noconfirm python-pip
+          pacman -S --noconfirm python-pip openssh
           python -m venv --system-site-packages ~/sphinx-env
           source ~/sphinx-env/bin/activate
           pip install sphinx==4.5.0
