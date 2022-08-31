@@ -56,7 +56,7 @@ ARG PACKAGES="\
   git \
   zsh \
   python-sphinx-furo \
-  cython \
+  python-setuptools \
   openssh \
   tree \
   imagemagick \
