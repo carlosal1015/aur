@@ -13,5 +13,6 @@ petsc-mumps
 petsc-suitesparse
 petsc
 python-fenics-plotly
+python-jaxlib
 scalapack
 scotch
