@@ -172,7 +172,7 @@ jobs:
           shell: bash
           run: |
             sudo chown -R 33333:33333 /work
-            mv /tmp/python-etils-*-x86_64.pkg.tar.zst /work
+            mv /tmp/python-etils-*-any.pkg.tar.zst /work
 
       - uses: addnab/docker-run-action@v3
         with:
