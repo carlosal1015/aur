@@ -1,28 +1,19 @@
-# Copyleft (c) October, 2022, Oromion.
+# Copyleft (c) September, 2022, Oromion.
+
+FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG PKGBUILD="https://gitlab.com/dune-archiso/pkgbuilds/dune/-/raw/main/PKGBUILDS/python-jaxlib/PKGBUILD"
-
-# ARG OPT_PACKAGES="\
-#   python-setuptools \
-#   python-wheel \
-#   "
-
 ARG AUR_PACKAGES="\
-  python-jaxlib \
+  python-etils \
   "
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -G ${AUR_PACKAGES} && \
-  cd python-jaxlib && \
-  rm PKGBUILD && \
-  curl -O ${PKGBUILD} && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  mkdir -p ~/.cache/yay/python-jaxlib && \
-  mv *.pkg.tar.zst ~/.cache/yay/python-jaxlib
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 
-# sudo pacman -S --noconfirm ${OPT_PACKAGES} && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --needed --noconfirm --noprogressbar -Syyuq && \
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -42,6 +33,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
