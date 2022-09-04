@@ -1,17 +1,12 @@
 # Copyleft (c) September, 2022, Oromion.
 
-FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
-
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   python-etils \
   "
 
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
-
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
@@ -33,7 +28,6 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
