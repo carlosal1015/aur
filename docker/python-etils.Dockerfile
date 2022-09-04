@@ -6,8 +6,7 @@ ARG AUR_PACKAGES="\
   python-etils \
   "
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel

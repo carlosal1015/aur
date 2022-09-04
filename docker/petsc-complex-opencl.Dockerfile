@@ -13,8 +13,8 @@ ARG AUR_PACKAGES="\
 
 ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/c281116c8b1afa351a4cca522011065707b9ec87/0001-Add-support-for-OpenCL.patch"
 
-RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -S --noconfirm ${OPT_PACKAGES} && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd petsc-complex && \
   git config --global user.email github-actions@github.com && \

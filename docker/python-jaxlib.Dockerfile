@@ -13,7 +13,7 @@ ARG AUR_PACKAGES="\
   python-jaxlib \
   "
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   yay -G ${AUR_PACKAGES} && \
   cd python-jaxlib && \
   rm PKGBUILD && \

@@ -6,7 +6,7 @@ ARG AUR_PACKAGES="\
   numdiff \
   "
 
-RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM ghcr.io/carlosal1015/aur/deal-ii:latest

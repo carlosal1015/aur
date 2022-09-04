@@ -11,8 +11,8 @@ ARG AUR_PACKAGES="\
   petsc \
   "
 
-RUN yay --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -S --noconfirm ${OPT_PACKAGES} && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
