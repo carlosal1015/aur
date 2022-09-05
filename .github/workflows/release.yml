@@ -59,6 +59,18 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ghcr.io
+          image: ghcr.io/carlosal1015/aur/miniconda:latest
+          options: -v ${{github.workspace}}:/work
+          shell: bash
+          run: |
+            sudo chown -R 33333:33333 /work
+            mv /tmp/miniconda-*-x86_64.pkg.tar.zst /work
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
           image: ghcr.io/carlosal1015/aur/mumps:latest
           options: -v ${{github.workspace}}:/work
           shell: bash
