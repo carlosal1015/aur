@@ -3,7 +3,7 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
-  miniconda \
+  miniconda3 \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
