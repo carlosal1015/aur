@@ -2,17 +2,11 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG OPT_PACKAGES="\
-  git \
-  zsh \
-  "
-
 ARG AUR_PACKAGES="\
   miniconda3 \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
@@ -36,10 +30,16 @@ USER gitpod
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
+ARG PACKAGES="\
+  git \
+  zsh \
+  "
+
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
