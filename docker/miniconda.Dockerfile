@@ -3,6 +3,7 @@
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
+  conda-zsh-completion \
   miniconda3 \
   "
 
@@ -46,4 +47,4 @@ RUN sudo pacman-key --init && \
   echo "[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
   printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 
-CMD ["/bin/bash"]
+CMD ["/bin/zsh"]
