@@ -1,5 +1,6 @@
 # Copyleft (c) September, 2022, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
@@ -8,6 +9,7 @@ ARG AUR_PACKAGES="\
   superlu_dist \
   "
 
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
@@ -32,6 +34,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/

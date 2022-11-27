@@ -3,6 +3,7 @@ halide-bin
 halide
 hypre
 kahip
+metis
 mumps
 openfoam-com
 openfoam-com-git
