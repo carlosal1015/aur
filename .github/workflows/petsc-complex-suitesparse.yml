@@ -26,20 +26,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-petsc-complex-suitesparse-cache
-          key: ${{ runner.os }}-buildx-petsc-complex-suitesparse-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-petsc-complex-suitesparse-
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
@@ -49,13 +41,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/carlosal1015/aur/petsc-complex-suitesparse:latest
-          cache-from: type=local,src=/tmp/.buildx-petsc-complex-suitesparse-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
-
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-petsc-complex-suitesparse-cache
-          mv /tmp/.buildx-main-cache /tmp/.buildx-petsc-complex-suitesparse-cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
