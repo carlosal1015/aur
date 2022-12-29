@@ -49,8 +49,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/carlosal1015/aur/scotch:latest
-          cache-from: type=local,src=/tmp/.buildx-scotch-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
+          # cache-from: type=local,src=/tmp/.buildx-scotch-cache
+          # cache-to: type=local,mode=max,dest=/tmp/.buildx-main-cache
 
       - name: Move cache
         run: |
