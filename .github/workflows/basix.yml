@@ -1,10 +1,10 @@
-name: Publish python-fenics-dolfinx package from AUR in Gitpod
+name: Publish basix package from AUR in Gitpod
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/python-fenics-dolfinx.Dockerfile
+      - docker/basix.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -37,16 +37,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./aur/docker/python-fenics-dolfinx.Dockerfile
+          file: ./aur/docker/basix.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/python-fenics-dolfinx:latest
+          tags: ghcr.io/carlosal1015/aur/basix:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ghcr.io/carlosal1015/aur/python-fenics-dolfinx:latest
+          image: ghcr.io/carlosal1015/aur/basix:latest
           annotations: true
-          dockerfile: ./docker/python-fenics-dolfinx.Dockerfile
+          dockerfile: ./docker/basix.Dockerfile

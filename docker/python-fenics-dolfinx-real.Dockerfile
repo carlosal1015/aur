@@ -1,24 +1,14 @@
 # Copyleft (c) January, 2023, Oromion.
 
-FROM ghcr.io/carlosal1015/aur/metis AS metis
-FROM ghcr.io/carlosal1015/aur/scalapack AS scalapack
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
-
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-
 ARG AUR_PACKAGES="\
-  openssh \
-  mumps \
+  python-fenics-dolfinx \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
-
+  yay --noconfirm -S ${AUR_PACKAGES}
+#2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
@@ -37,9 +27,6 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
