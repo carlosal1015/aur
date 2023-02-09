@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/c2bdfa12eac261c8def4aff5cdee27f1db806c3b/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/c349976686954fdced016a129032fbab829b8295/0001-Enable-options-for-work-with-preCICE.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   yay --noconfirm -S ${OPT_PACKAGES} && \
