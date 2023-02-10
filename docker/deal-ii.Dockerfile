@@ -44,6 +44,7 @@ USER gitpod
 
 ARG PACKAGES="\
   cmake \
+  git \
   suitesparse \
   "
 
