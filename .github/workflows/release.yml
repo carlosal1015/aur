@@ -18,7 +18,8 @@ jobs:
         run: |
           echo "::set-output name=release_tag::$(date -u +"%Y-%m-%d" --date='5 hours ago')"
 
-      - uses: addnab/docker-run-action@v3
+      - name: deal.II
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -30,7 +31,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/deal-ii-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: HYPRE
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -42,7 +44,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/hypre-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: KaHIP
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -54,7 +57,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/kahip-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: METIS
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -66,7 +70,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/metis-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Miniconda
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -78,7 +83,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/miniconda3-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: MUMPS
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -90,7 +96,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/mumps-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: OpenFOAM
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -102,7 +109,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/openfoam-com-v*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: OpenFOAM (git)
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -114,7 +122,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/openfoam-com-git-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: OpenFOAM
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -126,7 +135,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/openfoam-org-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: p4est
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -138,7 +148,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/p4est-deal-ii-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: ParMETIS
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -150,7 +161,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/parmetis-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: PaStiX
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -162,7 +174,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/pastix-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: PETSc (real)
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -174,7 +187,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/petsc-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: PETSc (complex)
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -186,7 +200,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/petsc-complex-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: PETSc (real) git
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -198,7 +213,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/petsc-git-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Etils
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -210,7 +226,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/python-etils-*-any.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Jaxlib
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -222,7 +239,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/python-jaxlib-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Jax
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -234,7 +252,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/scalapack-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: SCOTCH
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -246,7 +265,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/scotch-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: SuperLU_DIST
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -258,7 +278,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/superlu_dist-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Triangle
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -270,7 +291,8 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/triangle-*-x86_64.pkg.tar.zst /work
 
-      - uses: addnab/docker-run-action@v3
+      - name: Trilinos
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
