@@ -4,11 +4,6 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG PKGBUILD="https://gitlab.com/dune-archiso/pkgbuilds/dune/-/raw/main/PKGBUILDS/python-jaxlib/PKGBUILD"
 
-# ARG OPT_PACKAGES="\
-#   python-setuptools \
-#   python-wheel \
-#   "
-
 ARG AUR_PACKAGES="\
   python-jaxlib \
   "
@@ -21,8 +16,6 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/python-jaxlib && \
   mv *.pkg.tar.zst ~/.cache/yay/python-jaxlib
-
-# sudo pacman -S --noconfirm ${OPT_PACKAGES} && \
 
 FROM archlinux:base-devel
 
