@@ -2,20 +2,24 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG PKGBUILD="https://gitlab.com/dune-archiso/pkgbuilds/dune/-/raw/main/PKGBUILDS/python-jaxlib/PKGBUILD"
+# ARG PKGBUILD="https://gitlab.com/dune-archiso/pkgbuilds/dune/-/raw/main/PKGBUILDS/python-jaxlib/PKGBUILD"
 
 ARG AUR_PACKAGES="\
   python-jaxlib \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -G ${AUR_PACKAGES} && \
-  cd python-jaxlib && \
-  rm PKGBUILD && \
-  curl -O ${PKGBUILD} && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  mkdir -p ~/.cache/yay/python-jaxlib && \
-  mv *.pkg.tar.zst ~/.cache/yay/python-jaxlib
+  yay --noconfirm -S ${AUR_PACKAGES}
+# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+
+# RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+#   yay -G ${AUR_PACKAGES} && \
+#   cd python-jaxlib && \
+#   rm PKGBUILD && \
+#   curl -O ${PKGBUILD} && \
+#   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+#   mkdir -p ~/.cache/yay/python-jaxlib && \
+#   mv *.pkg.tar.zst ~/.cache/yay/python-jaxlib
 
 FROM archlinux:base-devel
 
