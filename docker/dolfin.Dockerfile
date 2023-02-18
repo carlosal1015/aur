@@ -1,12 +1,18 @@
 # Copyleft (c) March, 2023, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
+FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
+FROM ghcr.io/carlosal1015/aur/python-ufl AS python-ufl
 FROM ghcr.io/carlosal1015/aur/python-ffc AS python-ffc
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
@@ -37,6 +43,9 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 USER gitpod
 
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 # COPY --from=build /tmp/*.log /tmp/
