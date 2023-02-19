@@ -57,7 +57,7 @@ COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin /tmp/python-dolfin-*.pkg.tar.zst /tmp/
-# COPY --from=build /tmp/*.log /tmp/
+COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
@@ -65,6 +65,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  rm /tmp/*.pkg.tar.zst && \
+  rm -- !(/tmp/python-fenics-plotly-*.pkg.tar.zst) && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*

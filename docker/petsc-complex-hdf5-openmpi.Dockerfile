@@ -32,7 +32,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-# COPY --from=build /tmp/*.log /tmp/
+COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 ARG PACKAGES="\
