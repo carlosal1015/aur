@@ -48,7 +48,7 @@ ARG PACKAGES="\
   suitesparse \
   "
 
-COPY --from=build /tmp/*.log /tmp/
+# COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
@@ -57,7 +57,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
-
-CMD ["/bin/bash"]

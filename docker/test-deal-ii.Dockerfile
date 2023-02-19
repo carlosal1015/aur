@@ -22,6 +22,7 @@ ARG PACKAGES="\
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman -S --needed --noconfirm --noprogressbar ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   rm /tmp/*.pkg.tar.zst
