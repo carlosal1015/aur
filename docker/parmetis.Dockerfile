@@ -41,6 +41,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  rm -- !(/tmp/parmetis-*.pkg.tar.zst) && \
+  find /tmp/ ! -name 'parmetis-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*

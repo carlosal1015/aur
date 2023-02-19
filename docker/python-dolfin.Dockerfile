@@ -59,6 +59,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  rm -- !(/tmp/python-dolfin-*.pkg.tar.zst) && \
+  find /tmp/ ! -name 'python-dolfin-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
