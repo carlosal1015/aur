@@ -3,24 +3,43 @@
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
+FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
+FROM ghcr.io/carlosal1015/aur/python-ufl AS python-ufl
+FROM ghcr.io/carlosal1015/aur/python-ffc AS python-ffc
+FROM ghcr.io/carlosal1015/aur/dolfin AS dolfin
+FROM ghcr.io/carlosal1015/aur/python-dolfin AS python-dolfin
 FROM ghcr.io/carlosal1015/aur/openfoam-com AS openfoam-com
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-# TODO: python-dolfin is broken
-# https://aur.archlinux.org/packages/python-dolfin#comment-871892
-# TODO: dolfin is broken
-# https://aur.archlinux.org/packages/dolfin#comment-845953
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
+COPY --from=dolfin /tmp/dolfin-*.pkg.tar.zst /tmp/
+COPY --from=python-dolfin /tmp/python-dolfin-*.pkg.tar.zst /tmp/
+COPY --from=openfoam-com /tmp/openfoam-com-*.pkg.tar.zst /tmp/
 
+# cmake \
 ARG AUR_PACKAGES="\
-  cmake \
-  precice-config-visualizer-git \
-  python-nutils \
   calculix-precice \
+  openfoam-com-precice \
+  python-fenicsprecice \
+  python-micro-manager-precice \
+  python-nutils \
+  precice-config-visualizer-git \
   "
-# python-fenicsprecice \
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --noconfirm -S ${AUR_PACKAGES}
+#2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -65,29 +84,36 @@ ARG PACKAGES="\
   imagemagick \
   "
 
-COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-COPY --from=openfoam-com /tmp/openfoam-com-*.pkg.tar.zst /tmp/
-COPY --from=build /tmp/*.log /tmp/
-COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
-
-RUN sudo pacman --noconfirm -Syyuq && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  rm /tmp/*.pkg.tar.zst
-
 ARG ALIAS="https://raw.githubusercontent.com/precice/vm/main/provisioning/.alias"
 
 ADD ${ALIAS} /home/gitpod/
 
 ARG GPG_KEY="8C43C00BA8F06ECA"
 
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
+COPY --from=dolfin /tmp/dolfin-*.pkg.tar.zst /tmp/
+COPY --from=python-dolfin /tmp/python-dolfin-*.pkg.tar.zst /tmp/
+COPY --from=openfoam-com /tmp/openfoam-com-*.pkg.tar.zst /tmp/
+COPY --from=build /tmp/*.log /tmp/
+COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
+
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman-key --recv-keys ${GPG_KEY} && \
   sudo pacman-key --finger ${GPG_KEY} && \
   sudo pacman-key --lsign-key ${GPG_KEY} && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} && \
+  sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   echo -e '\n[precice-arch]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | sudo tee -a /etc/pacman.conf && \
