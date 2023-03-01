@@ -1,14 +1,21 @@
 # Copyleft (c) March, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/petsc-complex AS petsc-complex
+# FROM ghcr.io/carlosal1015/aur/dolfinx AS dolfinx
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
+# COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   python-fenics-dolfinx \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${AUR_PACKAGES}
-#2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
@@ -27,6 +34,8 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
+# COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
