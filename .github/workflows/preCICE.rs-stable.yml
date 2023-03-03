@@ -1,0 +1,46 @@
+name: Test Rust language bindings for preCICE stable
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docker/actions.Dockerfile
+  schedule:
+    - cron: "0 2 * * 5"
+
+jobs:
+  test_bindings:
+    runs-on: ubuntu-22.04
+    container: archlinux:base-devel
+    env:
+      URL: "https://github.com/precice/rust-bindings.git"
+      PACKAGES: "precice rust"
+      GPG_KEY: "8C43C00BA8F06ECA"
+    steps:
+      - name: Add Third-Party repository
+        run: |
+          ln -s /usr/share/zoneinfo/America/Lima /etc/localtime
+          sed -i 's/^#Color/Color/' /etc/pacman.conf
+          sed -i '/#CheckSpace/a ILoveCandy' /etc/pacman.conf
+          sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 30/' /etc/pacman.conf
+          sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
+          sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman-key --recv-keys ${GPG_KEY}
+          pacman-key --finger ${GPG_KEY}
+          pacman-key --lsign-key ${GPG_KEY}
+          echo -e '\n[dune-archiso-repository-core]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/repository/dune-archiso-repository-core/$arch\n[precice-arch]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
+
+      - name: Install Rust bindings for preCICE
+        run: |
+          pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} >/dev/null 2>&1
+          pacman -Qi ${PACKAGES}
+          cargo add precice@2.5
+
+      - name: Run Rust bindings's tests for preCICE
+        run: |
+          pushd ~/.cargo/registry/PreCICE/*/test
+          cargo run --release --example=solverdummy -- examples/precice-config.xml SolverOne &
+          cargo run --release --example=solverdummy -- examples/precice-config.xml SolverTwo
+          popd

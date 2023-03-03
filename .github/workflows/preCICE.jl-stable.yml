@@ -1,10 +1,10 @@
-name: Test Julia language bindings for preCICE unstable
+name: Test Julia language bindings for preCICE stable
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/*.Dockerfile
+      - docker/actions.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -14,7 +14,7 @@ jobs:
     container: archlinux:base-devel
     env:
       URL: "https://github.com/precice/PreCICE.jl.git"
-      PACKAGES: "openssh precice-git julia"
+      PACKAGES: "openssh precice julia"
       JULIA_NUM_THREADS: "$(nproc)"
       GPG_KEY: "8C43C00BA8F06ECA"
     steps:
