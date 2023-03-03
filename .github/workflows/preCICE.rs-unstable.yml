@@ -14,7 +14,7 @@ jobs:
     container: archlinux:base-devel
     env:
       URL: "https://github.com/precice/rust-bindings.git"
-      PACKAGES: "precice-git rust"
+      PACKAGES: "precice-git cargo"
       GPG_KEY: "8C43C00BA8F06ECA"
     steps:
       - name: Add Third-Party repository
@@ -36,11 +36,13 @@ jobs:
         run: |
           pacman --needed --noconfirm --noprogressbar -Syyuq ${PACKAGES} >/dev/null 2>&1
           pacman -Qi ${PACKAGES}
-          cargo add --git https://github.com/precice/rust-bindings.git precice
+          cargo init
+          cargo add --git ${URL} precice
+          cargo build --release --all-targets
 
       - name: Run Rust bindings's tests for preCICE
         run: |
-          pushd ~/.cargo/registry/PreCICE/*/test
+          pushd ~/.cargo/registry/src/github.com-*/precice-*
           cargo run --release --example=solverdummy -- examples/precice-config.xml SolverOne &
           cargo run --release --example=solverdummy -- examples/precice-config.xml SolverTwo
           popd
