@@ -35,8 +35,6 @@ petsc-git
 #petsc-suitesparse
 python-etils
 #python-fenics-plotly
-python-jax
-python-jaxlib
 scalapack
 scotch
 superlu_dist

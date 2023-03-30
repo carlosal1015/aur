@@ -226,20 +226,7 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/python-etils-*-any.pkg.tar.zst /work
 
-      - name: Jaxlib
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
-          image: ghcr.io/carlosal1015/aur/python-jaxlib:latest
-          options: -v ${{github.workspace}}:/work
-          shell: bash
-          run: |
-            sudo chown -R 33333:33333 /work
-            mv /tmp/python-jaxlib-*-x86_64.pkg.tar.zst /work
-
-      - name: Jax
+      - name: Scalapack
         uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
