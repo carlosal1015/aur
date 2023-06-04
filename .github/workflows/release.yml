@@ -31,6 +31,19 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/deal-ii-*-x86_64.pkg.tar.zst /work
 
+      - name: Gmsh
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          image: ghcr.io/carlosal1015/aur/gmsh:latest
+          options: -v ${{github.workspace}}:/work
+          shell: bash
+          run: |
+            sudo chown -R 33333:33333 /work
+            mv /tmp/gmsh-*-x86_64.pkg.tar.zst /work
+
       - name: HYPRE
         uses: addnab/docker-run-action@v3
         with:
@@ -290,6 +303,19 @@ jobs:
           run: |
             sudo chown -R 33333:33333 /work
             mv /tmp/trilinos-*-x86_64.pkg.tar.zst /work
+
+      - name: Voro++
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          image: ghcr.io/carlosal1015/aur/voropp:latest
+          options: -v ${{github.workspace}}:/work
+          shell: bash
+          run: |
+            sudo chown -R 33333:33333 /work
+            mv /tmp/voro++-*-x86_64.pkg.tar.zst /work
 
       - name: 🛎️ Create release
         uses: softprops/action-gh-release@v1
