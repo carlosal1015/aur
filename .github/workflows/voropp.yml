@@ -1,10 +1,10 @@
-name: Publish voro++ package from AUR in Gitpod
+name: Publish voropp package from AUR in Gitpod
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/voro++.Dockerfile
+      - docker/voropp.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -37,16 +37,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./aur/docker/voro++.Dockerfile
+          file: ./aur/docker/voropp.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/voro++:latest
+          tags: ghcr.io/carlosal1015/aur/voropp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ghcr.io/carlosal1015/aur/voro++:latest
+          image: ghcr.io/carlosal1015/aur/voropp:latest
           annotations: true
-          dockerfile: ./docker/voro++.Dockerfile
+          dockerfile: ./docker/voropp.Dockerfile
