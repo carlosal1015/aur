@@ -1,9 +1,13 @@
 # Copyleft (c) June, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/ann AS ann
+FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/voropp AS voropp
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=ann /tmp/ann++-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=voropp /tmp/voro++-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
@@ -34,6 +38,8 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=ann /tmp/ann++-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=voropp /tmp/voro++-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
