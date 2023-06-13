@@ -7,7 +7,7 @@ FROM ghcr.io/carlosal1015/aur/basix AS basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
 FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
-FROM ghcr.io/carlosal1015/aur/dolfinx AS dolfinx
+FROM ghcr.io/carlosal1015/aur/dolfinx-real AS dolfinx-real
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
@@ -18,7 +18,7 @@ COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
-COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
+COPY --from=dolfinx-real /tmp/dolfinx-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   python-fenics-dolfinx \
@@ -53,7 +53,7 @@ COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
-COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
+COPY --from=dolfinx-real /tmp/dolfinx-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
