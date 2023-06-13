@@ -1,10 +1,10 @@
-name: Publish dolfin-complex package from AUR in Gitpod
+name: Publish dolfinx-real package from AUR in Gitpod
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/dolfin-complex.Dockerfile
+      - docker/dolfinx-real.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -37,16 +37,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./aur/docker/dolfin-complex.Dockerfile
+          file: ./aur/docker/dolfinx-real.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/dolfin-complex:latest
+          tags: ghcr.io/carlosal1015/aur/dolfinx-real:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ghcr.io/carlosal1015/aur/dolfin-complex:latest
+          image: ghcr.io/carlosal1015/aur/dolfinx-real:latest
           annotations: true
-          dockerfile: ./docker/dolfin-complex.Dockerfile
+          dockerfile: ./docker/dolfinx-real.Dockerfile

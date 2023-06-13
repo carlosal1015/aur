@@ -1,30 +1,22 @@
-# Copyleft (c) July, 2023, Oromion.
+# Copyleft (c) June, 2023, Oromion.
 
-FROM ghcr.io/carlosal1015/aur/petsc-complex AS petsc-complex
-FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
-FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
-FROM ghcr.io/carlosal1015/aur/python-ufl AS python-ufl
-FROM ghcr.io/carlosal1015/aur/python-ffc AS python-ffc
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+FROM ghcr.io/carlosal1015/aur/basix AS basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
-COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
-COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
-COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
-COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  dolfin \
+  python-fenics-ffcx \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES}
-
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -44,12 +36,9 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
-COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
-COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
-COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
-COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
@@ -58,6 +47,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  find /tmp/ ! -name 'dolfin-*.pkg.tar.zst' -type f -exec rm -f {} + && \
+  find /tmp/ ! -name 'python-fenics-basix-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
