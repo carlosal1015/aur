@@ -1,12 +1,24 @@
 # Copyleft (c) June, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/metis AS metis
+FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 FROM ghcr.io/carlosal1015/aur/petsc-complex AS petsc-complex
-# FROM ghcr.io/carlosal1015/aur/dolfinx AS dolfinx
+FROM ghcr.io/carlosal1015/aur/basix AS basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
+FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
+FROM ghcr.io/carlosal1015/aur/dolfinx-complex AS dolfinx-complex
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
-# COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=petsc-complex /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
+COPY --from=dolfinx-complex /tmp/dolfinx-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   python-fenics-dolfinx \
@@ -34,8 +46,14 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=petsc-complex /tmp/petsc-complex-*.pkg.tar.zst /tmp/
-# COPY --from=dolfinx /tmp/dolfinx-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=petsc-complex /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
+COPY --from=dolfinx-complex /tmp/dolfinx-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
