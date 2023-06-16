@@ -1,10 +1,10 @@
-name: Publish python-dolfin package from AUR
+name: Publish python-dolfin-real package from AUR
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/python-dolfin.Dockerfile
+      - docker/python-dolfin-real.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -37,16 +37,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./aur/docker/python-dolfin.Dockerfile
+          file: ./aur/docker/python-dolfin-real.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/python-dolfin:latest
+          tags: ghcr.io/carlosal1015/aur/python-dolfin-real:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ghcr.io/carlosal1015/aur/python-dolfin:latest
+          image: ghcr.io/carlosal1015/aur/python-dolfin-real:latest
           annotations: true
-          dockerfile: ./docker/python-dolfin.Dockerfile
+          dockerfile: ./docker/python-dolfin-real.Dockerfile
