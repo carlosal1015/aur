@@ -1,4 +1,4 @@
-name: Publish superlu_dist package from AUR in Gitpod
+name: Publish superlu_dist package from AUR
 
 on:
   push:

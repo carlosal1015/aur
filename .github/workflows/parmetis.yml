@@ -1,4 +1,4 @@
-name: Publish parmetis package from AUR in Gitpod
+name: Publish parmetis package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish petsc-complex-valgrind package from AUR in Gitpod
+name: Publish petsc-complex-valgrind package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish metis package from AUR in Gitpod
+name: Publish metis package from AUR
 
 on:
   push:

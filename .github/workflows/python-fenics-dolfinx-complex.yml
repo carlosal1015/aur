@@ -1,4 +1,4 @@
-name: Publish python-fenics-dolfinx-complex package from AUR in Gitpod
+name: Publish python-fenics-dolfinx-complex package from AUR
 
 on:
   push:

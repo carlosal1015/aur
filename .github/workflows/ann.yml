@@ -1,4 +1,4 @@
-name: Publish ann package from AUR in Gitpod
+name: Publish ann package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish dolfinx-real package from AUR in Gitpod
+name: Publish dolfinx-real package from AUR
 
 on:
   push:

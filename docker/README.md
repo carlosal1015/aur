@@ -1,17 +1,5 @@
 # packages
 
-### `halide`
-
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/halide/Halide?style=flat-square)](https://github.com/halide/Halide) [![AUR version](https://img.shields.io/aur/version/halide?style=flat-square)](https://aur.archlinux.org/packages/halide)
-
-A language for fast and portable data-parallel computation.
-
-### `halide-bin`
-
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/halide/Halide?style=flat-square)](https://github.com/halide/Halide) [![AUR version](https://img.shields.io/aur/version/halide-bin?style=flat-square)](https://aur.archlinux.org/packages/halide-bin)
-
-A language for fast and portable data-parallel computation
-
 ### `deal-ii`
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dealii/dealii?style=flat-square)](https://github.com/dealii/dealii) [![AUR version](https://img.shields.io/aur/version/deal-ii?style=flat-square)](https://aur.archlinux.org/packages/deal-ii)
@@ -34,18 +22,6 @@ The open source CFD toolbox (www.openfoam.org)
 The open source CFD toolbox (www.openfoam.com)
 
 ## docker images
-
-### `halide`
-
-```
-$ docker run -it --rm ghcr.io/carlosal1015/aur/halide:latest
-```
-
-### `halide-bin`
-
-```
-$ docker run -it --rm ghcr.io/carlosal1015/aur/halide-bin:latest
-```
 
 ### `deal-ii`
 
@@ -72,6 +48,5 @@ $ docker run -it --rm ghcr.io/carlosal1015/aur/openfoam-com:latest
 Look the content of package
 
 ```
-$ pacman -Ql halide
-$ pacman -Ql halide-bin
+$ pacman -Ql deal-ii
 ```

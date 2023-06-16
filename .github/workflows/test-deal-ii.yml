@@ -1,4 +1,4 @@
-name: Publish test-deal-ii package from AUR in Gitpod
+name: Publish test-deal-ii package from AUR
 
 on:
   push:

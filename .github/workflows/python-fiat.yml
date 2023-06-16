@@ -1,4 +1,4 @@
-name: Publish python-fiat package from AUR in Gitpod
+name: Publish python-fiat package from AUR
 
 on:
   push:

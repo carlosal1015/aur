@@ -1,4 +1,4 @@
-name: Publish petsc-complex-mumps package from AUR in Gitpod
+name: Publish petsc-complex-mumps package from AUR
 
 on:
   push:

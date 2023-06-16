@@ -1,4 +1,4 @@
-name: Publish hypre package from AUR in Gitpod
+name: Publish hypre package from AUR
 
 on:
   push:

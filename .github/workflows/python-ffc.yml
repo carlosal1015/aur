@@ -1,4 +1,4 @@
-name: Publish python-ffc package from AUR in Gitpod
+name: Publish python-ffc package from AUR
 
 on:
   push:

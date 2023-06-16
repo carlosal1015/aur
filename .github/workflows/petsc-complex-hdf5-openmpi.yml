@@ -1,4 +1,4 @@
-name: Publish petsc-complex-hdf5-openmpi package from AUR in Gitpod
+name: Publish petsc-complex-hdf5-openmpi package from AUR
 
 on:
   push:

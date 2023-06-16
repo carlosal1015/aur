@@ -1,4 +1,4 @@
-name: Publish openfoam-org package from AUR in Gitpod
+name: Publish openfoam-org package from AUR
 
 on:
   push:

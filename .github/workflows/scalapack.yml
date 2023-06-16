@@ -1,4 +1,4 @@
-name: Publish scalapack package from AUR in Gitpod
+name: Publish scalapack package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish miniconda package from AUR in Gitpod
+name: Publish miniconda package from AUR
 
 on:
   push:

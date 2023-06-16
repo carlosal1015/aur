@@ -1,4 +1,4 @@
-name: Test Rust language bindings for preCICE stable
+name: Test Rust bindings for preCICE stable
 
 on:
   push:

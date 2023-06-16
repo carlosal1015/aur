@@ -1,4 +1,4 @@
-name: Publish petsc-complex-python-mpi4py package from AUR in Gitpod
+name: Publish petsc-complex-python-mpi4py package from AUR
 
 on:
   push:

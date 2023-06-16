@@ -1,4 +1,4 @@
-name: Publish petsc-suitesparse package from AUR in Gitpod
+name: Publish petsc-suitesparse package from AUR
 
 on:
   push:

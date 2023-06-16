@@ -1,4 +1,4 @@
-name: Publish petsc-complex-opencl package from AUR in Gitpod
+name: Publish petsc-complex-opencl package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish pastix package from AUR in Gitpod
+name: Publish pastix package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish p4est-deal-ii package from AUR in Gitpod
+name: Publish p4est-deal-ii package from AUR
 
 on:
   push:

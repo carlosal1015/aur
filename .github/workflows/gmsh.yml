@@ -1,4 +1,4 @@
-name: Publish gmsh package from AUR in Gitpod
+name: Publish gmsh package from AUR
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Publish scotch package from AUR in Gitpod
+name: Publish scotch package from AUR
 
 on:
   push:

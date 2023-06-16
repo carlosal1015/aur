@@ -1,4 +1,4 @@
-name: Publish python-ufl package from AUR in Gitpod
+name: Publish python-ufl package from AUR
 
 on:
   push:

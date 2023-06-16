@@ -1,4 +1,4 @@
-name: Publish petsc-complex-superlu package from AUR in Gitpod
+name: Publish petsc-complex-superlu package from AUR
 
 on:
   push:

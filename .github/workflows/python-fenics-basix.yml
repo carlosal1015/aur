@@ -1,4 +1,4 @@
-name: Publish python-fenics-basix package from AUR in Gitpod
+name: Publish python-fenics-basix package from AUR
 
 on:
   push:

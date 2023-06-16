@@ -1,4 +1,4 @@
-name: Test Julia language bindings for preCICE unstable
+name: Test Julia bindings for preCICE unstable
 
 on:
   push:
