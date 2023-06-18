@@ -1,10 +1,10 @@
-name: Publish python-fenics-plotly package from AUR
+name: Publish python-fenics-real-plotly package from AUR
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/python-fenics-plotly.Dockerfile
+      - docker/python-fenics-real-plotly.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -37,16 +37,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./aur/docker/python-fenics-plotly.Dockerfile
+          file: ./aur/docker/python-fenics-real-plotly.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/python-fenics-plotly:latest
+          tags: ghcr.io/carlosal1015/aur/python-fenics-real-plotly:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ghcr.io/carlosal1015/aur/python-fenics-plotly:latest
+          image: ghcr.io/carlosal1015/aur/python-fenics-real-plotly:latest
           annotations: true
-          dockerfile: ./docker/python-fenics-plotly.Dockerfile
+          dockerfile: ./docker/python-fenics-real-plotly.Dockerfile
