@@ -60,3 +60,4 @@ RUN sudo pacman-key --init && \
   find /tmp/ ! -name 'deal-ii-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
+  
