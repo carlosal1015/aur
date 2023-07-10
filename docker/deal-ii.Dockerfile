@@ -1,6 +1,10 @@
 # Copyleft (c) June, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 
 # ARG OPT_PACKAGES="\
 #   suitesparse \
@@ -15,6 +19,7 @@ ARG AUR_PACKAGES="\
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGES} && \
   cd deal-ii && \
   git config --global user.email github-actions@github.com && \
@@ -52,6 +57,7 @@ ARG PACKAGES="\
   suitesparse \
   "
 
+COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
