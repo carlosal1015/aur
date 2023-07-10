@@ -1,13 +1,13 @@
-From 1d7e910601657d45692304fc088a12e6820f530d Mon Sep 17 00:00:00 2001
+From 5f1443a3f9ed2c653139654fc279492cbe44894a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n=20Laos?= <caznaranl@uni.pe>
-Date: Mon, 10 Jul 2023 11:21:54 -0500
+Date: Mon, 10 Jul 2023 11:35:08 -0500
 Subject: [PATCH] Bump trilinos version to 14.2.0
 
 ---
  .SRCINFO              |  8 ++++----
- PKGBUILD              |  7 ++++---
+ PKGBUILD              |  9 +++++----
  compiler-errors.patch | 14 +-------------
- 3 files changed, 9 insertions(+), 20 deletions(-)
+ 3 files changed, 10 insertions(+), 21 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
 index 042efff..4acfd93 100644
@@ -37,7 +37,7 @@ index 042efff..4acfd93 100644
  
  pkgname = trilinos
 diff --git a/PKGBUILD b/PKGBUILD
-index 4713a54..2b4415a 100644
+index 4713a54..c146958 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -4,13 +4,14 @@
@@ -57,15 +57,17 @@ index 4713a54..2b4415a 100644
  license=('LGPL3')
  depends=('python' 'lapack' 'boost' 'netcdf' 'libmatio' 'libx11' 'hdf5-openmpi')
  makedepends=('gcc-fortran' 'perl' 'blas' 'cmake' 'bc' 'python-numpy')
-@@ -18,7 +19,7 @@ provides=('trilinos-sacado' 'zoltan')
+@@ -18,8 +19,8 @@ provides=('trilinos-sacado' 'zoltan')
  checkdepends=('cmake')
  source=("https://github.com/trilinos/Trilinos/archive/refs/tags/trilinos-release-$_pkgver.tar.gz"
          'compiler-errors.patch')
 -sha256sums=('054d2fabdf70fce0dfaeb20eed265bd7894045d3e00c3d1ddb72d1c77c339ca1'
+-            '09546864a36ec83cfbedb29c97ead05778b4da370a84185565973f28f49f2880')
 +sha256sums=('c96606e5cd7fc9d25b9dc20719cd388658520d7cbbd2b4de77a118440d1e0ccb'
-             '09546864a36ec83cfbedb29c97ead05778b4da370a84185565973f28f49f2880')
++            '1ad5df1f48db587f89f0c19584c1f37b7767857272f2dd01203fed48fff1bf81')
  
  prepare() {
+   patch -d  Trilinos-trilinos-release-"$_pkgver" -p1 -i ../compiler-errors.patch
 diff --git a/compiler-errors.patch b/compiler-errors.patch
 index 3da154a..51b1db3 100644
 --- a/compiler-errors.patch
