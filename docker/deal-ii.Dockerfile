@@ -2,28 +2,30 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG OPT_PACKAGES="\
-  suitesparse \
-  "
+# ARG OPT_PACKAGES="\
+#   suitesparse \
+#   "
 
 ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
+# ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
+
+ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd deal-ii && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
+  git am --signoff < 0001-Add-kokkos.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/deal-ii && \
   mv *.pkg.tar.zst ~/.cache/yay/deal-ii
 
+# yay --noconfirm -S ${OPT_PACKAGES} && \
 # makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
 
 FROM archlinux:base-devel

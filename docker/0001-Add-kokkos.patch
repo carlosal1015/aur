@@ -1,0 +1,49 @@
+From 4a859d73d79a577ed73b989e4baebb4885a62ca1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n=20Laos?= <caznaranl@uni.pe>
+Date: Mon, 10 Jul 2023 11:49:59 -0500
+Subject: [PATCH] Add kokkos
+
+---
+ .SRCINFO | 3 ++-
+ PKGBUILD | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/.SRCINFO b/.SRCINFO
+index 1645b9a..d421d6c 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -2,13 +2,14 @@ pkgbase = deal-ii
+ 	pkgdesc = An Open Source Finite Element Differential Equations Analysis Library
+ 	pkgver = 9.5.0
+ 	pkgrel = 1
+-	url = http://www.dealii.org/
++	url = https://dealii.org
+ 	install = deal-ii.install
+ 	arch = i686
+ 	arch = x86_64
+ 	license = LGPL
+ 	makedepends = cmake
+ 	depends = boost
++	depends = kokkos
+ 	optdepends = adol-c: automatic differentiation library
+ 	optdepends = arpack: Fortran77 subroutines designed to solve large scale eigenvalue problems
+ 	optdepends = assimp: Library to import various well-known 3D model formats in an uniform manner
+diff --git a/PKGBUILD b/PKGBUILD
+index 4925a4c..e395338 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -7,9 +7,9 @@ pkgver=9.5.0
+ pkgrel=1
+ pkgdesc="An Open Source Finite Element Differential Equations Analysis Library"
+ arch=("i686" "x86_64")
+-url="http://www.dealii.org/"
++url="https://dealii.org"
+ license=('LGPL')
+-depends=('boost')
++depends=('boost' 'kokkos')
+ optdepends=(
+       # adol-c is not compatible with Trilinos - if both are installed then deal.II will use Trilinos
+       'adol-c: automatic differentiation library'
+-- 
+2.41.0
+
