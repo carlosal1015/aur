@@ -1,22 +1,16 @@
 # Copyleft (c) June, 2023, Oromion.
 
-FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
+FROM ghcr.io/carlosal1015/aur/trilinos AS trilinos
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
-
-# ARG OPT_PACKAGES="\
-#   suitesparse \
-#   "
+COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-# ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
-
-ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
+ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Enable-trilinos.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -25,13 +19,10 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-kokkos.patch && \
+  git am --signoff < 0001-Enable-trilinos.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/deal-ii && \
   mv *.pkg.tar.zst ~/.cache/yay/deal-ii
-
-# yay --noconfirm -S ${OPT_PACKAGES} && \
-# makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
 
 FROM archlinux:base-devel
 
@@ -56,9 +47,7 @@ ARG PACKAGES="\
   git \
   "
 
-# suitesparse \
-
-COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 

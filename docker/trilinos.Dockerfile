@@ -2,9 +2,9 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG OPT_PACKAGES="\
-  hdf5-openmpi \
-  "
+# ARG OPT_PACKAGES="\
+#   hdf5-openmpi \
+#   "
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Bump-trilinos-version-to-14.2.0.patch"
 
@@ -13,7 +13,6 @@ ARG AUR_PACKAGES="\
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd trilinos && \
   git config --global user.email github-actions@github.com && \
@@ -24,6 +23,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   mkdir -p ~/.cache/yay/trilinos && \
   mv *.pkg.tar.zst ~/.cache/yay/trilinos
 
+# yay --noconfirm -S ${OPT_PACKAGES} && \
 # makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
 
 FROM archlinux:base-devel
@@ -47,15 +47,16 @@ USER gitpod
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-ARG PACKAGES="\
-  hdf5-openmpi \
-  "
+# ARG PACKAGES="\
+#   hdf5-openmpi \
+#   "
+
+# sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
 
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
-  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name 'trilinos-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
