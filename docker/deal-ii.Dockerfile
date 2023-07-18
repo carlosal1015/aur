@@ -28,9 +28,11 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.name github-actions && \
   curl -O ${PREECICE_PATCH} && \
   git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/deal-ii && \
   mv *.pkg.tar.zst ~/.cache/yay/deal-ii
+
+# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -57,7 +59,7 @@ ARG PACKAGES="\
 
 # suitesparse \
 
-COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
