@@ -1,37 +1,36 @@
 # Copyleft (c) June, 2023, Oromion.
 
-FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
+# FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+# COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 
-# ARG OPT_PACKAGES="\
-#   suitesparse \
-#   "
+ARG OPT_PACKAGES="\
+  suitesparse \
+  "
 
 ARG AUR_PACKAGES="\
   deal-ii \
   "
 
-# ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
 
-ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
+# ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
+
+# sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  yay --noconfirm -S ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd deal-ii && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-Add-kokkos.patch && \
-  makepkg -s --noconfirm && \
+  curl -O ${PREECICE_PATCH} && \
+  git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/deal-ii && \
   mv *.pkg.tar.zst ~/.cache/yay/deal-ii
-
-# yay --noconfirm -S ${OPT_PACKAGES} && \
-# makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
 
 FROM archlinux:base-devel
 
