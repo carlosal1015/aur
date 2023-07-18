@@ -6,25 +6,14 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 #   hdf5-openmpi \
 #   "
 
-ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Bump-trilinos-version-to-14.2.0.patch"
-
 ARG AUR_PACKAGES="\
   trilinos \
   "
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
-  yay -G ${AUR_PACKAGES} && \
-  cd trilinos && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${PATCH} && \
-  git am --signoff < 0001-Bump-trilinos-version-to-14.2.0.patch && \
-  makepkg -s --noconfirm && \
-  mkdir -p ~/.cache/yay/trilinos && \
-  mv *.pkg.tar.zst ~/.cache/yay/trilinos
-
 # yay --noconfirm -S ${OPT_PACKAGES} && \
-# makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+
+RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
