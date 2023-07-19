@@ -16,9 +16,6 @@ ARG AUR_PACKAGES="\
 
 ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
 
-# ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-kokkos.patch"
-
-
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --noconfirm -S ${OPT_PACKAGES} && \
@@ -30,9 +27,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/deal-ii && \
-  mv *.pkg.tar.zst ~/.cache/yay/deal-ii
-
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  mv *.pkg.tar.zst ~/.cache/yay/deal-ii 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -55,9 +50,9 @@ USER gitpod
 ARG PACKAGES="\
   cmake \
   git \
+  suitesparse \
   "
 
-# suitesparse \
 
 COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
