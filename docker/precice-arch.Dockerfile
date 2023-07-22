@@ -77,7 +77,6 @@ ARG PACKAGES="\
   python-sphinx-furo \
   python-setuptools \
   python-pkgconfig \
-  openssh \
   tree \
   imagemagick \
   "

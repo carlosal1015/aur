@@ -14,7 +14,7 @@ jobs:
     container: archlinux:base-devel
     env:
       URL: "https://github.com/precice/PreCICE.jl.git"
-      PACKAGES: "openssh precice-git julia"
+      PACKAGES: "precice-git julia"
       JULIA_NUM_THREADS: "$(nproc)"
       GPG_KEY: "8C43C00BA8F06ECA"
     steps:

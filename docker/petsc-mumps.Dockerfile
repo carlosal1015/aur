@@ -13,7 +13,6 @@ COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  openssh \
   petsc \
   "
 

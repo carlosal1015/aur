@@ -7,7 +7,6 @@ ARG OPT_PACKAGES="\
   "
 
 ARG AUR_PACKAGES="\
-  openssh \
   petsc \
   "
 
