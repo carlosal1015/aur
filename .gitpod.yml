@@ -1,0 +1,23 @@
+image:
+  file: docker/Dockerfile
+
+tasks:
+  - name: Echo username
+    command: |
+      mkdir -p ~/.ssh &&
+      [[ ! -z $SSH_CONFIG  ]] &&
+      echo $SSH_CONFIG | base64 -d > ~/.ssh/config &&
+      chmod 644 ~/.ssh/config
+      [[ ! -z $SSH_PUBLIC_KEY  ]] &&
+      echo $SSH_PUBLIC_KEY > ~/.ssh/aur.pub &&
+      chmod 644 ~/.ssh/aur.pub &&
+      [[ ! -z $SSH_PRIVATE_KEY  ]] &&
+      echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/aur &&
+      chmod 600 ~/.ssh/aur
+
+# Find more https://open-vsx.org
+vscode:
+  extensions:
+    - Gruntfuggly.todo-tree
+    - bungcip.better-toml
+    - ms-azuretools.vscode-docker
