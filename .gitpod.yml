@@ -17,6 +17,10 @@ tasks:
       git config --global user.name "Carlos Aznarán Laos"
       git config --global user.email "caznaranl@uni.pe"
 
+  - name: aur-out-of-date
+    command: |
+      aur-out-of-date -user carlosal1015 | tee -a carlosal1015-status.log
+
 # Find more https://open-vsx.org
 vscode:
   extensions:
