@@ -39,6 +39,7 @@ ARG PACKAGES="\
   jq \
   nvchecker \
   openssh \
+  pacman-contrib \
   python-packaging \
   ttf-fira-code \
   zsh \
