@@ -37,6 +37,7 @@ ARG PACKAGES="\
   docker \
   git-crypt \
   jq \
+  namcap \
   nvchecker \
   openssh \
   pacman-contrib \
