@@ -1,4 +1,4 @@
-# Copyleft (c) June, 2023, Oromion.
+# Copyleft (c) July, 2023, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
