@@ -1,0 +1,51 @@
+From b2736f322066f033ff4034d7849acc273a4ba4ec Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n=20Laos?= <caznaranl@uni.pe>
+Date: Sun, 30 Jul 2023 13:17:12 -0500
+Subject: [PATCH] Enable python bindings
+
+---
+ PKGBUILD | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 073d5b7..9666730 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -6,12 +6,13 @@
+ 
+ pkgname=libisl
+ pkgver=0.26
+-pkgrel=1
++pkgrel=2
+ pkgdesc='Library for manipulating sets and relations of integer points bounded by linear constraints'
+ arch=('x86_64')
+ url='https://libisl.sourceforge.io'
+ license=('MIT')
+-depends=('gmp')
++depends=('gmp' 'python')
++makedepends=('llvm' 'clang')
+ provides=('isl' 'libisl.so')
+ replaces=('isl')
+ options=(staticlibs)
+@@ -20,7 +21,7 @@ b2sums=('2cfe2e0774a991d2385e66f58490c5454382cabc82d74eb4bbe5a603293b7bdc34ca3b0
+ 
+ build() {
+   cd "${srcdir}"/${pkgname#lib}-${pkgver}
+-  ./configure --prefix=/usr
++  ./configure --prefix=/usr --with-clang=system
+   make
+ }
+ 
+@@ -34,6 +35,9 @@ package() {
+ 
+   make DESTDIR="${pkgdir}" install
+ 
++  local _sitepackages=$(python -c "import site; print(site.getsitepackages()[0])")
++  install -Dm644 interface/${pkgname#lib}.py -t "${pkgdir}${_sitepackages}"
++
+   install -dm755 "${pkgdir}"/usr/share/gdb/auto-load/usr/lib/
+   mv "${pkgdir}"/usr/lib/libisl.so.*-gdb.py "${pkgdir}"/usr/share/gdb/auto-load/usr/lib/
+ 
+-- 
+2.41.0
+
