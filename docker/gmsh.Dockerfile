@@ -1,12 +1,14 @@
 # Copyleft (c) December, 2023, Oromion.
 
 FROM ghcr.io/carlosal1015/aur/ann AS ann
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/voropp AS voropp
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=ann /tmp/ann++-*.pkg.tar.zst /tmp/
+COPY --from=ann /tmp/ann-*.pkg.tar.zst /tmp/
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=voropp /tmp/voro++-*.pkg.tar.zst /tmp/
 
@@ -16,9 +18,7 @@ ARG AUR_PACKAGES="\
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES}
-
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -38,7 +38,8 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=ann /tmp/ann++-*.pkg.tar.zst /tmp/
+COPY --from=ann /tmp/ann-*.pkg.tar.zst /tmp/
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=voropp /tmp/voro++-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/

@@ -1,5 +1,6 @@
 # Copyleft (c) December, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
@@ -14,6 +15,7 @@ FROM ghcr.io/carlosal1015/aur/openfoam-com AS openfoam-com
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
@@ -87,6 +89,7 @@ ADD ${ALIAS} /home/gitpod/
 
 ARG GPG_KEY="8C43C00BA8F06ECA"
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/

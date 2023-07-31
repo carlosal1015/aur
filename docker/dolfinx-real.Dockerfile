@@ -1,5 +1,6 @@
 # Copyleft (c) December, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
@@ -10,6 +11,7 @@ FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
@@ -44,6 +46,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
