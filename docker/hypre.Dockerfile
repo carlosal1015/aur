@@ -2,14 +2,14 @@
 
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
-FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
+FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
 FROM ghcr.io/carlosal1015/aur/superlu_dist AS superlu_dist
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
@@ -40,7 +40,7 @@ USER gitpod
 
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/hypre/*.pkg.tar.zst /tmp/

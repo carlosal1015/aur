@@ -9,7 +9,8 @@ openfoam-com
 openfoam-com-git
 openfoam-org
 p4est-deal-ii
-parmetis
+#parmetis
+parmetis-git
 pastix
 petsc
 petsc-complex

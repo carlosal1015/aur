@@ -2,7 +2,7 @@
 
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
-FROM ghcr.io/carlosal1015/aur/parmetis AS parmetis
+FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
 FROM ghcr.io/carlosal1015/aur/basix AS basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
@@ -14,7 +14,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
@@ -50,7 +50,7 @@ USER gitpod
 
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=parmetis /tmp/parmetis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
