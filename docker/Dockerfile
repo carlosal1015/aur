@@ -2,10 +2,9 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   aur-out-of-date \
+  pkgbuild-language-server \
   "
-
-# hadolint \
-
+# hadolint
 RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
