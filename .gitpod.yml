@@ -16,7 +16,6 @@ tasks:
       chmod 600 ~/.ssh/aur
       git config --global user.name "Carlos Aznarán Laos"
       git config --global user.email "caznaranl@uni.pe"
-      zsh
 
   - name: aur-out-of-date
     command: |
