@@ -55,3 +55,5 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+
+ENV SHELL=/usr/bin/zsh
