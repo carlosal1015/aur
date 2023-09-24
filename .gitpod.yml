@@ -14,7 +14,7 @@ tasks:
       [[ ! -z $SSH_PRIVATE_KEY  ]] &&
       echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/aur &&
       chmod 600 ~/.ssh/aur
-      git config --global user.name "Carlos Aznarán Laos"
+      git config --global user.name "Carlos Aznarán"
       git config --global user.email "caznaranl@uni.pe"
 
   # - name: aur-out-of-date
