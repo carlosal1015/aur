@@ -10,7 +10,7 @@ ARG AUR_PACKAGES="\
   petsc-complex \
   "
 
-ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/0e2ffde796512c2587e7ccd97ba055fdd2de2964/0001-Add-support-for-OpenCL.patch"
+ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/8b78d1ab489aa6016732b5862101539b11b76683/0001-Add-support-for-OpenCL.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
@@ -20,10 +20,10 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
   git am --signoff < 0001-Add-support-for-OpenCL.patch && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/petsc-complex && \
   mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
-# yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+# yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
