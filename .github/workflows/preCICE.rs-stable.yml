@@ -42,7 +42,7 @@ jobs:
 
       - name: Run Rust bindings's tests for preCICE
         run: |
-          pushd ~/.cargo/registry/src/github.com-*/precice-${VERSION}
+          pushd ~/.cargo/registry/src/index.crates.io-*/precice-${VERSION}
           cargo run --release --example=solverdummy -- examples/precice-config.xml SolverOne &
           cargo run --release --example=solverdummy -- examples/precice-config.xml SolverTwo
           popd
