@@ -5,7 +5,7 @@ ARG AUR_PACKAGES="\
   pkgbuild-language-server \
   "
 # hadolint
-RUN yay --noconfirm --noprogressbar -Syyuq ${AUR_PACKAGES}
+RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
@@ -47,7 +47,7 @@ ARG PACKAGES="\
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo systemctl enable docker && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \

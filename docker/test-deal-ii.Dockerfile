@@ -6,7 +6,7 @@ ARG AUR_PACKAGES="\
   numdiff \
   "
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM ghcr.io/carlosal1015/aur/deal-ii:latest
@@ -19,7 +19,7 @@ ARG PACKAGES="\
   valgrind \
   "
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman -S --needed --noconfirm --noprogressbar ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \

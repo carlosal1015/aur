@@ -8,7 +8,7 @@ ARG CORE_PACKAGES="\
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/libisl-python-bindings.patch"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -G ${CORE_PACKAGES} && \
   cd libisl && \
   git config --global user.email github-actions@github.com && \

@@ -12,7 +12,7 @@ ARG AUR_PACKAGES="\
 
 ARG PATCH="https://gist.githubusercontent.com/carlosal1015/0dfb20b96d1ab7464d3b11a2259b744d/raw/6724e6ec0b57d71296dcd2aaef05575dfa40c96d/0001-Add-support-for-OpenCL.patch"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGES} && \
   cd petsc-complex && \
@@ -53,7 +53,7 @@ ARG PACKAGES="\
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \

@@ -1,12 +1,23 @@
 # Copyleft (c) December, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
+FROM ghcr.io/carlosal1015/aur/metis AS metis
+FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
+FROM ghcr.io/carlosal1015/aur/superlu_dist AS superlu_dist
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   petsc \
   "
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syyuq && \
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
+COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
+
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --noconfirm -S ${AUR_PACKAGES}
 
 #2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
@@ -29,13 +40,17 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
+COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syyuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
