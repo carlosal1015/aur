@@ -26,6 +26,8 @@ ARG AUR_PACKAGES="\
   dolfinx \
   "
 
+ENV SLEPC_DIR=/opt/slepc/linux-c-opt
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay --noconfirm -S ${AUR_PACKAGES}
