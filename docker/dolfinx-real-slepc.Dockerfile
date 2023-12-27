@@ -1,32 +1,32 @@
 # Copyleft (c) December, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
+FROM ghcr.io/carlosal1015/aur/metis AS metis
+FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
-FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
-FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
-FROM ghcr.io/carlosal1015/aur/python-ufl AS python-ufl
-FROM ghcr.io/carlosal1015/aur/python-ffc AS python-ffc
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
-FROM ghcr.io/carlosal1015/aur/slepc AS slepc
+FROM ghcr.io/carlosal1015/aur/basix AS basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
+FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
+FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
-COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
-COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
-COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
-COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-COPY --from=slepc /tmp/slepc-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
-  dolfin \
+  dolfinx \
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES}
-  
-#2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -46,13 +46,14 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
-COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
-COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
-COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
-COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-COPY --from=slepc /tmp/slepc-*.pkg.tar.zst /tmp/
+COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
+COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
