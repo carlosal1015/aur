@@ -1,10 +1,14 @@
 # Copyleft (c) December, 2023, Oromion.
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
+FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/pastix AS pastix
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=pastix /tmp/pastix-*.pkg.tar.zst /tmp/
 
@@ -34,6 +38,8 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=pastix /tmp/pastix-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
