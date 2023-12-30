@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion.
+# Copyleft (c) December, 2023, Oromion
 
 FROM ghcr.io/carlosal1015/aur/basix AS basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix

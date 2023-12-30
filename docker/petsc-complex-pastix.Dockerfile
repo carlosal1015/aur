@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion.
+# Copyleft (c) December, 2023, Oromion
 
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib

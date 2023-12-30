@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion.
+# Copyleft (c) December, 2023, Oromion
 
 FROM ghcr.io/carlosal1015/aur/triangle AS triangle
 

@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion.
+# Copyleft (c) December, 2023, Oromion
 
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
 FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
