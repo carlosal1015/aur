@@ -24,7 +24,6 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/petsc-complex && \
   mv *.pkg.tar.zst ~/.cache/yay/petsc-complex
-# yay --noconfirm -S ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
 
