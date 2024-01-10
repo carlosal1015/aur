@@ -34,7 +34,6 @@ petsc-complex
 petsc-git
 #petsc-mumps
 #petsc-suitesparse
-python-etils
 #python-fenics-plotly
 scalapack
 scotch
