@@ -1,60 +1,63 @@
-From 03734dd4c9192b70fd36db0cf979292803b0d612 Mon Sep 17 00:00:00 2001
+From 98cc16c7e12aaec0c24059dcaa5081920567470c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Sat, 30 Dec 2023 23:42:25 -0500
+Date: Wed, 10 Jan 2024 14:36:52 -0500
 Subject: [PATCH] Add support for OpenCL
 
 ---
- .SRCINFO           |  4 +++-
- PKGBUILD           |  6 ++++--
+ .SRCINFO           |  5 ++++-
+ PKGBUILD           |  8 ++++++--
  test_optdepends.sh | 11 +++++++++++
- 3 files changed, 18 insertions(+), 3 deletions(-)
+ 3 files changed, 21 insertions(+), 3 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index 8911b1e..d8d24b0 100644
+index 0b24a23..7f13060 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
-@@ -31,12 +31,14 @@ pkgbase = petsc-complex
+@@ -31,12 +31,15 @@ pkgbase = petsc-complex
  	optdepends = suitesparse: support for the suitesparse sparse matrix libraries
  	optdepends = valgrind: support for valgrind to help find memory-management problems in programs
  	optdepends = libyaml: support for YAML-formatted file
 +	optdepends = opencl-headers: support for OpenCL
 +	optdepends = ocl-icd: support for OpenCL
++	optdepends = sundials: for CVODE solver support
  	provides = petsc=3.20.3
  	conflicts = petsc
  	options = staticlibs
  	source = https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-lite-3.20.3.tar.gz
  	source = test_optdepends.sh
  	sha512sums = 912538850eeaf6d78c090438f8198963cd787ef7ff3bbc841719b08fc738c7b20b7955850baacca4eada4a97b113492b9111d35afa33918ec52123e2f1a73f9b
--	sha512sums = b943a7add71dcc80fd8a68671398f4d5e70554b5bdba6199c440333ef6bbb4aa02cbdda5ab89f25b72389a5e3151a3c55878c0ad945c2a5769265a5601a0f90e
-+	sha512sums = 8db72595bef055aa96c1fea1b1c3b83334c05f1fca46c93944874fe17a20f976c8e14cef47692dd432c5c64601f9ea86bf2df2efe2637ecad0043afcf7963662
+-	sha512sums = 68bed9f836bf362b5d528af040afc2c572e87c43fac716d257862bcba06401a212adeec1fb84080a352831c22b968c9da65aa3eb5ef9e44be38ee0c0897c4b8d
++	sha512sums = f256044863abdf8f91d7d084c1df1a2d3487324f9f0b90709531b966d2881098d204af540fc3026647f0fb4116662ad2ffae042368d98a074eda60813767726b
  
  pkgname = petsc-complex
 diff --git a/PKGBUILD b/PKGBUILD
-index 49e61af..a1f00b8 100644
+index bb37ca9..9f8ff13 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
-@@ -39,12 +39,14 @@ optdepends=('trilinos: support for zoltan'
+@@ -39,12 +39,16 @@ optdepends=('trilinos: support for zoltan'
    'triangle: support for the two-dimensional quality mesh generator and Delaunay triangulator'
    'suitesparse: support for the suitesparse sparse matrix libraries'
    'valgrind: support for valgrind to help find memory-management problems in programs'
 -  'libyaml: support for YAML-formatted file')
 +  'libyaml: support for YAML-formatted file'
 +  'opencl-headers: support for OpenCL'
-+  'ocl-icd: support for OpenCL') # 'sundials: for CVODE solver support'
++  'ocl-icd: support for OpenCL'
++  'sundials: for CVODE solver support')
++
  install=${_base}.install
  source=(https://web.cels.anl.gov/projects/${_base}/download/release-snapshots/${_base}-lite-${pkgver}.tar.gz
    test_optdepends.sh)
  sha512sums=('912538850eeaf6d78c090438f8198963cd787ef7ff3bbc841719b08fc738c7b20b7955850baacca4eada4a97b113492b9111d35afa33918ec52123e2f1a73f9b'
--            'b943a7add71dcc80fd8a68671398f4d5e70554b5bdba6199c440333ef6bbb4aa02cbdda5ab89f25b72389a5e3151a3c55878c0ad945c2a5769265a5601a0f90e')
-+  '8db72595bef055aa96c1fea1b1c3b83334c05f1fca46c93944874fe17a20f976c8e14cef47692dd432c5c64601f9ea86bf2df2efe2637ecad0043afcf7963662')
+-  '68bed9f836bf362b5d528af040afc2c572e87c43fac716d257862bcba06401a212adeec1fb84080a352831c22b968c9da65aa3eb5ef9e44be38ee0c0897c4b8d')
++  'f256044863abdf8f91d7d084c1df1a2d3487324f9f0b90709531b966d2881098d204af540fc3026647f0fb4116662ad2ffae042368d98a074eda60813767726b')
  
  _install_dir=/opt/${_base}/${_config}
  _petsc_arch=arch-${_config}
 diff --git a/test_optdepends.sh b/test_optdepends.sh
-index 8076cc2..95380d0 100644
+index af84472..9c7a52c 100644
 --- a/test_optdepends.sh
 +++ b/test_optdepends.sh
-@@ -119,4 +119,15 @@ if [ -f "/usr/lib/libyaml.so" ]; then
+@@ -120,4 +120,15 @@ if [ -f "/usr/lib/libyaml.so" ]; then
  	CONFOPTS="${CONFOPTS} --with-yaml=1"
  fi
  
