@@ -12,12 +12,14 @@ jobs:
     container: ghcr.io/carlosal1015/aur/test-deal-ii:latest
     env:
       URL: "https://github.com/dealii/dealii"
-      TAG: "v9.3.3"
+      TAG: "v9.5.1"
     steps:
       - name: Copy the examples from latest stable deal.II code
         run: |
-          mkdir -p dealii/examples
-          cp -R /usr/share/deal-ii/examples/* dealii/examples
+          git config --global advice.detachedHead false
+          git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
+          # mkdir -p dealii/examples
+          # cp -R /usr/share/deal-ii/examples/* dealii/examples
 
       - name: Run 79 examples
         run: |
