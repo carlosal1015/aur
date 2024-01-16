@@ -26,11 +26,23 @@ ARG AUR_PACKAGES="\
   dolfinx \
   "
 
+ENV PETSC_DIR=/opt/petsc/linux-c-opt
 ENV SLEPC_DIR=/opt/slepc/linux-c-opt
+ENV PYTHONPATH=${PYTHONPATH}:${PETSC_DIR}/lib:${SLEPC_DIR}/lib
+
+ARG PATCH="https://raw.githubusercontent.com/cpp-review-dune/introductory-review/main/src/Docker/0001-Check-env.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES}
+  git config --global user.email github-actions@github.com && \
+  git config --global user.name github-actions && \
+  yay -G ${AUR_PACKAGES} && \
+  cd dolfinx && \
+  curl -O ${PATCH} && \
+  git am --signoff <0001-Enable-python-bindings.patch && \
+  makepkg -s --noconfirm && \
+  mkdir -p ~/.cache/yay/dolfinx && \
+  mv *.pkg.tar.zst ~/.cache/yay/dolfinx
 
 # 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
