@@ -30,7 +30,7 @@ ENV PETSC_DIR=/opt/petsc/linux-c-opt
 ENV SLEPC_DIR=/opt/slepc/linux-c-opt
 ENV PYTHONPATH=${PYTHONPATH}:${PETSC_DIR}/lib:${SLEPC_DIR}/lib
 
-ARG PATCH="https://raw.githubusercontent.com/cpp-review-dune/introductory-review/main/src/Docker/0001-Check-env.patch"
+ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Check-env.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
