@@ -44,6 +44,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
 
+
 # 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
