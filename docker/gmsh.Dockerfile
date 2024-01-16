@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion
+# Copyleft (c) January, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/ann AS ann
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib

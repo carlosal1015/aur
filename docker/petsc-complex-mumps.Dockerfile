@@ -1,4 +1,4 @@
-# Copyleft (c) December, 2023, Oromion
+# Copyleft (c) January, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/scalapack AS scalapack
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
