@@ -1,6 +1,10 @@
 # Copyleft (c) December, 2023, Oromion
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   metis \
@@ -28,6 +32,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
