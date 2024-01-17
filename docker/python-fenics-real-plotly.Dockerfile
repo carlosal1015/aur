@@ -19,7 +19,7 @@ COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
-COPY --from=python-dolfin-real /tmp/python-dolfin-real-*.pkg.tar.zst /tmp/
+COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-plotly /tmp/python-plotly-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
@@ -60,7 +60,7 @@ COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
-COPY --from=python-dolfin-real /tmp/python-dolfin-real-*.pkg.tar.zst /tmp/
+COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-plotly /tmp/python-plotly-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
