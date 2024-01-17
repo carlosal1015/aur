@@ -41,7 +41,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -G ${AUR_PACKAGES} && \
   cd dolfinx && \
   curl -O ${PATCH} && \
-  git am --signoff <0001-Check-env.patch && \
+  git am --signoff <0001-Add-env.patch && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
