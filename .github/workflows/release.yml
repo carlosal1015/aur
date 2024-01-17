@@ -53,6 +53,19 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/deal-ii-*-x86_64.pkg.tar.zst /work
 
+      - name: DOLFINx (real)
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          image: ghcr.io/carlosal1015/aur/dolfinx-real:latest
+          options: -v ${{github.workspace}}:/work
+          shell: bash
+          run: |
+            sudo chown -R 33333:33333 /work
+            mv /tmp/dolfinx-*-x86_64.pkg.tar.zst /work
+
       - name: GKlib
         uses: addnab/docker-run-action@v3
         with:
