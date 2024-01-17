@@ -8,6 +8,7 @@ FROM ghcr.io/carlosal1015/aur/basix AS basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
 FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
+FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/slepc AS slepc
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
@@ -20,15 +21,16 @@ COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=slepc /tmp/slepc-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGES="\
   dolfinx \
   "
 
-ENV PETSC_DIR=/opt/petsc/linux-c-opt
-ENV SLEPC_DIR=/opt/slepc/linux-c-opt
-ENV PYTHONPATH=${PYTHONPATH}:${PETSC_DIR}/lib:${SLEPC_DIR}/lib
+# ENV PETSC_DIR=/opt/petsc/linux-c-opt
+# ENV SLEPC_DIR=/opt/slepc/linux-c-opt
+# ENV PYTHONPATH=${PYTHONPATH}:${PETSC_DIR}/lib:${SLEPC_DIR}/lib
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Check-env.patch"
 
@@ -43,7 +45,6 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
-
 
 # 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
@@ -73,6 +74,7 @@ COPY --from=basix /tmp/basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
+COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=slepc /tmp/slepc-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
