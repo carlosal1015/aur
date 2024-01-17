@@ -1,0 +1,55 @@
+From e2653ca8a7fec8c3a32cd6003b2455acdff84e24 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Tue, 16 Jan 2024 23:10:02 -0500
+Subject: [PATCH] Add env
+
+---
+ .SRCINFO | 2 +-
+ PKGBUILD | 8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/.SRCINFO b/.SRCINFO
+index 2c44b74..de6ee9e 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -1,7 +1,7 @@
+ pkgbase = dolfinx
+ 	pkgdesc = Next generation FEniCS problem solving environment
+ 	pkgver = 0.7.3
+-	pkgrel = 1
++	pkgrel = 2
+ 	url = https://github.com/FEniCS/dolfinx
+ 	arch = x86_64
+ 	license = LGPL3
+diff --git a/PKGBUILD b/PKGBUILD
+index f03a655..e4c4e1c 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -2,7 +2,7 @@
+ pkgname=dolfinx
+ pkgdesc="Next generation FEniCS problem solving environment"
+ pkgver=0.7.3
+-pkgrel=1
++pkgrel=2
+ arch=(x86_64)
+ url="https://github.com/FEniCS/${pkgname}"
+ license=(LGPL3)
+@@ -41,9 +41,15 @@ check() {
+     export OMPI_MCA_opal_warn_on_missing_libcuda=0
+   fi
+ 
++  export
++
+   ffcx ${pkgname}-${pkgver}/cpp/test/poisson.py -o ${pkgname}-${pkgver}/cpp/test
+   DESTDIR="${PWD}/tmp_install" cmake --build build --target install
+ 
++  export PETSC_DIR=/opt/petsc/linux-c-opt
++  export SLEPC_DIR=/opt/slepc/linux-c-opt
++  env
++
+   CMAKE_PREFIX_PATH="${srcdir}/tmp_install/usr/lib/cmake/${pkgname}" cmake \
+     -S ${pkgname}-${pkgver}/cpp/test \
+     -B build_test
+-- 
+2.43.0
+
