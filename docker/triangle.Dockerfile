@@ -2,10 +2,10 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGE="triangle"
+ARG AUR_PACKAGE="archimedes-tools"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
-  yay -G ${AUR_PACKAGE} && \
+  git clone https://aur.archlinux.org/${AUR_PACKAGE}.git && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
