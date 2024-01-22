@@ -12,11 +12,11 @@ COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGE="openfoam-org"
+ARG AUR_PACKAGE="openfoam"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay -G ${AUR_PACKAGE} && \
+  git clone https://aur.archlinux.org/${AUR_PACKAGE}.git && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
