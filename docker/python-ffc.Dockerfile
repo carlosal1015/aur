@@ -1,17 +1,24 @@
 # Copyleft (c) January, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
+FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
+FROM ghcr.io/carlosal1015/aur/python-ufl AS python-ufl
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGE="python-ffc"
 
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
-
-#2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -31,6 +38,9 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=python-dijitso /tmp/python-dijitso-*.pkg.tar.zst /tmp/
+COPY --from=python-fiat /tmp/python-fiat-*.pkg.tar.zst /tmp/
+COPY --from=python-ufl /tmp/python-ufl-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
