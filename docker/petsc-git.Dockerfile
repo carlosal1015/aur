@@ -20,12 +20,9 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
-  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE} && \
-  ls -lR /tmp/makepkg
-
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
 
 FROM archlinux:base-devel
 
@@ -51,7 +48,7 @@ COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
-COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
+COPY --from=build /tmp/makepkg/petsc-git/src/petsc/linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
