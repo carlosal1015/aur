@@ -45,6 +45,7 @@ COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=pastix /tmp/pastix-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
+COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \

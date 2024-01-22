@@ -48,6 +48,7 @@ COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
+COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
