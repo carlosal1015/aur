@@ -1,15 +1,23 @@
 # Copyleft (c) January, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/gklib AS gklib
+FROM ghcr.io/carlosal1015/aur/metis AS metis
+FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
+FROM ghcr.io/carlosal1015/aur/superlu_dist AS superlu_dist
+FROM ghcr.io/carlosal1015/aur/hypre AS hypre
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG OPT_PACKAGES="\
-  parmetis-git \
-  "
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
+COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
+COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="petsc-git"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
-  yay --noconfirm -S ${OPT_PACKAGES} && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm && \
@@ -36,6 +44,11 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
+COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
+COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
+COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
+COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
