@@ -2,13 +2,11 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGE="\
-  petsc \
-  "
+ARG AUR_PACKAGE="petsc"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -G ${AUR_PACKAGE} && \
-  makepkg --noconfirm -s  2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  makepkg --noconfirm -s 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
