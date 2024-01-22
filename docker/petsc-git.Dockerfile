@@ -22,7 +22,8 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
-  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
+  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE} && \
+  ls -lR /tmp/makepkg
 
 # 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
