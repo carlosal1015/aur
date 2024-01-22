@@ -2,9 +2,7 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGE="\
-  petsc \
-  "
+ARG AUR_PACKAGE="petsc"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -G ${AUR_PACKAGE} && \
