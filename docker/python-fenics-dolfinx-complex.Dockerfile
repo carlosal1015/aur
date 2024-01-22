@@ -24,13 +24,15 @@ COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfinx-complex /tmp/dolfinx-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGES="\
-  python-fenics-dolfinx \
-  "
+ARG AUR_PACKAGE="python-fenics-dolfinx"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay -G ${AUR_PACKAGE} && \
+  cd ${AUR_PACKAGE} && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
+  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
 
 FROM archlinux:base-devel
 

@@ -24,9 +24,7 @@ COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=slepc /tmp/slepc-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGES="\
-  dolfinx \
-  "
+ARG AUR_PACKAGE="dolfinx"
 
 # ENV PETSC_DIR=/opt/petsc/linux-c-opt
 # ENV SLEPC_DIR=/opt/slepc/linux-c-opt
@@ -38,15 +36,13 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
-  yay -G ${AUR_PACKAGES} && \
+  yay -G ${AUR_PACKAGE} && \
   cd dolfinx && \
   curl -O ${PATCH} && \
   git am --signoff <0001-Add-env.patch && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
-
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 

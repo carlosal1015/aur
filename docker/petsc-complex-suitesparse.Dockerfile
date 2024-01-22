@@ -6,13 +6,15 @@ ARG OPT_PACKAGES="\
   suitesparse \
   "
 
-ARG AUR_PACKAGES="\
-  petsc-complex \
-  "
+ARG AUR_PACKAGE="petsc-complex"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay --noconfirm -S ${OPT_PACKAGES} && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay -G ${AUR_PACKAGE} && \
+  cd ${AUR_PACKAGE} && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
+  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
 
 FROM archlinux:base-devel
 

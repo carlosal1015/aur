@@ -2,22 +2,20 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG CORE_PACKAGES="\
-  libisl \
-  "
+ARG CORE_PACKAGE="libisl"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/libisl-python-bindings.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
-  yay -G ${CORE_PACKAGES} && \
+  yay -G ${CORE_PACKAGE} && \
   cd libisl && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
   git am --signoff < libisl-python-bindings.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  mkdir -p ~/.cache/yay/libisl && \
-  mv *.pkg.tar.zst ~/.cache/yay/libisl
+  mkdir -p ~/.cache/yay/${CORE_PACKAGE} && \
+  mv *.pkg.tar.zst ~/.cache/yay/${CORE_PACKAGE}
 
 FROM archlinux:base-devel
 

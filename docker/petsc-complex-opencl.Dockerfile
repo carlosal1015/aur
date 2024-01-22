@@ -7,15 +7,13 @@ ARG OPT_PACKAGES="\
   opencl-headers \
   "
 
-ARG AUR_PACKAGES="\
-  petsc-complex \
-  "
+ARG AUR_PACKAGE="petsc-complex"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-support-for-OpenCL.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay --noconfirm -S ${OPT_PACKAGES} && \
-  yay -G ${AUR_PACKAGES} && \
+  yay -G ${AUR_PACKAGE} && \
   cd petsc-complex && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
