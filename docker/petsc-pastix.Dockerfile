@@ -12,7 +12,7 @@ COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=pastix /tmp/pastix-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGE="petsc-complex"
+ARG AUR_PACKAGE="petsc"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
