@@ -40,9 +40,11 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   cd dolfinx && \
   curl -O ${PATCH} && \
   git am --signoff <0001-Add-env.patch && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  makepkg -s --noconfirm && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
+
+# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
