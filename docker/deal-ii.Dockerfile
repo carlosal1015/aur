@@ -12,7 +12,7 @@ ARG OPT_PACKAGES="\
 
 ARG AUR_PACKAGE="deal-ii"
 
-ARG PREECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PRECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -21,7 +21,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   cd ${AUR_PACKAGE} && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
-  curl -O ${PREECICE_PATCH} && \
+  curl -O ${PRECICE_PATCH} && \
   git am --signoff < 0001-Enable-options-for-work-with-preCICE.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \

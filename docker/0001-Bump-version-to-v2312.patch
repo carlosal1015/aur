@@ -1,0 +1,74 @@
+From 9e27ed6f4aac32d5ebf537540acd63f396ce01b7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Tue, 23 Jan 2024 10:41:11 -0500
+Subject: [PATCH] Bump version to v2312
+
+---
+ .SRCINFO |  8 ++++----
+ PKGBUILD | 18 ++++++++----------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
+
+diff --git a/.SRCINFO b/.SRCINFO
+index b4736f2..75b0bb4 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -1,8 +1,8 @@
+ pkgbase = openfoam-com
+ 	pkgdesc = The open source CFD toolbox (www.openfoam.com)
+-	pkgver = v2306
++	pkgver = v2312
+ 	pkgrel = 1
+-	url = http://www.openfoam.com
++	url = https://www.openfoam.com
+ 	install = openfoam-com.install
+ 	arch = i686
+ 	arch = x86_64
+@@ -16,7 +16,7 @@ pkgbase = openfoam-com
+ 	depends = utf8cpp
+ 	depends = scotch
+ 	depends = parmetis
+-	source = https://dl.openfoam.com/source/v2306/OpenFOAM-v2306.tgz
+-	md5sums = 236c87f9ba7640a0b3fd78171f50158a
++	source = https://dl.openfoam.com/source/v2312/OpenFOAM-v2312.tgz
++	md5sums = da71a03f29bf731152a071eaafc056d9
+ 
+ pkgname = openfoam-com
+diff --git a/PKGBUILD b/PKGBUILD
+index 69eb65b..7e034ea 100755
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -7,23 +7,21 @@
+ # Contributor: Carlos Aznarán <caznaranl@uni.pe>
+ 
+ # Installs as (for example)
+-# /opt/OpenFOAM/OpenFOAM-v2306
++# /opt/OpenFOAM/OpenFOAM-v2312
+ 
+-pkgname=openfoam-com
+-pkgver=v2306
+ _distname=OpenFOAM
++pkgname=${_distname,,}-com
++pkgver=v2312
+ _dist=$_distname-$pkgver
+ pkgrel=1
+ pkgdesc="The open source CFD toolbox (www.openfoam.com)"
+-arch=('i686' 'x86_64')
+-url="http://www.openfoam.com"
+-license=('GPL3')
++arch=(i686 x86_64)
++url="https://www.openfoam.com"
++license=(GPL3)
+ install="${pkgname}.install"
+ depends=('gcc' 'cgal' 'fftw' 'boost' 'openmpi' 'paraview' 'utf8cpp' 'scotch' 'parmetis')
+-
+-source=('https://dl.openfoam.com/source/v2306/OpenFOAM-v2306.tgz')
+-
+-md5sums=('236c87f9ba7640a0b3fd78171f50158a')
++source=(https://dl.${_distname,,}.com/source/${pkgver}/${_dist}.tgz)
++md5sums=('da71a03f29bf731152a071eaafc056d9')
+ 
+ prepare() {
+   if [ -n "$WM_PROJECT_DIR" ]
+-- 
+2.43.0
+

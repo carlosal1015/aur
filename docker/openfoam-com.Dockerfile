@@ -14,10 +14,16 @@ COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="openfoam-com"
 
+ARG OPENFOAM_PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Bump-version-to-v2312.patch"
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
+  git config --global user.email github-actions@github.com && \
+  git config --global user.name github-actions && \
+  curl -O ${OPENFOAM_PATCH} && \
+  git am --signoff < 0001-Bump-version-to-v2312.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
