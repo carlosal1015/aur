@@ -14,6 +14,8 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   curl -O ${PATCH} && \
   git am --signoff < libisl-python-bindings.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  sudo pacman --noconfirm --noprogressbar -S namcap && \
+  namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/${CORE_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${CORE_PACKAGE}
 

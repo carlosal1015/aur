@@ -41,6 +41,8 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   curl -O ${PATCH} && \
   git am --signoff <0001-Add-env.patch && \
   makepkg -s --noconfirm && \
+  sudo pacman --noconfirm --noprogressbar -S namcap && \
+  namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
 
