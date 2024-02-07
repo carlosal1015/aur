@@ -18,6 +18,16 @@ jobs:
         run: |
           echo "::set-output name=release_tag::$(date -u +"%Y-%m-%d" --date='5 hours ago')"
 
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 40000
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+
       - name: ann
         uses: addnab/docker-run-action@v3
         with:

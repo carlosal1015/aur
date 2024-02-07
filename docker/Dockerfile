@@ -5,6 +5,7 @@ ARG AUR_PACKAGES="\
   pkgbuild-language-server \
   "
 # hadolint
+
 RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES}
 
 FROM archlinux:base-devel
