@@ -1,3 +1,5 @@
+# Copyleft (c) February, 2024, Oromion
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\

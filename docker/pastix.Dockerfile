@@ -1,4 +1,4 @@
-# Copyleft (c) January, 2024, Oromion
+# Copyleft (c) February, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
