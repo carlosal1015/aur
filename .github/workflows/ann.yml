@@ -60,3 +60,12 @@ jobs:
           annotations: true
           severity_threshold: HIGH
           dockerfile: ./docker/ann.Dockerfile
+
+
+      - name:
+        uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          owner: carlosal1015
+          name: ann
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1
