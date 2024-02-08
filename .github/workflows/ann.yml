@@ -67,5 +67,5 @@ jobs:
         with:
           owner: carlosal1015
           name: ann
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.CR_PAT }}
           untagged-keep-latest: 1
