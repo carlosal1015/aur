@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/superlu_dist:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/superlu_dist.Dockerfile

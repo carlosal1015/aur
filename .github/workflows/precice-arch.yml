@@ -56,4 +56,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/precice-arch:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/precice-arch.Dockerfile

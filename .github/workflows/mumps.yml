@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/mumps:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/mumps.Dockerfile

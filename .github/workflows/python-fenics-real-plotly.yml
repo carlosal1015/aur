@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/python-fenics-real-plotly:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/python-fenics-real-plotly.Dockerfile

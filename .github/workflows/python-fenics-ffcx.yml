@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/python-fenics-ffcx:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/python-fenics-ffcx.Dockerfile

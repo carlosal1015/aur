@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/zoltan:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/zoltan.Dockerfile

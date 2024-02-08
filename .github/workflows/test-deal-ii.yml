@@ -49,4 +49,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/test-deal-ii:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/test-deal-ii.Dockerfile

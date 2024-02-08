@@ -58,4 +58,5 @@ jobs:
         with:
           image: ghcr.io/carlosal1015/aur/petsc-complex-opencl:latest
           annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/petsc-complex-opencl.Dockerfile
