@@ -61,11 +61,10 @@ jobs:
           severity_threshold: HIGH
           dockerfile: ./docker/ann.Dockerfile
 
-
-      - name:
+      - name: Prune untagged images
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: carlosal1015
-          name: ann
-          token: ${{ secrets.CR_PAT }}
+          name: aur/ann
+          token: ${{ secrets.PAT }}
           untagged-keep-latest: 1
