@@ -60,3 +60,12 @@ jobs:
           annotations: true
           severity_threshold: HIGH
           dockerfile: ./docker/petsc-complex-fftw.Dockerfile
+
+      - name: Prune untagged images
+        uses: lazyfrosch/ghcr-delete-image-action@main
+        with:
+          owner: carlosal1015
+          name: aur/petsc-complex-fftw
+          is_user: true
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1

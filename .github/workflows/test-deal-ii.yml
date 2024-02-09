@@ -51,3 +51,12 @@ jobs:
           annotations: true
           severity_threshold: HIGH
           dockerfile: ./docker/test-deal-ii.Dockerfile
+
+      - name: Prune untagged images
+        uses: lazyfrosch/ghcr-delete-image-action@main
+        with:
+          owner: carlosal1015
+          name: aur/test-deal-ii
+          is_user: true
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1

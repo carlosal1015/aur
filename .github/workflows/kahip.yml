@@ -60,3 +60,12 @@ jobs:
           annotations: true
           severity_threshold: HIGH
           dockerfile: ./docker/kahip.Dockerfile
+
+      - name: Prune untagged images
+        uses: lazyfrosch/ghcr-delete-image-action@main
+        with:
+          owner: carlosal1015
+          name: aur/kahip
+          is_user: true
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1

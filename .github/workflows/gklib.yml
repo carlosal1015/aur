@@ -57,5 +57,15 @@ jobs:
         uses: crazy-max/ghaction-container-scan@v3
         with:
           image: ghcr.io/carlosal1015/aur/gklib:latest
-          gklibotations: true
+          annotations: true
+          severity_threshold: HIGH
           dockerfile: ./docker/gklib.Dockerfile
+
+      - name: Prune untagged images
+        uses: lazyfrosch/ghcr-delete-image-action@main
+        with:
+          owner: carlosal1015
+          name: aur/gklib
+          is_user: true
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1

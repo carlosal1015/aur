@@ -60,3 +60,12 @@ jobs:
           annotations: true
           severity_threshold: HIGH
           dockerfile: ./docker/petsc-complex-triangle.Dockerfile
+
+      - name: Prune untagged images
+        uses: lazyfrosch/ghcr-delete-image-action@main
+        with:
+          owner: carlosal1015
+          name: aur/petsc-complex-triangle
+          is_user: true
+          token: ${{ secrets.PAT }}
+          untagged-keep-latest: 1
