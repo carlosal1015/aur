@@ -62,9 +62,10 @@ jobs:
           dockerfile: ./docker/ann.Dockerfile
 
       - name: Prune untagged images
-        uses: bots-house/ghcr-delete-image-action@v1.1.0
+        uses: lazyfrosch/ghcr-delete-image-action@main
         with:
           owner: carlosal1015
           name: aur/ann
+          is_user: true
           token: ${{ secrets.PAT }}
           untagged-keep-latest: 1
