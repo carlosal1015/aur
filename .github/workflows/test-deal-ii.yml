@@ -59,4 +59,4 @@ jobs:
           name: aur/test-deal-ii
           is_user: true
           token: ${{ secrets.PAT }}
-          untagged-keep-latest: 1
+          untagged-keep-latest: 2
