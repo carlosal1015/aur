@@ -5,7 +5,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 ARG AUR_PACKAGE="archimedes-tools"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
-  git clone https://aur.archlinux.org/${AUR_PACKAGE}.git && \
+  git clone https://aur.archlinux.org/$AUR_PACKAGE.git && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
