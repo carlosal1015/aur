@@ -8,14 +8,14 @@ ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/libisl
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   yay -G ${CORE_PACKAGE} && \
-  cd libisl && \
+  cd ${CORE_PACKAGE} && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
   git am --signoff < libisl-python-bindings.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
-  namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
+  namcap ${CORE_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/${CORE_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${CORE_PACKAGE}
 
