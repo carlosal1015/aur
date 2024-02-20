@@ -14,8 +14,8 @@ jobs:
     container: archlinux:base-devel
     env:
       PACKAGES: "precice cargo"
-      GPG_KEY: "8C43C00BA8F06ECA"
-      VERSION: "3.0.0"
+      GPG_KEY: "2403871B121BD8BB"
+      VERSION: "3.0.1"
     steps:
       - name: Add Third-Party repository
         run: |

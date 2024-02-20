@@ -15,7 +15,7 @@ jobs:
     env:
       URL: "https://github.com/precice/rust-bindings.git"
       PACKAGES: "precice-git cargo"
-      GPG_KEY: "8C43C00BA8F06ECA"
+      GPG_KEY: "2403871B121BD8BB"
     steps:
       - name: Add Third-Party repository
         run: |
