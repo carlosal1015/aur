@@ -8,7 +8,7 @@ ARG AUR_PACKAGES="\
   "
 # hadolint
 
-RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES}
+RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
 
 FROM archlinux:base-devel
 
@@ -50,7 +50,7 @@ ARG PACKAGES="\
 
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo systemctl enable docker && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \

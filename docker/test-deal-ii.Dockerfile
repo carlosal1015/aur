@@ -4,7 +4,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGE="numdiff"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
@@ -21,7 +21,7 @@ ARG PACKAGES="\
   valgrind \
   "
 
-RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
+RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman -S --needed --noconfirm --noprogressbar ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \

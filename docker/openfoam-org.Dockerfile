@@ -15,7 +15,7 @@ COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 ARG AUR_PACKAGE="openfoam"
 ARG _AUR_PACKAGE="openfoam-org"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   git clone https://aur.archlinux.org/$AUR_PACKAGE.git && \
   cd ${AUR_PACKAGE} && \
@@ -53,7 +53,7 @@ COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name '*.log' ! -name 'openfoam-org-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \

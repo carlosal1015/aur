@@ -10,7 +10,7 @@ ARG AUR_PACKAGE="petsc-complex"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-support-for-OpenCL.patch"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   yay -S --noconfirm ${OPT_PACKAGES} && \
   yay -G ${AUR_PACKAGE} && \
   cd petsc-complex && \
@@ -53,7 +53,7 @@ ARG PACKAGES="\
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name '*.log' ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \

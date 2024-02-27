@@ -32,7 +32,7 @@ ARG AUR_PACKAGE="dolfinx"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Add-env.patch"
 
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
@@ -82,7 +82,7 @@ COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
-  sudo pacman --needed --noconfirm --noprogressbar -Syuq && \
+  sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   find /tmp/ ! -name '*.log' ! -name 'dolfinx-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
