@@ -40,11 +40,13 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   cd dolfinx && \
   curl -O ${PATCH} && \
   git am --signoff <0001-Add-env.patch && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  makepkg -s --noconfirm && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/dolfinx && \
   mv *.pkg.tar.zst ~/.cache/yay/dolfinx
+
+# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
