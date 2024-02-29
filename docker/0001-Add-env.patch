@@ -1,15 +1,15 @@
-From e2653ca8a7fec8c3a32cd6003b2455acdff84e24 Mon Sep 17 00:00:00 2001
+From 678ad59dbfba9074b8be1fb76bbc38eceb0dcb86 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Tue, 16 Jan 2024 23:10:02 -0500
+Date: Thu, 29 Feb 2024 16:38:50 -0500
 Subject: [PATCH] Add env
 
 ---
  .SRCINFO | 2 +-
- PKGBUILD | 8 +++++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ PKGBUILD | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index 2c44b74..de6ee9e 100644
+index 813eb5f..a818f8e 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
 @@ -1,7 +1,7 @@
@@ -20,9 +20,9 @@ index 2c44b74..de6ee9e 100644
 +	pkgrel = 2
  	url = https://github.com/FEniCS/dolfinx
  	arch = x86_64
- 	license = LGPL3
+ 	license = LGPL-3.0-or-later
 diff --git a/PKGBUILD b/PKGBUILD
-index f03a655..e4c4e1c 100644
+index 837e73c..008be0f 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -2,7 +2,7 @@
@@ -33,13 +33,8 @@ index f03a655..e4c4e1c 100644
 +pkgrel=2
  arch=(x86_64)
  url="https://github.com/FEniCS/${pkgname}"
- license=(LGPL3)
-@@ -41,9 +41,15 @@ check() {
-     export OMPI_MCA_opal_warn_on_missing_libcuda=0
-   fi
- 
-+  export
-+
+ license=(LGPL-3.0-or-later GPL-3.0-or-later)
+@@ -40,6 +40,10 @@ check() {
    ffcx ${pkgname}-${pkgver}/cpp/test/poisson.py -o ${pkgname}-${pkgver}/cpp/test
    DESTDIR="${PWD}/tmp_install" cmake --build build --target install
  
@@ -51,5 +46,5 @@ index f03a655..e4c4e1c 100644
      -S ${pkgname}-${pkgver}/cpp/test \
      -B build_test
 -- 
-2.43.0
+2.44.0
 

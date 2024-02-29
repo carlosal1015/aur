@@ -121,7 +121,5 @@ RUN sudo pacman-key --init && \
   sudo chown gitpod:gitpod ${HOME}/.alias && \
   echo 'source ${HOME}/.alias' >> ~/.zshrc
 
-ENV OMPI_MCA_opal_warn_on_missing_libcuda=0
-
 ENTRYPOINT [ "/bin/zsh" ]
 CMD ["-l"]

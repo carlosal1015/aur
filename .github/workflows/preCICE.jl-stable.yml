@@ -42,6 +42,5 @@ jobs:
       - name: Run Julialang bindings's tests for preCICE
         run: |
           pushd ~/.julia/packages/PreCICE/*/test
-          if [ -z "$(ldconfig -p | grep libcuda.so.1)" ]; then export OMPI_MCA_opal_warn_on_missing_libcuda=0 ; fi
           make && julia runtests.jl
           popd
