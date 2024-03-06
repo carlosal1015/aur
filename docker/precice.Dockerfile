@@ -36,7 +36,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=voropp /tmp/precice-*.pkg.tar.zst /tmp/
+COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
