@@ -1,24 +1,29 @@
 # Copyleft (c) March, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/fast_float AS fast_float
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=fast_float /tmp/fast_float-*.pkg.tar.zst /tmp/
 
 ARG CORE_PACKAGE="vtk"
 
 ARG PATCH="https://gitlab.archlinux.org/carlosal1015/vtk/-/commit/b4e6d72cf01a14ef686b6d47543f6027b990889c.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${CORE_PACKAGE} && \
   cd ${CORE_PACKAGE} && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
   git am --signoff < b4e6d72cf01a14ef686b6d47543f6027b990889c.patch && \
-  makepkg -s --noconfirm && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${CORE_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/${CORE_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${CORE_PACKAGE}
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
