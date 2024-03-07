@@ -1,5 +1,5 @@
 # Copyleft (c) March, 2024, Oromion
 
-FROM ghcr.io/carlosal1015/aur/precice-arch:latest
+FROM ghcr.io/carlosal1015/aur/precice:latest
 
 USER root

@@ -62,7 +62,7 @@ jobs:
           dockerfile: ./docker/openfoam-org.Dockerfile
 
       - name: Prune untagged images
-        uses: lazyfrosch/ghcr-delete-image-action@main
+        uses: carlosal1015/ghcr-delete-image-action@main
         with:
           owner: carlosal1015
           name: aur/openfoam-org
