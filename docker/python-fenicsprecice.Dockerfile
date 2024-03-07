@@ -9,6 +9,7 @@ FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/dolfin-real AS dolfin-real
 FROM ghcr.io/carlosal1015/aur/python-dolfin-real AS python-dolfin-real
 FROM ghcr.io/carlosal1015/aur/precice AS precice
+FROM ghcr.io/carlosal1015/aur/python-pyprecice AS python-pyprecice
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
@@ -21,6 +22,7 @@ COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
 COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
+COPY --from=python-pyprecice /tmp/python-pyprecice-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="python-fenicsprecice"
 
@@ -61,6 +63,7 @@ COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
 COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
+COPY --from=python-pyprecice /tmp/python-pyprecice-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 

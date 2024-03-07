@@ -4,7 +4,7 @@ FROM ghcr.io/carlosal1015/aur/fast_float AS fast_float
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=fast_float /tmp/fast_float-*.pkg.tar.zst /tmp/
+COPY --from=fast_float /tmp/fast_float-*-any.pkg.tar.zst /tmp/
 
 ARG CORE_PACKAGE="vtk"
 
