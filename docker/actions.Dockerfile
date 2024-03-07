@@ -3,6 +3,7 @@
 FROM ghcr.io/carlosal1015/aur/precice:latest
 
 ARG PACKAGES="\
+  cython \
   git \
   imagemagick \
   python-pkgconfig \
