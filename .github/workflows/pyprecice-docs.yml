@@ -13,9 +13,11 @@ jobs:
     env:
       URL: "https://github.com/precice/python-bindings"
       TAG: "v3.0.0.0"
+      PACKAGES: "cython git imagemagick python-pkgconfig python-setuptools python-sphinx-furo tree"
     steps:
       - name: Build html
         run: |
+          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1
           git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           pushd python-bindings
