@@ -16,18 +16,19 @@ jobs:
       PACKAGES: "cargo"
       GPG_KEY: "2403871B121BD8BB"
       VERSION: "3.0.1"
+      CARGOFLAG: "--release"
     steps:
       - name: Install Rust bindings for preCICE
         run: |
           pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1
-          pacman -Qi ${PACKAGES}
+          pacman -Qi ${PACKAGES} precice
           cargo init
           cargo add precice@${VERSION::3}
-          cargo build --release --all-targets
+          cargo build ${CARGOFLAG} --all-targets
 
       - name: Run Rust bindings's tests for preCICE
         run: |
           pushd ~/.cargo/registry/src/index.crates.io-*/precice-${VERSION}
-          cargo run --release --example=solverdummy -- examples/precice-config.xml SolverOne &
-          cargo run --release --example=solverdummy -- examples/precice-config.xml SolverTwo
+          cargo run ${CARGOFLAG} --example=solverdummy -- examples/precice-config.xml SolverOne &
+          cargo run ${CARGOFLAG} --example=solverdummy -- examples/precice-config.xml SolverTwo
           popd
