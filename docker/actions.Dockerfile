@@ -4,6 +4,7 @@ FROM ghcr.io/carlosal1015/aur/precice:latest
 
 ARG PACKAGES="\
   git \
+  python-sphinx-furo \
   "
 
 RUN sudo pacman-key --init && \
