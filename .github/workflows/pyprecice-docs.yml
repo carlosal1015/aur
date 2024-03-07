@@ -29,11 +29,11 @@ jobs:
           PYTHONPATH="${PWD}/build/lib.linux-${CARCH}-cpython-${_pyversion}:${PYTHONPATH}" make html
           popd
 
-      # sed -i '/import os/,+3 s/^# //' source/conf.py
-      # sed -i '8 a import os' source/conf.py
-      # sed -i '9 a import sys' source/conf.py
-      # sed -i "10 a sys.path.insert(0, os.path.abspath('.'))" source/conf.py
-      # sed -i '/extensions =/a \ \ "sphinx.ext.autodoc"' source/conf.py
+          # sed -i '/import os/,+3 s/^# //' source/conf.py
+          # sed -i '8 a import os' source/conf.py
+          # sed -i '9 a import sys' source/conf.py
+          # sed -i "10 a sys.path.insert(0, os.path.abspath('.'))" source/conf.py
+          # sed -i '/extensions =/a \ \ "sphinx.ext.autodoc"' source/conf.py
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
