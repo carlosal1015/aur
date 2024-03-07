@@ -4,7 +4,11 @@ FROM ghcr.io/carlosal1015/aur/precice:latest
 
 ARG PACKAGES="\
   git \
+  imagemagick \
+  python-pkgconfig \
+  python-setuptools \
   python-sphinx-furo \
+  tree \
   "
 
 RUN sudo pacman-key --init && \
