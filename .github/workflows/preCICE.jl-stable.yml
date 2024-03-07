@@ -11,28 +11,12 @@ on:
 jobs:
   test_bindings:
     runs-on: ubuntu-22.04
-    container: archlinux:base-devel
+    container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       URL: "https://github.com/precice/PreCICE.jl.git"
-      PACKAGES: "precice julia"
+      PACKAGES: "julia"
       JULIA_NUM_THREADS: "$(nproc)"
-      GPG_KEY: "2403871B121BD8BB"
     steps:
-      - name: Add Third-Party repository
-        run: |
-          ln -s /usr/share/zoneinfo/America/Lima /etc/localtime
-          sed -i 's/^#Color/Color/' /etc/pacman.conf
-          sed -i '/#CheckSpace/a ILoveCandy' /etc/pacman.conf
-          sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 30/' /etc/pacman.conf
-          sed -i 's/^VerbosePkgLists/#VerbosePkgLists/' /etc/pacman.conf
-          sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
-          pacman-key --init
-          pacman-key --populate archlinux
-          pacman-key --recv-keys ${GPG_KEY}
-          pacman-key --finger ${GPG_KEY}
-          pacman-key --lsign-key ${GPG_KEY}
-          echo -e '\n[dune-archiso-repository-core]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/repository/dune-archiso-repository-core/$arch\n[precice-arch]\nSigLevel = Required DatabaseOptional\nServer = https://dune-archiso.gitlab.io/testing/precice-arch/$arch\n' | tee -a /etc/pacman.conf
-
       - name: Install Julialang bindings for preCICE
         run: |
           pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1

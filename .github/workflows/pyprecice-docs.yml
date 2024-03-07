@@ -13,7 +13,7 @@ jobs:
     env:
       URL: "https://github.com/precice/python-bindings"
       TAG: "v3.0.0.0"
-      PACKAGES: "cython git imagemagick python-pkgconfig python-setuptools python-sphinx-furo tree"
+      PACKAGES: "cython git python-pkgconfig python-setuptools python-sphinx-furo"
     steps:
       - name: Build html
         run: |
@@ -30,7 +30,6 @@ jobs:
           sphinx-apidoc -o source . # ./*setup* ./*test*
           PYTHONPATH="${PWD}/build/lib.linux-${CARCH}-cpython-${_pyversion}:${PYTHONPATH}" make html
           popd
-
           # sed -i '/import os/,+3 s/^# //' source/conf.py
           # sed -i '8 a import os' source/conf.py
           # sed -i '9 a import sys' source/conf.py
