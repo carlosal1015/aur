@@ -87,7 +87,7 @@ ARG ALIAS="https://raw.githubusercontent.com/precice/vm/main/provisioning/.alias
 
 ADD ${ALIAS} /home/gitpod/
 
-ARG GPG_KEY="8C43C00BA8F06ECA"
+ARG GPG_KEY="2403871B121BD8BB"
 
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/

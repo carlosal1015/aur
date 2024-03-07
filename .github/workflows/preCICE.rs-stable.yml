@@ -14,7 +14,6 @@ jobs:
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       PACKAGES: "cargo"
-      GPG_KEY: "2403871B121BD8BB"
       VERSION: "3.0.1"
       CARGOFLAG: "--release"
     steps:
@@ -28,7 +27,7 @@ jobs:
 
       - name: Run Rust bindings's tests for preCICE
         run: |
-          pushd ~/.cargo/registry/src/index.crates.io-*/precice-${VERSION}
-          cargo run ${CARGOFLAG} --example=solverdummy -- examples/precice-config.xml SolverOne &
-          cargo run ${CARGOFLAG} --example=solverdummy -- examples/precice-config.xml SolverTwo
+          pushd ~/.cargo/registry/src/index.crates.io-*/precice-${VERSION}/examples
+          cargo run ${CARGOFLAG} --example=solverdummy -- precice-config.xml SolverOne &
+          cargo run ${CARGOFLAG} --example=solverdummy -- precice-config.xml SolverTwo
           popd
