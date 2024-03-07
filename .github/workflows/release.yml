@@ -77,7 +77,7 @@ jobs:
           shell: bash
           run: |
             sudo chown -R 33333:33333 /work
-            mv /tmp/fast_float-*-x86_64.pkg.tar.zst /work
+            mv /tmp/fast_float-*-any.pkg.tar.zst /work
 
       - name: GKlib
         uses: addnab/docker-run-action@v3

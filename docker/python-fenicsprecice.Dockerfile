@@ -22,7 +22,7 @@ COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
 COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGE="python-pyprecice"
+ARG AUR_PACKAGE="python-fenicsprecice"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -69,6 +69,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  find /tmp/ ! -name '*.log' ! -name 'python-pyprecice-*.pkg.tar.zst' -type f -exec rm -f {} + && \
+  find /tmp/ ! -name '*.log' ! -name 'python-fenicsprecice-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
