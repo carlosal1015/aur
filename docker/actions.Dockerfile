@@ -12,6 +12,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman -Scc <<< Y <<< Y && \
-  sudo rm -r /var/lib/pacman/sync/* && \
+  sudo rm -r /var/lib/pacman/sync/*
 
 USER root
