@@ -1,23 +1,16 @@
 # Copyleft (c) March, 2024, Oromion
 
-FROM ghcr.io/carlosal1015/aur/scalapack AS scalapack
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
-FROM ghcr.io/carlosal1015/aur/gklib AS gklib
-FROM ghcr.io/carlosal1015/aur/metis AS metis
-FROM ghcr.io/carlosal1015/aur/mumps AS mumps
+FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/precice AS precice
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
-COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGE="petsc-complex"
+ARG AUR_PACKAGE="python-pyprecice"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
@@ -44,13 +37,9 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
-COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
-COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
-COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
-COPY --from=build /tmp/makepkg/petsc-complex/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
@@ -58,6 +47,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  find /tmp/ ! -name '*.log' ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \
+  find /tmp/ ! -name '*.log' ! -name 'python-pyprecice-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*

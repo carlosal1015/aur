@@ -42,5 +42,3 @@ RUN sudo pacman-key --init && \
   find /tmp/ ! -name '*.log' ! -name 'python-dijitso-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
-
-CMD ["/bin/bash"]
