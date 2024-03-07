@@ -11,6 +11,7 @@ COPY --from=precice /tmp/precice-*.pkg.tar.zst /tmp/
 ARG AUR_PACKAGE="python-pyprecice"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
