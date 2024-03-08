@@ -461,4 +461,4 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            *-x86_64.pkg.tar.zst
+            *-*.pkg.tar.zst
