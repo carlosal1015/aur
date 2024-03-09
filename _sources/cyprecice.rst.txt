@@ -1,0 +1,7 @@
+cyprecice module
+================
+
+.. automodule:: cyprecice
+   :members:
+   :undoc-members:
+   :show-inheritance:
