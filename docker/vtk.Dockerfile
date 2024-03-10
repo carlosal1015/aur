@@ -1,12 +1,17 @@
 # Copyleft (c) March, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/boost AS boost
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=boost /tmp/boost-*.pkg.tar.zst /tmp/
 
 ARG CORE_PACKAGE="vtk"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${CORE_PACKAGE} && \
   cd ${CORE_PACKAGE} && \
   git config --global user.email github-actions@github.com && \
