@@ -1,4 +1,4 @@
-name: Publish opencascade package from [core]
+name: Publish opencascade package from [extra]
 
 on:
   push:

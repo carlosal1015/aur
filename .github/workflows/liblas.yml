@@ -1,10 +1,10 @@
-name: Publish vtk package from [extra]
+name: Publish liblas package from [extra]
 
 on:
   push:
     branches: [main]
     paths:
-      - docker/vtk.Dockerfile
+      - docker/liblas.Dockerfile
   schedule:
     - cron: "0 2 * * 5"
 
@@ -46,26 +46,26 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./aur/docker/vtk.Dockerfile
+          file: ./aur/docker/liblas.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/carlosal1015/aur/vtk:latest
+          tags: ghcr.io/carlosal1015/aur/liblas:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@master
         with:
-          image: ghcr.io/carlosal1015/aur/vtk:latest
+          image: ghcr.io/carlosal1015/aur/liblas:latest
           annotations: true
           severity_threshold: HIGH
-          dockerfile: ./docker/vtk.Dockerfile
+          dockerfile: ./docker/liblas.Dockerfile
 
       - name: Prune untagged images
         uses: carlosal1015/ghcr-delete-image-action@main
         with:
           owner: carlosal1015
-          name: aur/vtk
+          name: aur/liblas
           is_user: true
           token: ${{ secrets.PAT }}
           untagged-keep-latest: 2

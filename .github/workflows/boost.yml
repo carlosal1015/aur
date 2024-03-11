@@ -1,4 +1,4 @@
-name: Publish boost package from [core]
+name: Publish boost package from [extra]
 
 on:
   push:
