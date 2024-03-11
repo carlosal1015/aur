@@ -2,18 +2,18 @@
 
 FROM ghcr.io/carlosal1015/aur/boost AS boost
 FROM ghcr.io/carlosal1015/aur/liblas AS liblas
-FROM ghcr.io/carlosal1015/aur/opencascade AS opencascade
+# FROM ghcr.io/carlosal1015/aur/opencascade AS opencascade
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=liblas /tmp/liblas-*.pkg.tar.zst /tmp/
 COPY --from=boost /tmp/boost-*.pkg.tar.zst /tmp/
-COPY --from=opencascade /tmp/opencascade-*.pkg.tar.zst /tmp/
+# COPY --from=opencascade /tmp/opencascade-*.pkg.tar.zst /tmp/
 
 ARG CORE_PACKAGE="vtk"
 
-# ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild.patch"
-ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild-after-opencascade-rebuil-without-VTK-s.patch"
+ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild.patch"
+# ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild-after-opencascade-rebuil-without-VTK-s.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -22,13 +22,13 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < 0001-Boost-rebuild-after-opencascade-rebuil-without-VTK-s.patch && \
-  makepkg -s --noconfirm && \
+  git am --signoff < 0001-Boost-rebuild.patch && \
+  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${CORE_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/${CORE_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${CORE_PACKAGE}
-# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
