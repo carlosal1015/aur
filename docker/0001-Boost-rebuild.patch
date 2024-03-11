@@ -1,15 +1,15 @@
-From 8238f6bd7c0e3bf0d188dedd9b54260bee344b4f Mon Sep 17 00:00:00 2001
+From d1996517c6a1c9b8dad339b0e4c2d944c27c47d4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Sun, 10 Mar 2024 11:06:31 -0500
+Date: Sun, 10 Mar 2024 20:29:25 -0500
 Subject: [PATCH] Boost rebuild
 
 ---
- .SRCINFO | 2 +-
- PKGBUILD | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .SRCINFO | 4 +---
+ PKGBUILD | 6 +++---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index 9719ded..0da1756 100644
+index 9719ded..92b4b11 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
 @@ -1,7 +1,7 @@
@@ -21,8 +21,24 @@ index 9719ded..0da1756 100644
  	url = https://www.vtk.org
  	arch = x86_64
  	license = BSD-3-Clause
+@@ -36,7 +36,6 @@ pkgbase = vtk
+ 	makedepends = lz4
+ 	makedepends = mariadb-libs
+ 	makedepends = netcdf
+-	makedepends = opencascade
+ 	makedepends = openimagedenoise
+ 	makedepends = openmp
+ 	makedepends = openmpi
+@@ -86,7 +85,6 @@ pkgbase = vtk
+ 	optdepends = lz4
+ 	optdepends = mariadb-libs
+ 	optdepends = netcdf
+-	optdepends = opencascade
+ 	optdepends = openimagedenoise
+ 	optdepends = openmpi: OpenMPI support
+ 	optdepends = openvdb
 diff --git a/PKGBUILD b/PKGBUILD
-index 9e8c317..ca358a8 100644
+index 9e8c317..5297ea7 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -8,7 +8,7 @@
@@ -34,6 +50,24 @@ index 9e8c317..ca358a8 100644
  pkgdesc="Software system for 3D computer graphics, image processing, and visualization"
  arch=(x86_64)
  url="https://www.vtk.org"
+@@ -53,7 +53,7 @@ makedepends=(
+   lz4
+   mariadb-libs
+   netcdf
+-  opencascade
++  # opencascade
+   openimagedenoise
+   openmp
+   openmpi
+@@ -101,7 +101,7 @@ optdepends=(
+   lz4
+   mariadb-libs
+   netcdf
+-  opencascade
++  # opencascade
+   openimagedenoise
+   'openmpi: OpenMPI support'
+   openvdb
 -- 
 2.44.0
 
