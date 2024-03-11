@@ -1,0 +1,39 @@
+From ab98e78ec8ef0b41524d3489cac95c056e357d1e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Sun, 10 Mar 2024 23:36:06 -0500
+Subject: [PATCH] Boost rebuild after opencascade rebuil without VTK support
+
+---
+ .SRCINFO | 2 +-
+ PKGBUILD | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.SRCINFO b/.SRCINFO
+index 9719ded..e9708c7 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -1,7 +1,7 @@
+ pkgbase = vtk
+ 	pkgdesc = Software system for 3D computer graphics, image processing, and visualization
+ 	pkgver = 9.3.0
+-	pkgrel = 10
++	pkgrel = 12
+ 	url = https://www.vtk.org
+ 	arch = x86_64
+ 	license = BSD-3-Clause
+diff --git a/PKGBUILD b/PKGBUILD
+index 9e8c317..27dbdd4 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -8,7 +8,7 @@
+ pkgname=vtk
+ # May need bootstrapping on upgrades due to circular vtk <-> opencascade dependency
+ pkgver=9.3.0
+-pkgrel=10
++pkgrel=12
+ pkgdesc="Software system for 3D computer graphics, image processing, and visualization"
+ arch=(x86_64)
+ url="https://www.vtk.org"
+-- 
+2.44.0
+
