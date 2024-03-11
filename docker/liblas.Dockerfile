@@ -1,12 +1,17 @@
 # Copyleft (c) March, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/boost AS boost
+
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+
+COPY --from=boost /tmp/boost-*.pkg.tar.zst /tmp/
 
 ARG CORE_PACKAGE="liblas"
 
 ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Boost-rebuild-for-liblas.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${CORE_PACKAGE} && \
   cd ${CORE_PACKAGE} && \
   git config --global user.email github-actions@github.com && \
@@ -37,6 +42,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=boost /tmp/boost-libs-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
