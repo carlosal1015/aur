@@ -1,0 +1,84 @@
+From 80f76f7d4bef3fb29b3833fd511032acc141879c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Sun, 10 Mar 2024 20:49:17 -0500
+Subject: [PATCH] Bump version to 7.8.0
+
+---
+ .SRCINFO |  7 +++----
+ PKGBUILD | 14 +++++++-------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/.SRCINFO b/.SRCINFO
+index 4e32398..51eb8ca 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -1,7 +1,7 @@
+ pkgbase = opencascade
+ 	pkgdesc = SDK intended for development of applications dealing with 3D CAD data
+-	pkgver = 7.7.2
+-	pkgrel = 5
++	pkgver = 7.8.0
++	pkgrel = 1
+ 	epoch = 1
+ 	url = https://www.opencascade.org
+ 	arch = x86_64
+@@ -29,8 +29,7 @@ pkgbase = opencascade
+ 	depends = freeimage
+ 	depends = gl2ps
+ 	depends = tk
+-	depends = vtk
+-	source = opencascade::git+https://git.dev.opencascade.org/repos/occt.git#commit=cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2
++	source = opencascade::git+https://git.dev.opencascade.org/repos/occt.git#commit=656b0d217fcc3f6611dfabc0206bd2d967ed5265
+ 	source = opencascade.sh
+ 	source = fix-cmake-variable.patch
+ 	source = skip-license-installation.patch
+diff --git a/PKGBUILD b/PKGBUILD
+index 232e0c6..deade71 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -7,8 +7,8 @@
+ # Contributor: Michele Mocciola <mickele>
+ 
+ pkgname=opencascade
+-pkgver=7.7.2
+-pkgrel=5
++pkgver=7.8.0
++pkgrel=1
+ epoch=1
+ pkgdesc='SDK intended for development of applications dealing with 3D CAD data'
+ arch=('x86_64')
+@@ -18,7 +18,7 @@ depends=(
+   'freeimage'
+   'gl2ps'
+   'tk'
+-  'vtk'
++  # 'vtk'
+ )
+ makedepends=(
+   'git'
+@@ -41,7 +41,7 @@ makedepends=(
+   'unixodbc'
+   'utf8cpp'
+ )
+-_commit='cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2'
++_commit='656b0d217fcc3f6611dfabc0206bd2d967ed5265'
+ source=(
+   "$pkgname::git+https://git.dev.opencascade.org/repos/occt.git#commit=$_commit"
+   'opencascade.sh'
+@@ -80,10 +80,10 @@ build() {
+     -D BUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
+     -D USE_FREEIMAGE=ON \
+     -D USE_FFMPEG=OFF \
+-    -D USE_VTK=ON \
++    -D USE_VTK=OFF \
+     -D USE_RAPIDJSON=ON \
+-    -D USE_TBB=OFF \
+-    -D 3RDPARTY_VTK_INCLUDE_DIR=/usr/include/vtk
++    -D USE_TBB=OFF
++    # -D 3RDPARTY_VTK_INCLUDE_DIR=/usr/include/vtk
+ 
+   cmake --build build
+ }
+-- 
+2.44.0
+
