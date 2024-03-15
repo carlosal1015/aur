@@ -1,12 +1,12 @@
-From 511826bc85f501181e503f42ecf467d44616f510 Mon Sep 17 00:00:00 2001
+From 7278b355c75f1148491e248c364f9180473d56a6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Fri, 15 Mar 2024 10:36:45 -0500
+Date: Fri, 15 Mar 2024 10:48:57 -0500
 Subject: [PATCH] Bump version to v2312
 
 ---
- .SRCINFO | 15 +++++----
- PKGBUILD | 92 +++++++++++++++++++++++++-------------------------------
- 2 files changed, 48 insertions(+), 59 deletions(-)
+ .SRCINFO | 15 +++++-----
+ PKGBUILD | 91 +++++++++++++++++++++++++-------------------------------
+ 2 files changed, 47 insertions(+), 59 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
 index b4736f2..3145984 100644
@@ -43,7 +43,7 @@ index b4736f2..3145984 100644
  
  pkgname = openfoam-com
 diff --git a/PKGBUILD b/PKGBUILD
-index 69eb65b..3ff7ea1 100755
+index 69eb65b..612d53c 100755
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -1,33 +1,30 @@
@@ -92,7 +92,7 @@ index 69eb65b..3ff7ea1 100755
      echo
      echo -e "\e[1m\e[5m\e[31mPlease make sure that no OpenFOAM version is sourced in bashrc.\e[0m"
      echo
-@@ -41,25 +38,27 @@ prepare() {
+@@ -41,25 +38,26 @@ prepare() {
  export WM_COMPILER_TYPE=system
  export WM_MPLIB=SYSTEMOPENMPI
  # End" \
@@ -115,7 +115,6 @@ index 69eb65b..3ff7ea1 100755
      -kahip kahip-system \
 -    -scotch scotch-system \
 +    -metis metis-system \
-+    -openmpi openmpi-system \
      -paraview paraview-system \
 +    -scotch scotch-system \
      ;
@@ -128,7 +127,7 @@ index 69eb65b..3ff7ea1 100755
      echo
      echo -e "\e[1m\e[5m\e[31mPlease make sure that no OpenFOAM version is sourced in bashrc.\e[0m"
      echo
-@@ -68,28 +67,23 @@ build() {
+@@ -68,28 +66,23 @@ build() {
  
    projectDir="${srcdir}/${_dist}"
    [ -f "$projectDir/etc/bashrc" ] || {
@@ -162,7 +161,7 @@ index 69eb65b..3ff7ea1 100755
    cd "$projectDir" || exit
  
    # Dummy application for testing
-@@ -105,27 +99,25 @@ build() {
+@@ -105,27 +98,25 @@ build() {
    #   lib   = 139 entries
  
    [ -f log.build ] || {
@@ -200,7 +199,7 @@ index 69eb65b..3ff7ea1 100755
  package() {
    cd ${srcdir}
  
-@@ -144,12 +136,10 @@ package() {
+@@ -144,12 +135,10 @@ package() {
    chmod -R 755 "${projectDir}"/bin
    chmod -R 755 "${projectDir}"/etc
  
