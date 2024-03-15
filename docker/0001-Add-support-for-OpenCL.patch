@@ -1,22 +1,22 @@
-From 8f615633fb0b7f4e8db82c296eab77e8f4f59be1 Mon Sep 17 00:00:00 2001
-From: github-actions <github-actions@github.com>
-Date: Sun, 3 Mar 2024 16:50:29 -0500
+From cd5433347eaddd062ac6b414132f2ebb28c9e54b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Fri, 15 Mar 2024 09:41:05 -0500
 Subject: [PATCH] Add support for OpenCL
 
 ---
  .SRCINFO           |  5 ++++-
- PKGBUILD           |  8 ++++++--
+ PKGBUILD           |  7 +++++--
  test_optdepends.sh | 11 +++++++++++
- 3 files changed, 21 insertions(+), 3 deletions(-)
+ 3 files changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index 9dc3597..3fdb8e9 100644
+index e21c15a..fbc8f65 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
-@@ -31,12 +31,15 @@ pkgbase = petsc-complex
- 	optdepends = suitesparse: support for the suitesparse sparse matrix libraries
+@@ -35,12 +35,15 @@ pkgbase = petsc-complex
+ 	optdepends = triangle: support for the two-dimensional quality mesh generator and Delaunay triangulator
  	optdepends = valgrind: support for valgrind to help find memory-management problems in programs
- 	optdepends = libyaml: support for YAML-formatted file
+ 	optdepends = zoltan: support for zoltan
 +	optdepends = opencl-headers: support for OpenCL
 +	optdepends = ocl-icd: support for OpenCL
 +	optdepends = sundials: for CVODE solver support
@@ -26,39 +26,38 @@ index 9dc3597..3fdb8e9 100644
  	source = https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-lite-3.20.5.tar.gz
  	source = test_optdepends.sh
  	sha512sums = 1e0ebdacbcc9db22dbe3803cbc13f5e0138d0412c328ff49cab024c839527c73b28983717104daf0858d482a8804b931c5c2bf20363c6b801d2be7d27219692f
--	sha512sums = 68bed9f836bf362b5d528af040afc2c572e87c43fac716d257862bcba06401a212adeec1fb84080a352831c22b968c9da65aa3eb5ef9e44be38ee0c0897c4b8d
-+	sha512sums = f256044863abdf8f91d7d084c1df1a2d3487324f9f0b90709531b966d2881098d204af540fc3026647f0fb4116662ad2ffae042368d98a074eda60813767726b
+-	sha512sums = 1a790c36b1bb6b6604b4fe35f3c7fba2d8f972e7fd3c6ac1273716bee490f4dded18990b9f4aedecbe609aa6ec3d2469d44c013e18ed5cf9a43f5703f2b59db8
++	sha512sums = c55744d4ede17b9c62502bb60e89cead58839cb72d7cf1c8225df3d5808324f0351e0eded61634ab9f78bad74491e185262fb23978fa6c27a0a5c5c1e8f65cbb
  
  pkgname = petsc-complex
 diff --git a/PKGBUILD b/PKGBUILD
-index dc76cfe..4ab5db1 100644
+index 56d0aa3..1db2cc2 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
-@@ -39,12 +39,16 @@ optdepends=('trilinos: support for zoltan'
+@@ -37,12 +37,15 @@ optdepends=('hypre: support for the hypre sparse system solver'
+   'superlu_dist: support for the superlu_dist sparse solver'
    'triangle: support for the two-dimensional quality mesh generator and Delaunay triangulator'
-   'suitesparse: support for the suitesparse sparse matrix libraries'
    'valgrind: support for valgrind to help find memory-management problems in programs'
--  'libyaml: support for YAML-formatted file')
-+  'libyaml: support for YAML-formatted file'
+-  'zoltan: support for zoltan')
++  'zoltan: support for zoltan'
 +  'opencl-headers: support for OpenCL'
 +  'ocl-icd: support for OpenCL'
-+  'sundials: for CVODE solver support'
-+)
++  'sundials: for CVODE solver support')
  install=${_base}.install
  source=(https://web.cels.anl.gov/projects/${_base}/download/release-snapshots/${_base}-lite-${pkgver}.tar.gz
    test_optdepends.sh)
  sha512sums=('1e0ebdacbcc9db22dbe3803cbc13f5e0138d0412c328ff49cab024c839527c73b28983717104daf0858d482a8804b931c5c2bf20363c6b801d2be7d27219692f'
--            '68bed9f836bf362b5d528af040afc2c572e87c43fac716d257862bcba06401a212adeec1fb84080a352831c22b968c9da65aa3eb5ef9e44be38ee0c0897c4b8d')
-+            'f256044863abdf8f91d7d084c1df1a2d3487324f9f0b90709531b966d2881098d204af540fc3026647f0fb4116662ad2ffae042368d98a074eda60813767726b')
+-  '1a790c36b1bb6b6604b4fe35f3c7fba2d8f972e7fd3c6ac1273716bee490f4dded18990b9f4aedecbe609aa6ec3d2469d44c013e18ed5cf9a43f5703f2b59db8')
++  'c55744d4ede17b9c62502bb60e89cead58839cb72d7cf1c8225df3d5808324f0351e0eded61634ab9f78bad74491e185262fb23978fa6c27a0a5c5c1e8f65cbb')
  
  _install_dir=/opt/${_base}/${_config}
  _petsc_arch=arch-${_config}
 diff --git a/test_optdepends.sh b/test_optdepends.sh
-index af84472..9c7a52c 100644
+index 11a0d3b..fe7ee1b 100644
 --- a/test_optdepends.sh
 +++ b/test_optdepends.sh
-@@ -120,4 +120,15 @@ if [ -f "/usr/lib/libyaml.so" ]; then
- 	CONFOPTS="${CONFOPTS} --with-yaml=1"
+@@ -98,4 +98,15 @@ if [ -f "/usr/lib/pkgconfig/valgrind.pc" ]; then
+ 	CONFOPTS="${CONFOPTS} --with-valgrind=1"
  fi
  
 +# Add OpenCL support
