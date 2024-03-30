@@ -1,22 +1,22 @@
-From 80f76f7d4bef3fb29b3833fd511032acc141879c Mon Sep 17 00:00:00 2001
+From 3841d0b695b2f31d104cfbb9be7b4afd10756d6c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Sun, 10 Mar 2024 20:49:17 -0500
+Date: Sat, 30 Mar 2024 17:01:24 -0500
 Subject: [PATCH] Bump version to 7.8.0
 
 ---
  .SRCINFO |  7 +++----
- PKGBUILD | 14 +++++++-------
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ PKGBUILD | 15 ++++++++-------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index 4e32398..51eb8ca 100644
+index 5dcef5e..51eb8ca 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
 @@ -1,7 +1,7 @@
  pkgbase = opencascade
  	pkgdesc = SDK intended for development of applications dealing with 3D CAD data
 -	pkgver = 7.7.2
--	pkgrel = 5
+-	pkgrel = 6
 +	pkgver = 7.8.0
 +	pkgrel = 1
  	epoch = 1
@@ -33,7 +33,7 @@ index 4e32398..51eb8ca 100644
  	source = fix-cmake-variable.patch
  	source = skip-license-installation.patch
 diff --git a/PKGBUILD b/PKGBUILD
-index 232e0c6..deade71 100644
+index 902b8d5..cc63b41 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -7,8 +7,8 @@
@@ -41,7 +41,7 @@ index 232e0c6..deade71 100644
  
  pkgname=opencascade
 -pkgver=7.7.2
--pkgrel=5
+-pkgrel=6
 +pkgver=7.8.0
 +pkgrel=1
  epoch=1
@@ -65,7 +65,7 @@ index 232e0c6..deade71 100644
  source=(
    "$pkgname::git+https://git.dev.opencascade.org/repos/occt.git#commit=$_commit"
    'opencascade.sh'
-@@ -80,10 +80,10 @@ build() {
+@@ -80,10 +80,11 @@ build() {
      -D BUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
      -D USE_FREEIMAGE=ON \
      -D USE_FFMPEG=OFF \
@@ -75,7 +75,8 @@ index 232e0c6..deade71 100644
 -    -D USE_TBB=OFF \
 -    -D 3RDPARTY_VTK_INCLUDE_DIR=/usr/include/vtk
 +    -D USE_TBB=OFF
-+    # -D 3RDPARTY_VTK_INCLUDE_DIR=/usr/include/vtk
++
++#-D 3RDPARTY_VTK_INCLUDE_DIR=/usr/include/vtk
  
    cmake --build build
  }
