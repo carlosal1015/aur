@@ -16,16 +16,10 @@ COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="openfoam-com"
 
-ARG OPENFOAM_PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Bump-version-to-v2312.patch"
-
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
-  git config --global user.email github-actions@github.com && \
-  git config --global user.name github-actions && \
-  curl -O ${OPENFOAM_PATCH} && \
-  git am --signoff < 0001-Bump-version-to-v2312.patch && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
