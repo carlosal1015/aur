@@ -1,22 +1,43 @@
-From b2736f322066f033ff4034d7849acc273a4ba4ec Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Carlos=20Aznar=C3=A1n=20Laos?= <caznaranl@uni.pe>
-Date: Sun, 30 Jul 2023 13:17:12 -0500
+From 013dec1efb136a89bb2d1c0dcacf542abdc37f94 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Fri, 3 May 2024 19:52:29 -0500
 Subject: [PATCH] Enable python bindings
 
 ---
+ .SRCINFO |  5 ++++-
  PKGBUILD | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/.SRCINFO b/.SRCINFO
+index 3e059d2..dca34d9 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -1,11 +1,14 @@
+ pkgbase = libisl
+ 	pkgdesc = Library for manipulating sets and relations of integer points bounded by linear constraints
+ 	pkgver = 0.26
+-	pkgrel = 2
++	pkgrel = 3
+ 	url = https://libisl.sourceforge.io
+ 	arch = x86_64
+ 	license = MIT
++	makedepends = llvm
++	makedepends = clang
+ 	depends = gmp
++	depends = python
+ 	provides = isl
+ 	provides = libisl.so
+ 	replaces = isl
 diff --git a/PKGBUILD b/PKGBUILD
-index 073d5b7..9666730 100644
+index 6391106..2690a76 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -6,12 +6,13 @@
  
  pkgname=libisl
  pkgver=0.26
--pkgrel=1
-+pkgrel=2
+-pkgrel=2
++pkgrel=3
  pkgdesc='Library for manipulating sets and relations of integer points bounded by linear constraints'
  arch=('x86_64')
  url='https://libisl.sourceforge.io'
@@ -47,5 +68,5 @@ index 073d5b7..9666730 100644
    mv "${pkgdir}"/usr/lib/libisl.so.*-gdb.py "${pkgdir}"/usr/share/gdb/auto-load/usr/lib/
  
 -- 
-2.41.0
+2.45.0
 
