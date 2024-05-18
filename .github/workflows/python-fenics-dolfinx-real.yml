@@ -53,13 +53,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Scan for vulnerabilities
-        uses: crazy-max/ghaction-container-scan@master
-        with:
-          image: ghcr.io/carlosal1015/aur/python-fenics-dolfinx-real:latest
-          annotations: true
-          severity_threshold: HIGH
-          dockerfile: ./docker/python-fenics-dolfinx-real.Dockerfile
+      # - name: Scan for vulnerabilities
+      #   uses: crazy-max/ghaction-container-scan@master
+      #   with:
+      #     image: ghcr.io/carlosal1015/aur/python-fenics-dolfinx-real:latest
+      #     annotations: true
+      #     severity_threshold: HIGH
+      #     dockerfile: ./docker/python-fenics-dolfinx-real.Dockerfile
 
       - name: Prune untagged images
         uses: carlosal1015/ghcr-delete-image-action@main

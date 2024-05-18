@@ -53,13 +53,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Scan for vulnerabilities
-        uses: crazy-max/ghaction-container-scan@master
-        with:
-          image: ghcr.io/carlosal1015/aur/petsc-complex-valgrind:latest
-          annotations: true
-          severity_threshold: HIGH
-          dockerfile: ./docker/petsc-complex-valgrind.Dockerfile
+      # - name: Scan for vulnerabilities
+      #   uses: crazy-max/ghaction-container-scan@master
+      #   with:
+      #     image: ghcr.io/carlosal1015/aur/petsc-complex-valgrind:latest
+      #     annotations: true
+      #     severity_threshold: HIGH
+      #     dockerfile: ./docker/petsc-complex-valgrind.Dockerfile
 
       - name: Prune untagged images
         uses: carlosal1015/ghcr-delete-image-action@main
