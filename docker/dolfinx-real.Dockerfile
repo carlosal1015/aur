@@ -9,6 +9,7 @@ FROM ghcr.io/carlosal1015/aur/python-fenics-basix AS python-fenics-basix
 FROM ghcr.io/carlosal1015/aur/python-fenics-ufl AS python-fenics-ufl
 FROM ghcr.io/carlosal1015/aur/python-fenics-ffcx AS python-fenics-ffcx
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
+FROM ghcr.io/carlosal1015/aur/kahip AS kahip
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
@@ -21,6 +22,7 @@ COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="dolfinx"
 
@@ -63,6 +65,7 @@ COPY --from=python-fenics-basix /tmp/python-fenics-basix-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ufl /tmp/python-fenics-ufl-*.pkg.tar.zst /tmp/
 COPY --from=python-fenics-ffcx /tmp/python-fenics-ffcx-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
+COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
