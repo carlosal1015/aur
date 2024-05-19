@@ -14,7 +14,7 @@ COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 
-ARG AUR_PACKAGE="petsc-complex"
+ARG AUR_PACKAGE="petsc"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -50,7 +50,7 @@ COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
-COPY --from=build /tmp/makepkg/petsc-complex/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
+COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman-key --init && \
@@ -58,6 +58,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  find /tmp/ ! -name '*.log' ! -name 'petsc-complex-*.pkg.tar.zst' -type f -exec rm -f {} + && \
+  find /tmp/ ! -name '*.log' ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*

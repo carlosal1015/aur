@@ -50,6 +50,6 @@ RUN sudo pacman-key --init && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-  find /tmp/ ! -name '*.log' ! -name 'petsc-*.pkg.tar.zst' -type f -exec rm -f {} + && \
+  find /tmp/ ! -name '*.log' ! -name 'petsc-complex-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
