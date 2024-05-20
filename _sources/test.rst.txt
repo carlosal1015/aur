@@ -1,0 +1,21 @@
+test package
+============
+
+Submodules
+----------
+
+test.test\_bindings\_module module
+----------------------------------
+
+.. automodule:: test.test_bindings_module
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: test
+   :members:
+   :undoc-members:
+   :show-inheritance:

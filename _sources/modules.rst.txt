@@ -1,0 +1,11 @@
+python-bindings
+===============
+
+.. toctree::
+   :maxdepth: 4
+
+   cyprecice
+   precice
+   setup
+   test
+   versioneer
