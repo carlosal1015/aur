@@ -12,7 +12,7 @@ jobs:
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       URL: "https://github.com/precice/python-bindings"
-      TAG: "v3.0.0.0"
+      TAG: "v3.1.1"
       PACKAGES: "cython git python-pkgconfig python-setuptools python-sphinx-furo"
     steps:
       - name: Build html
