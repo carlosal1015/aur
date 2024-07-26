@@ -14,7 +14,7 @@ jobs:
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       PACKAGES: "cargo"
-      VERSION: "3.0.1"
+      VERSION: "3.1.0"
       CARGOFLAG: "--release"
     steps:
       - name: Install Rust bindings for preCICE
