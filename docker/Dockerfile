@@ -4,9 +4,8 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   aur-out-of-date \
-  termux-language-server \
   "
-# hadolint
+# hadolint termux-language-server
 
 RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
 
