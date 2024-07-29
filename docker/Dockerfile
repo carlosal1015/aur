@@ -37,6 +37,7 @@ ARG PACKAGES="\
   auth-tarball-from-git \
   devtools \
   docker \
+  fzf \
   git-crypt \
   jq \
   namcap \
@@ -55,7 +56,8 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo systemctl enable docker && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
-  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended && \
+  source <(fzf --zsh)
 
 ENV SHELL=/usr/bin/zsh
 
