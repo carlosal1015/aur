@@ -53,7 +53,6 @@ ARG PACKAGES="\
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo systemctl enable docker && \
-  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
@@ -61,3 +60,4 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
 ENV SHELL=/usr/bin/zsh
 
 # sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+# rm /tmp/*.pkg.tar.zst && \
