@@ -1,13 +1,14 @@
 # Copyleft (c) May, 2024, Oromion
 
-FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+# FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGES="\
-  aur-out-of-date \
-  "
-# hadolint termux-language-server
+# ARG AUR_PACKAGES="\
+#   aur-out-of-date \
+#   hadolint
+#   termux-language-server
+#   "
 
-RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
+# RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
 
 FROM archlinux:base-devel
 
@@ -47,15 +48,16 @@ ARG PACKAGES="\
   zsh \
   "
 
-COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
+# COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo systemctl enable docker && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 
 ENV SHELL=/usr/bin/zsh
+
+# sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
