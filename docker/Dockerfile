@@ -50,13 +50,21 @@ ARG PACKAGES="\
   "
 
 # COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
+# https://wiki.archlinux.org/title/Docker#IPv6
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
-  sudo systemctl enable docker && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
-  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended && \
+  sudo mkdir -p /etc/docker && \
+  sudo bash -c 'cat <<EOF >/etc/docker/daemon.json
+{
+  "ipv6": true,
+  "fixed-cidr-v6": "fd00::/80"
+}
+EOF' && \
+  sudo systemctl enable docker
 
 ENV SHELL=/usr/bin/zsh
 
