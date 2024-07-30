@@ -56,17 +56,17 @@ ARG PACKAGES="\
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo mkdir -p /etc/docker && \
+  sudo systemctl enable docker && \
+  sudo ip6tables -t nat -A POSTROUTING -s fd00::/80 ! -o docker0 -j MASQUERADE && \
+  sudo pacman -Scc <<< Y <<< Y && \
+  sudo rm -r /var/lib/pacman/sync/* && \
+  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended && \
   cat <<EOF | sudo tee -a /etc/docker/daemon.json
 {
   "ipv6": true,
   "fixed-cidr-v6": "fd00::/80"
 }
-EOF && \
-  sudo systemctl enable docker && \
-  sudo ip6tables -t nat -A POSTROUTING -s fd00::/80 ! -o docker0 -j MASQUERADE && \
-  sudo pacman -Scc <<< Y <<< Y && \
-  sudo rm -r /var/lib/pacman/sync/* && \
-  printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+EOF
 
 ENV SHELL=/usr/bin/zsh
 
