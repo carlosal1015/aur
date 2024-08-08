@@ -45,6 +45,7 @@ ARG PACKAGES="\
   openssh \
   pacman-contrib \
   python-packaging \
+  tldr \
   ttf-fira-code \
   zsh \
   "
@@ -56,7 +57,8 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo mkdir -p /etc/docker && \
-  sudo systemctl enable docker && \
+  sudo systemctl enable docker.socket && \
+  sudo usermod -a -G docker gitpod && \
   rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
