@@ -2,13 +2,12 @@
 
 # FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-# ARG AUR_PACKAGES="\
-#   aur-out-of-date \
-#   hadolint
-#   termux-language-server
-#   "
-
-# RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
+ARG AUR_PACKAGES="\
+  hadolint-bin \
+  termux-language-server \
+  "
+# aur-out-of-date
+RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
 
 FROM archlinux:base-devel
 
@@ -50,13 +49,15 @@ ARG PACKAGES="\
   zsh \
   "
 
-# COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
+COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 # https://wiki.archlinux.org/title/Docker#IPv6
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo mkdir -p /etc/docker && \
   sudo systemctl enable docker && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
   printf 'Y\n' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended && \
@@ -68,6 +69,3 @@ RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
 EOF
 
 ENV SHELL=/usr/bin/zsh
-
-# sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
-# rm /tmp/*.pkg.tar.zst && \
