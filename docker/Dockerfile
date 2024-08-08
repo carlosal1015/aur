@@ -1,6 +1,6 @@
 # Copyleft (c) May, 2024, Oromion
 
-# FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
+FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PACKAGES="\
   hadolint-bin \
@@ -53,10 +53,10 @@ COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 # https://wiki.archlinux.org/title/Docker#IPv6
 
 RUN sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo mkdir -p /etc/docker && \
   sudo systemctl enable docker && \
-  sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/* && \
