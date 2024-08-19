@@ -54,7 +54,6 @@ python-fenics-plotly
 python-fenics-ufl
 python-ffc
 python-fiat
-python-plotly
 python-pyprecice
 python-ufl
 scalapack

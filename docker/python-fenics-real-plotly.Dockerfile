@@ -8,7 +8,6 @@ FROM ghcr.io/carlosal1015/aur/python-ffc AS python-ffc
 FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/dolfin-real AS dolfin-real
 FROM ghcr.io/carlosal1015/aur/python-dolfin-real AS python-dolfin-real
-FROM ghcr.io/carlosal1015/aur/python-plotly AS python-plotly
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
@@ -20,7 +19,6 @@ COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
-COPY --from=python-plotly /tmp/python-plotly-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="python-fenics-plotly"
 
@@ -63,7 +61,6 @@ COPY --from=python-ffc /tmp/python-ffc-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=dolfin-real /tmp/dolfin-*.pkg.tar.zst /tmp/
 COPY --from=python-dolfin-real /tmp/python-dolfin-*.pkg.tar.zst /tmp/
-COPY --from=python-plotly /tmp/python-plotly-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
