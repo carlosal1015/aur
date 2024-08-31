@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Install Julialang bindings for preCICE
         run: |
-          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1
+          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} #>/dev/null 2>&1
           pacman -Qi ${PACKAGES} precice
           julia -e 'import Pkg; Pkg.add(url=ENV["URL"]); using PreCICE;'
 

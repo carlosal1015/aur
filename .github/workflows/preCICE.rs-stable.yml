@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Install Rust bindings for preCICE
         run: |
-          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1
+          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} #>/dev/null 2>&1
           pacman -Qi ${PACKAGES} precice
           cargo init
           cargo add precice@${VERSION::3}

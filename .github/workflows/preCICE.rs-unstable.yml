@@ -22,7 +22,7 @@ jobs:
       - name: Install Rust bindings for preCICE
         run: |
           # curl -s https://gitlab.com/dune-archiso/dune-archiso.gitlab.io/-/raw/main/templates/add_archlinuxcn.sh | bash
-          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} >/dev/null 2>&1
+          pacman --needed --noconfirm --noprogressbar -Syuq ${PACKAGES} #>/dev/null 2>&1
           pacman -Qi ${PACKAGES} precice-git
           cargo init
           cargo add --git ${URL} precice
