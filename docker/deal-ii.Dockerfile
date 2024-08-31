@@ -12,7 +12,7 @@ ARG OPT_PACKAGES="\
 
 ARG AUR_PACKAGE="deal-ii"
 
-ARG PRECICE_PATCH="https://gist.githubusercontent.com/carlosal1015/a113dc672bc71c4b5f909bf99fc42b4f/raw/a9067e7e1627358711b75da278a2cb466bd8298a/0001-Enable-options-for-work-with-preCICE.patch"
+ARG PRECICE_PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Enable-options-for-work-with-preCICE.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \

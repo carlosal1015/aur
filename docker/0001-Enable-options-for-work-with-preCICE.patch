@@ -1,0 +1,27 @@
+From c1a0f9d8071573164facf267b7863d716986e228 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
+Date: Fri, 30 Aug 2024 22:21:23 -0500
+Subject: [PATCH 1/1] Enable options for work with preCICE
+
+---
+ PKGBUILD | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index b73f0b6..4a01508 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -102,6 +102,10 @@ build() {
+      cmake_configuration_flags+=" -DLAPACK_INCLUDE_DIRS=${MKLROOT}/include"
+   fi
+ 
++  # Since https://github.com/dealii/dealii/compare/v9.4.1...v9.4.2 THREADS is ON by default
++  # https://precice.org/adapter-dealii-get.html#building-from-source
++  cmake_configuration_flags+=" -DDEAL_II_WITH_UMFPACK=ON -DDEAL_II_COMPONENT_EXAMPLES=OFF"
++
+   # For GSL compatibility we need the full link interface, which includes
+   # libgslcblas, so disable --as-needed with GCC:
+   sed -i '/ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "-Wl,--as-needed")/d' \
+-- 
+2.46.0
+
