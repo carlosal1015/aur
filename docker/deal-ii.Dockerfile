@@ -1,10 +1,10 @@
 # Copyleft (c) May, 2024, Oromion
 
-FROM ghcr.io/carlosal1015/aur/trilinos AS trilinos
+FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
+COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 
 ARG OPT_PACKAGES="\
   suitesparse \
@@ -54,7 +54,7 @@ ARG PACKAGES="\
   "
 
 
-COPY --from=trilinos /tmp/trilinos-*.pkg.tar.zst /tmp/
+COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
