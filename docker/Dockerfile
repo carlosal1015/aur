@@ -39,7 +39,6 @@ ARG PACKAGES="\
   fzf \
   git-crypt \
   jq \
-  linux \
   namcap \
   nvchecker \
   openssh \
