@@ -6,7 +6,7 @@ ARG AUR_PACKAGES="\
   hadolint-bin \
   termux-language-server \
   "
-# aur-out-of-date
+
 RUN yay --noconfirm --noprogressbar -Syuq ${AUR_PACKAGES} >/dev/null 2>&1
 
 FROM archlinux:base-devel
