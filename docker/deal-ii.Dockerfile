@@ -55,7 +55,6 @@ ARG PACKAGES="\
   suitesparse \
   "
 
-
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
