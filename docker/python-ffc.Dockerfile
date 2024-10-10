@@ -1,4 +1,4 @@
-# Copyleft (c) September, 2024, Oromion
+# Copyleft (c) October, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/python-dijitso AS python-dijitso
 FROM ghcr.io/carlosal1015/aur/python-fiat AS python-fiat
