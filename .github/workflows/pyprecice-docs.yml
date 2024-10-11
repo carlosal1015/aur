@@ -28,7 +28,7 @@ jobs:
           # echo "napoleon_custom_sections = ['Parameters', 'Returns', 'Example', 'Notes']" >> source/conf.py
           sed -i 's/alabaster/furo/' source/conf.py
           sed -i '9,12d' source/index.rst
-          # echo -e "   API reference\n\nIndices and tables\n==================\n* :ref:\`genindex\`\n* :ref:\`modindex\`\n* :ref:\`search\`\n" >> source/index.rst
+          echo -e "   API reference\n\nIndices and tables\n==================\n* :ref:\`genindex\`\n* :ref:\`modindex\`\n* :ref:\`search\`\n" >> source/index.rst
           pushd cyprecice
           curl -O $PATCH
           patch -i autodoc.patch
@@ -36,7 +36,7 @@ jobs:
           python setup.py build_ext --inplace
           export _pyversion=$(python -c "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')")
           export CARCH=$(uname -m)
-          sphinx-apidoc -o source . #./*setup* ./*test*
+          sphinx-apidoc -o source . ./*setup* ./*test* ./versioneer.py
           PYTHONPATH="${PWD}/build/lib.linux-${CARCH}-cpython-${_pyversion}:${PYTHONPATH}" make html
           popd
           # Works for Sphinx 7 or older
