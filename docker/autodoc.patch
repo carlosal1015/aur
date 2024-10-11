@@ -1,5 +1,5 @@
 --- cyprecice.pyx	2024-10-10 18:58:52.701922371 -0500
-+++ cyprecice_patched.pyx	2024-10-10 18:50:39.366989574 -0500
++++ cyprecice_patched.pyx	2024-10-10 20:29:32.925585883 -0500
 @@ -19,6 +19,7 @@
      """
      source code from http://docs.cython.org/en/latest/src/tutorial/strings.html#general-notes-about-c-strings
@@ -8,7 +8,7 @@
      if type(s) is bytes:
          return s
      elif type(s) is str:
-@@ -39,15 +40,17 @@
+@@ -39,21 +40,23 @@
      """
      Main Application Programming Interface of preCICE.
      To adapt a solver to preCICE, follow the following main structure:
@@ -27,3 +27,636 @@
      def __init__(self, solver_name, configuration_file_name, solver_process_index, solver_process_size, communicator=None):
          """
          Constructor of Participant class.
+ 
+         Parameters
+-        ----------
++
+         solver_name : string
+             Name of the solver
+         configuration_file_name : string
+@@ -66,12 +69,12 @@
+             Custom MPI communicator to use
+ 
+         Returns
+-        -------
++
+         Participant : object
+             Object pointing to the defined participant
+ 
+         Example
+-        -------
++
+         >>> participant = precice.Participant("SolverOne", "precice-config.xml", 0, 1)
+         preCICE: This is preCICE version X.X.X
+         preCICE: Revision info: vX.X.X-X-XXXXXXXXX
+@@ -83,10 +86,13 @@
+     def __cinit__ (self, solver_name, configuration_file_name, solver_process_index, solver_process_size, communicator=None):
+         cdef void* communicator_ptr
+         if communicator:
++
+             communicator_ptr = <void*> communicator
+             self.thisptr = new CppParticipant.Participant (convert(solver_name), convert(configuration_file_name), solver_process_index, solver_process_size, communicator_ptr)
++
+         else:
+             self.thisptr = new CppParticipant.Participant (convert(solver_name), convert(configuration_file_name), solver_process_index, solver_process_size)
++
+         pass
+ 
+     def __dealloc__ (self):
+@@ -111,9 +117,10 @@
+                                        from the coupling partner's first computation.
+ 
+         Returns
+-        -------
++
+         max_timestep : double
+             Maximum length of first timestep to be computed by the solver.
++
+         """
+         self.thisptr.initialize ()
+ 
+@@ -123,12 +130,12 @@
+         Advances preCICE after the solver has computed one timestep.
+ 
+         Parameters
+-        ----------
++
+         computed_timestep_length : double
+             Length of timestep used by the solver.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has been called successfully.
+             The solver has computed one timestep.
+@@ -142,6 +149,7 @@
+             Configured data mapping schemes are applied.
+             [Second Participant] Configured post processing schemes are applied.
+             Meshes with data are exported to files if configured.
++
+         """
+         self.thisptr.advance (computed_timestep_length)
+ 
+@@ -151,13 +159,14 @@
+         Finalizes preCICE.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has been called successfully.
+ 
+         Tasks completed:
+             Communication channels are closed.
+             Meshes and data are deallocated.
++
+         """
+         self.thisptr.finalize ()
+ 
+@@ -169,14 +178,15 @@
+         Returns the spatial dimensionality of the given mesh.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : string
+             Name of the mesh.
+ 
+         Returns
+-        -------
++
+         dimension : int
+             The dimensions of the given mesh.
++
+         """
+ 
+         return self.thisptr.getMeshDimensions (convert(mesh_name))
+@@ -187,16 +197,17 @@
+         Returns the spatial dimensionality of the given data on the given mesh.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : string
+             Name of the mesh.
+         data_name : string
+             Name of the data.
+ 
+         Returns
+-        -------
++
+         dimension : int
+             The dimensions of the given data.
++
+         """
+ 
+         return self.thisptr.getDataDimensions (convert(mesh_name), convert(data_name))
+@@ -206,19 +217,22 @@
+         """
+         Checks if the coupled simulation is still ongoing.
+         A coupling is ongoing as long as
++
+             - the maximum number of timesteps has not been reached, and
+             - the final time has not been reached.
++
+         The user should call finalize() after this function returns false.
+ 
+         Returns
+-        -------
++
+         tag : bool
+             Whether the coupling is ongoing.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+            initialize() has been called successfully.
++
+         """
+         return self.thisptr.isCouplingOngoing ()
+ 
+@@ -227,18 +241,20 @@
+         """
+         Checks if the current coupling timewindow is completed.
+         The following reasons require several solver time steps per coupling time step:
++
+             - A solver chooses to perform subcycling.
+             - An implicit coupling timestep iteration is not yet converged.
+ 
+         Returns
+-        -------
++
+             tag : bool
+                 Whether the timestep is complete.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has been called successfully.
++
+         """
+         return self.thisptr.isTimeWindowComplete ()
+ 
+@@ -251,14 +267,15 @@
+         This should be used to compute the actual time step that the solver uses.
+ 
+         Returns
+-        -------
++
+             tag : double
+                 Maximum size of time step to be computed by solver.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has been called successfully.
++
+         """
+         return self.thisptr.getMaxTimeStepSize ()
+ 
+@@ -270,14 +287,15 @@
+         prior to calling initialize().
+ 
+         Returns
+-        -------
++
+         tag : bool
+             Returns True if inital data is required.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has not yet been called
++
+         """
+         return self.thisptr.requiresInitialData ()
+ 
+@@ -292,9 +310,10 @@
+         but this method isn't called prior to advance().
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has been called
++
+         """
+         return self.thisptr.requiresWritingCheckpoint ()
+ 
+@@ -309,11 +328,12 @@
+         but this method isn't called prior to advance().
+ 
+         Notes
+-        -----
++
+         This function returns false before the first call to advance().
+ 
+         Previous calls:
+             initialize() has been called
++
+         """
+         return self.thisptr.requiresReadingCheckpoint ()
+ 
+@@ -324,14 +344,15 @@
+         Checks if the given mesh requires connectivity.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : string
+             Name of the mesh.
+ 
+         Returns
+-        -------
++
+         tag : bool
+             True if mesh connectivity is required.
++
+         """
+         return self.thisptr.requiresMeshConnectivityFor(convert(mesh_name))
+ 
+@@ -341,21 +362,22 @@
+         Creates a mesh vertex
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the vertex to.
+         position : array_like
+             The coordinates of the vertex.
+ 
+         Returns
+-        -------
++
+         vertex_id : int
+             ID of the vertex which is set.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             Count of available elements at position matches the configured dimension
++
+         """
+         check_array_like(position, "position", "set_mesh_vertex")
+ 
+@@ -377,14 +399,15 @@
+         Returns the number of vertices of a mesh
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh.
+ 
+         Returns
+-        -------
++
+         sum : int
+             Number of vertices of the mesh.
++
+         """
+ 
+         return self.thisptr.getMeshVertexSize(convert(mesh_name))
+@@ -395,7 +418,7 @@
+         Creates multiple mesh vertices
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the vertices to.
+         positions : array_like
+@@ -403,19 +426,19 @@
+             N = number of vertices and D = dimensions of geometry.
+ 
+         Returns
+-        -------
++
+         vertex_ids : numpy.ndarray
+             IDs of the created vertices.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             initialize() has not yet been called
+             count of available elements at positions matches the configured dimension * size
+             count of available elements at ids matches size
+ 
+         Examples
+-        --------
++
+         Set mesh vertices for a 2D problem with 5 mesh vertices.
+ 
+         >>> positions = np.array([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]])
+@@ -463,7 +486,7 @@
+         Sets mesh edge from vertex IDs, returns edge ID.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the edge to.
+         first_vertex_id : int
+@@ -472,14 +495,15 @@
+             ID of the second vertex of the edge.
+ 
+         Returns
+-        -------
++
+         edge_id : int
+             ID of the edge.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             vertices with firstVertexID and secondVertexID were added to the mesh with name mesh_name
++
+         """
+ 
+         self.thisptr.setMeshEdge (convert(mesh_name), first_vertex_id, second_vertex_id)
+@@ -490,7 +514,7 @@
+         Creates multiple mesh edges
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the vertices to.
+         vertices : array_like
+@@ -498,7 +522,7 @@
+             N = number of edges and D = dimensions of geometry.
+ 
+         Examples
+-        --------
++
+         Set mesh edges for a problem with 4 mesh vertices in the form of a square with both diagonals which are fully interconnected.
+ 
+         >>> vertices = np.array([[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])
+@@ -527,7 +551,7 @@
+         Set a mesh triangle from edge IDs
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the triangle to.
+         first_vertex_id : int
+@@ -538,9 +562,10 @@
+             ID of the third vertex of the triangle.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             vertices with first_vertex_id, second_vertex_id, and third_vertex_id were added to the mesh with the name mesh_name
++
+         """
+ 
+         self.thisptr.setMeshTriangle (convert(mesh_name), first_vertex_id, second_vertex_id, third_vertex_id)
+@@ -551,7 +576,7 @@
+         Creates multiple mesh triangles
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the triangles to.
+         vertices : array_like
+@@ -559,7 +584,7 @@
+             N = number of triangles and D = dimensions of geometry.
+ 
+         Examples
+-        --------
++
+         Set mesh triangles for a problem with 4 mesh vertices in the form of a square with both diagonals which are fully interconnected.
+ 
+         >>> vertices = np.array([[1, 2, 3], [1, 3, 4], [1, 2, 4], [1, 3, 4]])
+@@ -588,7 +613,7 @@
+         Set a mesh Quad from vertex IDs.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the quad to.
+         first_vertex_id : int
+@@ -601,10 +626,11 @@
+             ID of the third vertex of the quad.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             vertices with first_vertex_id, second_vertex_id, third_vertex_id, and fourth_vertex_id were added
+             to the mesh with the name mesh_name
++
+         """
+ 
+         self.thisptr.setMeshQuad (convert(mesh_name), first_vertex_id, second_vertex_id, third_vertex_id, fourth_vertex_id)
+@@ -615,7 +641,7 @@
+         Creates multiple mesh quads
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the quads to.
+         vertices : array_like
+@@ -623,7 +649,7 @@
+             N = number of quads and D = dimensions of geometry.
+ 
+         Examples
+-        --------
++
+         Set mesh quads for a problem with 4 mesh vertices in the form of a square with both diagonals which are fully interconnected.
+ 
+         >>> vertices = np.array([[1, 2, 3, 4]])
+@@ -652,7 +678,7 @@
+         Sets a mesh tetrahedron from vertex IDs.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the tetrahedron to.
+         first_vertex_id : int
+@@ -665,10 +691,11 @@
+             ID of the third vertex of the tetrahedron.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             vertices with first_vertex_id, second_vertex_id, third_vertex_id, and fourth_vertex_id were added
+             to the mesh with the name mesh_name
++
+         """
+ 
+         self.thisptr.setMeshTetrahedron (convert(mesh_name), first_vertex_id, second_vertex_id, third_vertex_id, fourth_vertex_id)
+@@ -679,7 +706,7 @@
+         Creates multiple mesh tetdrahedrons
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to add the tetrahedrons to.
+         vertices : array_like
+@@ -687,7 +714,7 @@
+             N = number of quads and D = dimensions of geometry.
+ 
+         Examples
+-        --------
++
+         Set mesh tetrahedrons for a problem with 4 mesh vertices.
+ 
+         >>> vertices = np.array([[1, 2, 3, 4]])
+@@ -719,7 +746,7 @@
+         The order of the provided data follows the order specified by vertices.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             name of the mesh to write to.
+         data_name : str
+@@ -730,14 +757,14 @@
+             Values of data
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             count of available elements at values matches the configured dimension * size
+             count of available elements at vertex_ids matches the given size
+             initialize() has been called
+ 
+         Examples
+-        --------
++
+         Write scalar data for a 2D problem with 5 vertices:
+         >>> mesh_name = "MeshOne"
+         >>> data_name = "DataOne"
+@@ -790,7 +817,7 @@
+         from a dataID. Values are read into a block of continuous memory.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to write to.
+         data_name : str
+@@ -801,19 +828,19 @@
+             Point in time where data is read relative to the beginning of the current time step
+ 
+         Returns
+-        -------
++
+         values : numpy.ndarray
+             Contains the read data.
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             count of available elements at values matches the configured dimension * size
+             count of available elements at vertex_ids matches the given size
+             initialize() has been called
+ 
+         Examples
+-        --------
++
+         Read scalar data for a 2D problem with 5 vertices:
+         >>> mesh_name = "MeshOne"
+         >>> data_name = "DataOne"
+@@ -875,7 +902,7 @@
+         of vertices and D = number of gradient components.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh to write to.
+         data_name : str
+@@ -886,7 +913,7 @@
+              Gradient values differentiated in the spacial direction (dx, dy) for 2D space, (dx, dy, dz) for 3D space
+ 
+         Notes
+-        -----
++
+         Previous calls:
+             Count of available elements at values matches the configured dimension
+             Count of available elements at vertex_ids matches the given size
+@@ -894,7 +921,7 @@
+             Data with dataID has attribute hasGradient = true
+ 
+         Examples
+-        --------
++
+         Write gradient vector data for a 2D problem with 2 vertices:
+         >>> mesh_name = "MeshOne"
+         >>> data_name = "DataOne"
+@@ -935,19 +962,19 @@
+         Checks if the given data set requires gradient data. We check if the data object has been intialized with the gradient flag.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Mesh name to check.
+         data_name : str
+             Data name to check.
+ 
+         Returns
+-        -------
++
+         bool
+             True if gradient data is required for a data.
+ 
+         Examples
+-        --------
++
+         Check if gradient data is required for a data:
+         >>> mesh_name = "MeshOne"
+         >>> data_name = "DataOne"
+@@ -969,14 +996,14 @@
+         experimental
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Name of the mesh you want to access through the bounding box
+         bounding_box : array_like
+             Axis aligned bounding box. Example for 3D the format: [x_min, x_max, y_min, y_max, z_min, z_max]
+ 
+         Notes
+-        -----
++
+         Defining a bounding box for serial runs of the solver (not to be confused with serial coupling
+         mode) is valid. However, a warning is raised in case vertices are filtered out completely
+         on the receiving side, since the associated data values of the filtered vertices are filled
+@@ -1020,12 +1047,12 @@
+         coordinates omitting the mapping. This function is still experimental.
+ 
+         Parameters
+-        ----------
++
+         mesh_name : str
+             Corresponding mesh name
+ 
+         Returns
+-        -------
++
+         ids : numpy.ndarray
+             Vertex IDs corresponding to the coordinates
+         coordinates : numpy.ndarray
