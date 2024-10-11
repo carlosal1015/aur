@@ -1,10 +1,29 @@
-21a22
-> 
-41a43
-> 
-48d49
-<     """
-49a51
->     """
-50a53
-> 
+--- cyprecice.pyx	2024-10-10 18:58:52.701922371 -0500
++++ cyprecice_patched.pyx	2024-10-10 18:50:39.366989574 -0500
+@@ -19,6 +19,7 @@
+     """
+     source code from http://docs.cython.org/en/latest/src/tutorial/strings.html#general-notes-about-c-strings
+     """
++
+     if type(s) is bytes:
+         return s
+     elif type(s) is str:
+@@ -39,15 +40,17 @@
+     """
+     Main Application Programming Interface of preCICE.
+     To adapt a solver to preCICE, follow the following main structure:
++
+         - Create an object of Participant with Participant()
+         - Initialize preCICE with Participant::initialize()
+         - Advance to the next (time)step with Participant::advance()
+         - Finalize preCICE with Participant::finalize()
+         - We use solver, simulation code, and participant as synonyms.
+         - The preferred name in the documentation is participant.
+-    """
+ 
++    """
+     # fake __init__ needed to display docstring for __cinit__ (see https://stackoverflow.com/a/42733794/5158031)
++
+     def __init__(self, solver_name, configuration_file_name, solver_process_index, solver_process_size, communicator=None):
+         """
+         Constructor of Participant class.
