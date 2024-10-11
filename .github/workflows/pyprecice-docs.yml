@@ -12,8 +12,9 @@ jobs:
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       URL: "https://github.com/precice/python-bindings"
-      TAG: "v3.1.1"
+      TAG: "v3.1.2"
       PACKAGES: "cython git python-pkgconfig python-setuptools python-sphinx-furo"
+      PATCH: "https://raw.githubusercontent.com/carlosal1015/aur/main/docker/autodoc.patch"
     steps:
       - name: Build html
         run: |
@@ -21,15 +22,24 @@ jobs:
           git config --global advice.detachedHead false
           git clone -q --filter=blob:none --depth=1 --branch $TAG $URL.git
           pushd python-bindings
-          printf "y\npypreCICE\npreCICE community\n$TAG\nen\n" | sphinx-quickstart
-          sed -i 's/extensions = \[\]/extensions = \["sphinx.ext.autodoc"\]/' source/conf.py
+          # Works for Sphinx 8 or newer
+          printf "y\npypreCICE\nArch Linux User's preCICE community\n$TAG\nen\n" | sphinx-quickstart
+          sed -i 's/extensions = \[\]/extensions = \["sphinx.ext.autodoc","sphinx.ext.napoleon"\]/' source/conf.py
+          echo "napoleon_custom_sections = ['Parameters', 'Returns', 'Example', 'Notes']" >> source/conf.py
           sed -i 's/alabaster/furo/' source/conf.py
+          sed -i '9,12d' source/index.rst
+          echo "   API reference\n\nIndices and tables\n==================\n* :ref:\`genindex\`\n* :ref:\`modindex\`\n* :ref:\`search\`" >> source/index.rst
+          pushd cyprecice
+          curl -O $PATCH
+          patch -s -p0 < autodoc.patch
+          popd
           python setup.py build_ext --inplace
           export _pyversion=$(python -c "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')")
           export CARCH=$(uname -m)
-          sphinx-apidoc -o source . # ./*setup* ./*test*
+          sphinx-apidoc -o source . #./*setup* ./*test*
           PYTHONPATH="${PWD}/build/lib.linux-${CARCH}-cpython-${_pyversion}:${PYTHONPATH}" make html
           popd
+          # Works for Sphinx 7 or older
           # sed -i '/import os/,+3 s/^# //' source/conf.py
           # sed -i '8 a import os' source/conf.py
           # sed -i '9 a import sys' source/conf.py
