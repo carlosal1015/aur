@@ -3,3 +3,4 @@
 FROM ghcr.io/carlosal1015/aur/precice-git:latest
 
 USER root
+
