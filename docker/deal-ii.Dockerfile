@@ -7,6 +7,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 
 ARG OPT_PACKAGES="\
+  hdf5-openmpi \
   suitesparse \
   "
 
