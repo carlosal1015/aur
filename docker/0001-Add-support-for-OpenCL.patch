@@ -1,6 +1,6 @@
-From cd5433347eaddd062ac6b414132f2ebb28c9e54b Mon Sep 17 00:00:00 2001
+From fcccdf98552c43298ce5531046944f65ea273628 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Fri, 15 Mar 2024 09:41:05 -0500
+Date: Sat, 9 Nov 2024 19:10:35 -0500
 Subject: [PATCH] Add support for OpenCL
 
 ---
@@ -10,28 +10,28 @@ Subject: [PATCH] Add support for OpenCL
  3 files changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/.SRCINFO b/.SRCINFO
-index e21c15a..fbc8f65 100644
+index 49e1f1a..24d79c8 100644
 --- a/.SRCINFO
 +++ b/.SRCINFO
-@@ -35,12 +35,15 @@ pkgbase = petsc-complex
+@@ -36,12 +36,15 @@ pkgbase = petsc-complex
  	optdepends = triangle: support for the two-dimensional quality mesh generator and Delaunay triangulator
  	optdepends = valgrind: support for valgrind to help find memory-management problems in programs
  	optdepends = zoltan: support for zoltan
 +	optdepends = opencl-headers: support for OpenCL
 +	optdepends = ocl-icd: support for OpenCL
 +	optdepends = sundials: for CVODE solver support
- 	provides = petsc=3.20.5
+ 	provides = petsc=3.22.1
  	conflicts = petsc
  	options = staticlibs
- 	source = https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-lite-3.20.5.tar.gz
+ 	source = https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-lite-3.22.1.tar.gz
  	source = test_optdepends.sh
- 	sha512sums = 1e0ebdacbcc9db22dbe3803cbc13f5e0138d0412c328ff49cab024c839527c73b28983717104daf0858d482a8804b931c5c2bf20363c6b801d2be7d27219692f
--	sha512sums = 1a790c36b1bb6b6604b4fe35f3c7fba2d8f972e7fd3c6ac1273716bee490f4dded18990b9f4aedecbe609aa6ec3d2469d44c013e18ed5cf9a43f5703f2b59db8
-+	sha512sums = c55744d4ede17b9c62502bb60e89cead58839cb72d7cf1c8225df3d5808324f0351e0eded61634ab9f78bad74491e185262fb23978fa6c27a0a5c5c1e8f65cbb
+ 	sha512sums = 677038e89179307129b889f5c109bdec2d30a547fedf90fc3962ba35179f2d69bc40b4097a7ef867bbc3e334230523b8c4493b0c173184bc22255617bb542234
+-	sha512sums = 6babb4f04fe8a503743cd0876cf75d8bcf2ebb1cfd2d89bcf10109721335b19f8b1b6ccb27cc8b85ea21597c2f1edd8f30824be614072a6498a6a92e39632468
++	sha512sums = d29a78f55e4c7ede37046601c75fd6fde6378064dabb6edab2d14ca2ebcd528be8a2308620e2109602ef453891a71e3fe1dcceb993cc43b93d363cf35792493e
  
  pkgname = petsc-complex
 diff --git a/PKGBUILD b/PKGBUILD
-index 56d0aa3..1db2cc2 100644
+index 7ee652b..25c539d 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -37,12 +37,15 @@ optdepends=('hypre: support for the hypre sparse system solver'
@@ -46,18 +46,18 @@ index 56d0aa3..1db2cc2 100644
  install=${_base}.install
  source=(https://web.cels.anl.gov/projects/${_base}/download/release-snapshots/${_base}-lite-${pkgver}.tar.gz
    test_optdepends.sh)
- sha512sums=('1e0ebdacbcc9db22dbe3803cbc13f5e0138d0412c328ff49cab024c839527c73b28983717104daf0858d482a8804b931c5c2bf20363c6b801d2be7d27219692f'
--  '1a790c36b1bb6b6604b4fe35f3c7fba2d8f972e7fd3c6ac1273716bee490f4dded18990b9f4aedecbe609aa6ec3d2469d44c013e18ed5cf9a43f5703f2b59db8')
-+  'c55744d4ede17b9c62502bb60e89cead58839cb72d7cf1c8225df3d5808324f0351e0eded61634ab9f78bad74491e185262fb23978fa6c27a0a5c5c1e8f65cbb')
+ sha512sums=('677038e89179307129b889f5c109bdec2d30a547fedf90fc3962ba35179f2d69bc40b4097a7ef867bbc3e334230523b8c4493b0c173184bc22255617bb542234'
+-            '6babb4f04fe8a503743cd0876cf75d8bcf2ebb1cfd2d89bcf10109721335b19f8b1b6ccb27cc8b85ea21597c2f1edd8f30824be614072a6498a6a92e39632468')
++            'd29a78f55e4c7ede37046601c75fd6fde6378064dabb6edab2d14ca2ebcd528be8a2308620e2109602ef453891a71e3fe1dcceb993cc43b93d363cf35792493e')
  
  _install_dir=/opt/${_base}/${_config}
  _petsc_arch=arch-${_config}
 diff --git a/test_optdepends.sh b/test_optdepends.sh
-index 11a0d3b..fe7ee1b 100644
+index 72aed27..77740de 100644
 --- a/test_optdepends.sh
 +++ b/test_optdepends.sh
-@@ -98,4 +98,15 @@ if [ -f "/usr/lib/pkgconfig/valgrind.pc" ]; then
- 	CONFOPTS="${CONFOPTS} --with-valgrind=1"
+@@ -90,4 +90,15 @@ if [ -f "/usr/lib/pkgconfig/valgrind.pc" ]; then
+   CONFOPTS="${CONFOPTS} --with-valgrind=1"
  fi
  
 +# Add OpenCL support
@@ -73,5 +73,5 @@ index 11a0d3b..fe7ee1b 100644
 +
  echo "${CONFOPTS}"
 -- 
-2.44.0
+2.47.0
 
