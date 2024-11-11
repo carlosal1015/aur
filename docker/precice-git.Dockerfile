@@ -9,8 +9,8 @@ COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=python-polars /tmp/python-polars-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="precice-git"
-
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+# >/dev/null 2>&1
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
