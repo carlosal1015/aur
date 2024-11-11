@@ -1,6 +1,6 @@
-From 6cdb84b48facdd928fca42f197433c4bb831c194 Mon Sep 17 00:00:00 2001
+From fc4ea5aa581e5d270df6a61c0265281ff1a24939 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Carlos=20Aznar=C3=A1n?= <caznaranl@uni.pe>
-Date: Sat, 9 Nov 2024 16:21:17 -0500
+Date: Mon, 11 Nov 2024 16:01:27 -0500
 Subject: [PATCH] Enable options for work with preCICE
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] Enable options for work with preCICE
  1 file changed, 4 insertions(+)
 
 diff --git a/PKGBUILD b/PKGBUILD
-index b73f0b6..b21e2c7 100644
+index b73f0b6..d7fb1c8 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -102,6 +102,10 @@ build() {
@@ -17,7 +17,7 @@ index b73f0b6..b21e2c7 100644
  
 +  # Since https://github.com/dealii/dealii/compare/v9.4.1...v9.4.2 THREADS is ON by default
 +  # https://precice.org/adapter-dealii-get.html#building-from-source
-+  cmake_configuration_flags+=" -DDEAL_II_WITH_UMFPACK=ON -DDEAL_II_COMPONENT_EXAMPLES=OFF -DDEAL_II_WITH_HDF5=ON"
++  cmake_configuration_flags+=" -DDEAL_II_WITH_UMFPACK=ON -DDEAL_II_COMPONENT_EXAMPLES=OFF -DDEAL_II_WITH_HDF5=ON -DDEAL_II_WITH_P4EST=ON -DDEAL_II_WITH_PETSC=ON"
 +
    # For GSL compatibility we need the full link interface, which includes
    # libgslcblas, so disable --as-needed with GCC:

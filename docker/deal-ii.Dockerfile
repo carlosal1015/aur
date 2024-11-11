@@ -1,10 +1,14 @@
 # Copyleft (c) October, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
+FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/p4est-deal-ii AS p4est-deal-ii
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 
 ARG OPT_PACKAGES="\
   hdf5-openmpi \
@@ -57,6 +61,8 @@ ARG PACKAGES="\
   "
 
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
