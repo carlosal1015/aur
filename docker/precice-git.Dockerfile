@@ -1,10 +1,12 @@
 # Copyleft (c) January, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/python-polars AS python-polars
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
+COPY --from=python-polars /tmp/python-polars-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="precice-git"
 
