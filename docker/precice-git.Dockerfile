@@ -1,16 +1,18 @@
 # Copyleft (c) January, 2024, Oromion
 
+FROM ghcr.io/carlosal1015/aur/libbacktrace-git AS libbacktrace-git
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
 FROM ghcr.io/carlosal1015/aur/python-polars AS python-polars
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+COPY --from=libbacktrace-git /tmp/libbacktrace-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=python-polars /tmp/python-polars-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="precice-git"
-# >/dev/null 2>&1
-RUN yay --repo --needed --noconfirm --noprogressbar -Syuq && \
+
+RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
@@ -40,6 +42,7 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+COPY --from=libbacktrace-git /tmp/libbacktrace-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
