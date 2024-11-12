@@ -1,12 +1,14 @@
 # Copyleft (c) October, 2024, Oromion
 
 FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
-FROM ghcr.io/carlosal1015/aur/petsc AS petsc
+FROM ghcr.io/carlosal1015/aur/hypre AS hypre
+FROM ghcr.io/carlosal1015/aur/petsc-hypre AS petsc
 FROM ghcr.io/carlosal1015/aur/p4est-deal-ii AS p4est-deal-ii
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 
@@ -18,6 +20,8 @@ ARG OPT_PACKAGES="\
 ARG AUR_PACKAGE="deal-ii"
 
 ARG PRECICE_PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Enable-options-for-work-with-preCICE.patch"
+
+# https://www.dealii.org/current/external-libs/petsc.html
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
@@ -61,6 +65,7 @@ ARG PACKAGES="\
   "
 
 COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
+COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
