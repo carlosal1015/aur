@@ -2,7 +2,11 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGE="mystmd"
+ARG AUR_PACKAGE="\
+  mystmd \
+  python-numpy-mkl \
+  python-scipy-mkl \
+  "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   yay -G ${AUR_PACKAGE} && \
