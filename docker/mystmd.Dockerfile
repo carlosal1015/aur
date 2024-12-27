@@ -2,7 +2,7 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-ARG AUR_PACKAGE="\
+ARG AUR_PACKAGES="\
   mystmd \
   python-numpy-mkl \
   python-scipy-mkl \
