@@ -4,7 +4,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG AUR_PRE_PACKAGES="\
   intel-oneapi-mkl \
-  python-numpy-mkl
+  python-numpy-mkl \
   "
 
 ARG AUR_PACKAGES="\
