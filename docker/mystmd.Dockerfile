@@ -2,14 +2,23 @@
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
+ARG AUR_PRE_PACKAGES="\
+  intel-oneapi-mkl \
+  python-numpy-mkl
+  "
+
 ARG AUR_PACKAGES="\
-  mystmd \
-  python-numpy-mkl \
   python-scipy-mkl \
   "
 
+ARG AUR_POST_PACKAGES="\
+  mystmd \
+  "
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
-  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
+  yay --noconfirm -S ${AUR_PRE_PACKAGES} && \
+  yay --noconfirm -S ${AUR_PACKAGES} && \
+  yay --noconfirm -S ${AUR_POST_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
