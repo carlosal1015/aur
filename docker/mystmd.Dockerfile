@@ -9,13 +9,7 @@ ARG AUR_PACKAGE="\
   "
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
-  yay -G ${AUR_PACKAGE} && \
-  cd ${AUR_PACKAGE} && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
-  sudo pacman --noconfirm --noprogressbar -S namcap && \
-  namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
-  mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
-  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
+  yay --noconfirm -S ${AUR_PACKAGES} 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 
 FROM archlinux:base-devel
 
@@ -42,16 +36,17 @@ COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
 ARG PACKAGES="\
   git \
-  python \
+  intel-oneapi-mkl \
+  python-threadpoolctl \
   "
 
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
   sudo pacman --needed --noconfirm --noprogressbar -Sy archlinux-keyring && \
   sudo pacman --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
+  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   rm /tmp/*.pkg.tar.zst && \
-  sudo pacman --needed --noconfirm --noprogressbar -S ${PACKAGES} && \
   find /tmp/ ! -name '*.log' ! -name 'mystmd-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
