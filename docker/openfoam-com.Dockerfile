@@ -14,10 +14,12 @@ COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=kahip /tmp/kahip-*.pkg.tar.zst /tmp/
 
+ARG GPG_KEY="https://dl.openfoam.com/pubkey.gpg"
 ARG AUR_PACKAGE="openfoam-com"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
+  curl -fsSL ${GPG_KEY} | gpg --import && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
   makepkg -s --noconfirm && \
