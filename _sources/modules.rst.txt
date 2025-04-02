@@ -1,0 +1,8 @@
+python-bindings
+===============
+
+.. toctree::
+   :maxdepth: 4
+
+   cyprecice
+   precice

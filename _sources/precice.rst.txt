@@ -1,0 +1,10 @@
+precice package
+===============
+
+Module contents
+---------------
+
+.. automodule:: precice
+   :members:
+   :show-inheritance:
+   :undoc-members:
