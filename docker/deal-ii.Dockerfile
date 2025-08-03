@@ -1,4 +1,4 @@
-# Copyleft (c) October, 2024, Oromion
+# Copyleft (c) July, 2025, Oromion
 
 FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
