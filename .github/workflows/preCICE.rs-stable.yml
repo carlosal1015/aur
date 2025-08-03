@@ -6,11 +6,11 @@ on:
     paths:
       - docker/actions.Dockerfile
   schedule:
-    - cron: "0 2 * * 5"
+    - cron: "0 2 1 * *"
 
 jobs:
   test_bindings:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-25.04
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       PACKAGES: "cargo"

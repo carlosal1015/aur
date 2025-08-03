@@ -6,11 +6,11 @@ on:
     paths:
       - docker/*.Dockerfile
   schedule:
-    - cron: "0 3 * * 5"
+    - cron: "0 3 1 * *"
 
 jobs:
   push_image:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-25.04
 
     steps:
       - name: Maximize build space
