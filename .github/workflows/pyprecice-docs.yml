@@ -13,7 +13,7 @@ jobs:
     env:
       PACKAGES: "cython git python-pkgconfig python-setuptools python-sphinx-furo"
       PATCH: "https://raw.githubusercontent.com/carlosal1015/aur/main/docker/autodoc.patch"
-      TAG: "v3.2.0"
+      TAG: "v3.2.1"
       URL: "https://github.com/precice/python-bindings"
     steps:
       - name: Build html

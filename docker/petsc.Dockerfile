@@ -1,4 +1,4 @@
-# Copyleft (c) March, 2023, Oromion
+# Copyleft (c) September, 2025, Oromion
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
