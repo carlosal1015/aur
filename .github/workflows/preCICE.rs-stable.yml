@@ -10,7 +10,7 @@ on:
 
 jobs:
   test_bindings:
-    runs-on: ubuntu-25.04
+    runs-on: ubuntu-24.04
     container: ghcr.io/carlosal1015/aur/actions:latest
     env:
       PACKAGES: "cargo"
