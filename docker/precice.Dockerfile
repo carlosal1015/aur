@@ -7,12 +7,11 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="precice"
-# https://github.com/arch4edu/arch4edu/blob/master/x86_64/precice/cactus.yaml#L11
+
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
-  sed '19 a prepare() { \n sed -i "s/libxml\\/SAX.h/libxml\\/SAX2.h/" ${pkgname}-${pkgver}/src/xml/ConfigParser.cpp \n}' -i PKGBUILD && \
   makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
