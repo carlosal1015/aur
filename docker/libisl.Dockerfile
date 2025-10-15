@@ -4,7 +4,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 ARG CORE_PACKAGE="libisl"
 
-ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/libisl-python-bindings.patch"
+ARG PATCH="https://raw.githubusercontent.com/carlosal1015/aur/main/docker/0001-Enable-python-bindings.patch"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   yay -G ${CORE_PACKAGE} && \
