@@ -15,7 +15,7 @@ jobs:
     env:
       URL: "https://github.com/precice/rust-bindings.git"
       PACKAGES: "cargo"
-      # TODO: Maybe libbacktrace-git is a dependency, e.g. try this incorrect execution
+      # TODO: Maybe libbacktrace is a dependency, e.g. try this incorrect execution
       # cargo run ${CARGOFLAG} --example=solverdummy -- examples/precice-config.xml SolverOne &
       CARGOFLAG: "--release"
     steps:

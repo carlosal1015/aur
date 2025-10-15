@@ -1,11 +1,9 @@
 # Copyleft (c) January, 2024, Oromion
 
-FROM ghcr.io/carlosal1015/aur/libbacktrace-git AS libbacktrace-git
 FROM ghcr.io/carlosal1015/aur/petsc AS petsc
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
-COPY --from=libbacktrace-git /tmp/libbacktrace-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="precice-git"
@@ -40,7 +38,6 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
-COPY --from=libbacktrace-git /tmp/libbacktrace-git-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
