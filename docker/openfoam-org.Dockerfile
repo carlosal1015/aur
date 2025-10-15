@@ -13,18 +13,17 @@ COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
 COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="openfoam"
-ARG _AUR_PACKAGE="openfoam-org"
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   git clone https://aur.archlinux.org/$AUR_PACKAGE.git && \
   cd ${AUR_PACKAGE} && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  makepkg -s --noconfirm && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
-  namcap ${_AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
-  mkdir -p ~/.cache/yay/${_AUR_PACKAGE} && \
-  mv *.pkg.tar.zst ~/.cache/yay/${_AUR_PACKAGE}
-
+  namcap ${AUR_PACKAGE}-org-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
+  mkdir -p ~/.cache/yay/${AUR_PACKAGE}-org && \
+  mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}-org
+# 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
