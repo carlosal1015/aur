@@ -12,7 +12,7 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   git config --global user.email github-actions@github.com && \
   git config --global user.name github-actions && \
   curl -O ${PATCH} && \
-  git am --signoff < libisl-python-bindings.patch && \
+  git am --signoff < 0001-Enable-python-bindings.patch && \
   makepkg -s --noconfirm && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${CORE_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
