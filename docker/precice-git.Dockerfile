@@ -14,12 +14,12 @@ RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   yay -G ${AUR_PACKAGE} && \
   cd ${AUR_PACKAGE} && \
-  makepkg -s --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null && \
+  makepkg -s && \
   sudo pacman --noconfirm --noprogressbar -S namcap && \
   namcap ${AUR_PACKAGE}-*.pkg.tar.zst 2>&1 | tee -a /tmp/namcap.log >/dev/null && \
   mkdir -p ~/.cache/yay/${AUR_PACKAGE} && \
   mv *.pkg.tar.zst ~/.cache/yay/${AUR_PACKAGE}
-
+# --noconfirm 2>&1 | tee -a /tmp/$(date -u +"%Y-%m-%d-%H-%M-%S" --date='5 hours ago').log >/dev/null
 FROM archlinux:base-devel
 
 RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \

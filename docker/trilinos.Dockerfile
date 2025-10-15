@@ -5,9 +5,7 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 # ARG OPT_PACKAGES="\
 #   hdf5-openmpi \
 #   "
-
 ARG AUR_PACKAGE="trilinos"
-
 # yay --noconfirm -S ${OPT_PACKAGES} && \
 
 RUN yay --repo --needed --noconfirm --noprogressbar -Syuq >/dev/null 2>&1 && \
