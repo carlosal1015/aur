@@ -4,7 +4,6 @@ FROM ghcr.io/carlosal1015/aur/kokkos AS kokkos
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/parmetis-git AS parmetis-git
-FROM ghcr.io/carlosal1015/aur/superlu_dist AS superlu_dist
 FROM ghcr.io/carlosal1015/aur/hypre AS hypre
 FROM ghcr.io/carlosal1015/aur/petsc-hypre AS petsc
 FROM ghcr.io/carlosal1015/aur/p4est-deal-ii AS p4est-deal-ii
@@ -15,7 +14,6 @@ COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
-COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/
@@ -76,7 +74,6 @@ COPY --from=kokkos /tmp/kokkos-*.pkg.tar.zst /tmp/
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=parmetis-git /tmp/parmetis-git-*.pkg.tar.zst /tmp/
-COPY --from=superlu_dist /tmp/superlu_dist-*.pkg.tar.zst /tmp/
 COPY --from=hypre /tmp/hypre-*.pkg.tar.zst /tmp/
 COPY --from=petsc /tmp/petsc-*.pkg.tar.zst /tmp/
 COPY --from=p4est-deal-ii /tmp/p4est-deal-ii-*.pkg.tar.zst /tmp/

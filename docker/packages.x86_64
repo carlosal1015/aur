@@ -18,7 +18,6 @@ openfoam-org
 p4est-deal-ii
 #parmetis
 parmetis-git
-pastix
 petsc
 petsc-complex
 #petsc-complex-fftw
@@ -57,9 +56,7 @@ python-fiat
 python-pyprecice
 python-ufl
 scalapack
-scotch
 slepc
-superlu_dist
 triangle
 trilinos
 voropp

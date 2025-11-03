@@ -1,7 +1,6 @@
 # Copyleft (c) July, 2025, Oromion
 
 FROM ghcr.io/carlosal1015/aur/scalapack AS scalapack
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/mumps AS mumps
@@ -9,7 +8,6 @@ FROM ghcr.io/carlosal1015/aur/mumps AS mumps
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 
 COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
@@ -47,7 +45,6 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 USER gitpod
 
 COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/

@@ -261,19 +261,6 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/parmetis-git-*-x86_64.pkg.tar.zst /work
 
-      - name: PaStiX
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
-          image: ghcr.io/carlosal1015/aur/pastix:latest
-          options: -v ${{github.workspace}}:/work
-          shell: bash
-          run: |
-            sudo chown -R 33333:33333 /work
-            mv /tmp/pastix-*-x86_64.pkg.tar.zst /work
-
       - name: PETSc (real)
         uses: addnab/docker-run-action@v3
         with:
@@ -313,19 +300,6 @@ jobs:
             sudo chown -R 33333:33333 /work
             mv /tmp/scalapack-*-x86_64.pkg.tar.zst /work
 
-      - name: SCOTCH
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
-          image: ghcr.io/carlosal1015/aur/scotch:latest
-          options: -v ${{github.workspace}}:/work
-          shell: bash
-          run: |
-            sudo chown -R 33333:33333 /work
-            mv /tmp/scotch-*-x86_64.pkg.tar.zst /work
-
       - name: SLEPc
         uses: addnab/docker-run-action@v3
         with:
@@ -338,19 +312,6 @@ jobs:
           run: |
             sudo chown -R 33333:33333 /work
             mv /tmp/slepc-*-x86_64.pkg.tar.zst /work
-
-      - name: SuperLU_DIST
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
-          image: ghcr.io/carlosal1015/aur/superlu_dist:latest
-          options: -v ${{github.workspace}}:/work
-          shell: bash
-          run: |
-            sudo chown -R 33333:33333 /work
-            mv /tmp/superlu_dist-*-x86_64.pkg.tar.zst /work
 
       - name: Triangle
         uses: addnab/docker-run-action@v3

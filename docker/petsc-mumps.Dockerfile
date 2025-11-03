@@ -3,7 +3,6 @@
 FROM ghcr.io/carlosal1015/aur/gklib AS gklib
 FROM ghcr.io/carlosal1015/aur/metis AS metis
 FROM ghcr.io/carlosal1015/aur/scalapack AS scalapack
-FROM ghcr.io/carlosal1015/aur/scotch AS scotch
 FROM ghcr.io/carlosal1015/aur/mumps AS mumps
 
 FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
@@ -11,7 +10,6 @@ FROM ghcr.io/cpp-review-dune/introductory-review/aur AS build
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 
 ARG AUR_PACKAGE="petsc"
@@ -49,7 +47,6 @@ USER gitpod
 COPY --from=gklib /tmp/gklib-*.pkg.tar.zst /tmp/
 COPY --from=metis /tmp/metis-*.pkg.tar.zst /tmp/
 COPY --from=scalapack /tmp/scalapack-*.pkg.tar.zst /tmp/
-COPY --from=scotch /tmp/scotch-*.pkg.tar.zst /tmp/
 COPY --from=mumps /tmp/mumps-*.pkg.tar.zst /tmp/
 COPY --from=build /tmp/*.log /tmp/
 COPY --from=build /tmp/makepkg/petsc/src/petsc-*/arch-linux-c-opt/lib/petsc/conf/configure.log /tmp/
