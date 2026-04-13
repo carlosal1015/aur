@@ -362,7 +362,7 @@ jobs:
       #       mv /tmp/vtk-*-x86_64.pkg.tar.zst /work
 
       - name: 🛎️ Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
