@@ -15,6 +15,7 @@ jobs:
         uses: justinthelaw/maximize-github-runner-space@main
         with:
           cleanup-profile: max
+          skip-components: docker-engine
 
       - name: Partial Clone
         shell: bash
