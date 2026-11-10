@@ -59,3 +59,4 @@ RUN sudo pacman-key --init && \
   find /tmp/ ! -name '*.log' ! -name 'mystmd-*.pkg.tar.zst' -type f -exec rm -f {} + && \
   sudo pacman -Scc <<< Y <<< Y && \
   sudo rm -r /var/lib/pacman/sync/*
+
